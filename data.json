@@ -1,327 +1,354 @@
 {
-  "updated_at": "2026-11-18T03:04:00+08:00",
-  "updated_by": "muse",
-  "experiment_start": "2026-11-17",
-  "agents": [
+ "updated_at": "2026-11-18T06:00:00+08:00",
+ "updated_by": "muse",
+ "experiment_start": "2026-11-17",
+ "agents": [
+  {
+   "id": "muse",
+   "platform": "Meta Muse",
+   "handle": "@plucky-owl-29",
+   "won_usd": 0,
+   "received_usd": 0,
+   "week_won_usd": 0,
+   "week_goal_usd": null,
+   "last_active": "2026-11-18T06:00:00+08:00"
+  },
+  {
+   "id": "dots",
+   "platform": "ChatGPT（Codex）",
+   "handle": "@zesty-sparrow-16",
+   "won_usd": 0,
+   "received_usd": 0,
+   "week_won_usd": 0,
+   "week_goal_usd": null,
+   "last_active": "2026-11-18T00:00:00+08:00"
+  },
+  {
+   "id": "grok",
+   "platform": "Grok Bot",
+   "handle": "@bright-koala-11",
+   "won_usd": 0,
+   "received_usd": 0,
+   "week_won_usd": 0,
+   "week_goal_usd": null,
+   "last_active": "2026-11-18T00:00:00+08:00"
+  },
+  {
+   "id": "cue",
+   "platform": "Manus Cue",
+   "handle": "@clever-quasar-76",
+   "won_usd": 0,
+   "received_usd": 0,
+   "week_won_usd": 0,
+   "week_goal_usd": null,
+   "last_active": "2026-11-18T00:00:00+08:00"
+  },
+  {
+   "id": "today",
+   "platform": "Today",
+   "handle": "@rapid-tapir-79",
+   "won_usd": 0,
+   "received_usd": 0,
+   "week_won_usd": 0,
+   "week_goal_usd": null,
+   "last_active": "2026-11-17T20:53:00+08:00"
+  }
+ ],
+ "tasks": [
+  {
+   "agent": "muse",
+   "slug": "token-radar-01",
+   "title": "Token Launch Radar",
+   "platform": "make.fun",
+   "status": "评审中",
+   "prize_pool": 1325,
+   "first_prize": 1000,
+   "paid_places": 10,
+   "deadline": "2026-12-14T18:00:00+08:00",
+   "result_date": "2026-12-29T06:10:00+08:00",
+   "earned": 0,
+   "rank": 8636,
+   "field": 9350,
+   "ev": 90,
+   "ev_note": "主观概率估算：第1名约5%×$1000 + 第2-5名约15%×$50 + 第6-10名约20%×$25 ≈ $90。开发期评级出来后修正。",
+   "submission_id": "01a1e87f-cc99-7463-9d69-efd8fc41b921",
+   "description": "给未发币的 DeFi 协议做『发币雷达』：读 DefiLlama 快照（758 个协议），用快照自身数据推导估值模型，给未发币协议排出『隐含市值』榜单（150 个，含官方观察名单全部 40 个），每个协议配一份可执行的空投农场计划，并做一个可排序、筛选、看详情的看板页面。评分方式：AI 评审两两对决胜率。",
+   "requirements": "Node 程序读 /input/snapshot.json，输出 board.json（100-4000 行、含全部 40 个观察名单、名次 1..N 连续、隐含估值随名次不递增、每行 3-12 条农场步骤）+ data.js + dashboard + dossier.json（≤1.5MiB）；程序跑两次结果逐字节一致；截图 3-4 张（每张 ≤512KiB）；提交必须附完整 AI 会话记录且代码归属覆盖 ≥30%；钱包签名提交；每人每天 ≤5 次、总 ≤10 次提交，最终作品取截止前最后一次。",
+   "logs": [
     {
-      "id": "muse",
-      "platform": "Meta Muse",
-      "handle": "@plucky-owl-29",
-      "won_usd": 0,
-      "received_usd": 0,
-      "week_won_usd": 0,
-      "week_goal_usd": null,
-      "last_active": "2026-11-18T03:04:00+08:00"
+     "date": "2026-11-17",
+     "kind": "行动",
+     "text": "注册 make.fun 账号 @plucky-owl-29（Solana 钱包），安装官方技能；全平台比完赔付结构，选定 token-radar 主攻（第1名 $1000），放弃 tiny-chess（第1名仅 $100 且须击败官方 NNUE 基准引擎）"
     },
     {
-      "id": "dots",
-      "platform": "ChatGPT（Codex）",
-      "handle": "@zesty-sparrow-16",
-      "won_usd": 0,
-      "received_usd": 0,
-      "week_won_usd": 0,
-      "week_goal_usd": null,
-      "last_active": "2026-11-18T00:00:00+08:00"
+     "date": "2026-11-17",
+     "kind": "行动",
+     "text": "建成估值模型：按品类取已发币同行市值/TVL 中位数倍数（5× 截尾），叠加 7 日动量、运营资历、链覆盖修正；包装/质押/桥接类按结构剔除。成品榜单 150 行、观察名单 40/40"
     },
     {
-      "id": "grok",
-      "platform": "Grok Bot",
-      "handle": "@bright-koala-11",
-      "won_usd": 0,
-      "received_usd": 0,
-      "week_won_usd": 0,
-      "week_goal_usd": null,
-      "last_active": "2026-11-18T00:00:00+08:00"
+     "date": "2026-11-17",
+     "kind": "行动",
+     "text": "建成看板前端（排序/筛选/详情抽屉/模型说明，零外链）与 3 张真实截图（本地无头 Chrome 渲染）"
     },
     {
-      "id": "cue",
-      "platform": "Manus Cue",
-      "handle": "@clever-quasar-76",
-      "won_usd": 0,
-      "received_usd": 0,
-      "week_won_usd": 0,
-      "week_goal_usd": null,
-      "last_active": "2026-11-18T00:00:00+08:00"
+     "kind": "提交",
+     "text": "正式提交 Token Launch Radar：commit a26855b，官方预检 14 过 0 败，会话记录代码归属覆盖 70.7%，提交 ID 01a1e87f-cc99-7463-9d69-efd8fc41b921，Round 1 接收中",
+     "date": "2026-11-17"
     },
     {
-      "id": "today",
-      "platform": "Today",
-      "handle": "@rapid-tapir-79",
-      "won_usd": 0,
-      "received_usd": 0,
-      "week_won_usd": 0,
-      "week_goal_usd": null,
-      "last_active": "2026-11-17T20:53:00+08:00"
+     "kind": "结果",
+     "text": "轮询 kit status：token-radar 提交 01a1e87f... 已出 Round 1 开发期评分（scored），结果未定（12-29 出）；全部检查通过，暂无可迭代的反馈，本轮不重交（已用 1/10 次）。",
+     "date": "2026-11-17"
     }
-  ],
-  "tasks": [
+   ]
+  },
+  {
+   "agent": "muse",
+   "slug": "best-game-01",
+   "title": "NEONVOID - Arena Survival",
+   "platform": "make.fun",
+   "status": "评审中",
+   "prize_pool": 1000,
+   "first_prize": 400,
+   "paid_places": 10,
+   "deadline": "2026-11-19T02:00:00+08:00",
+   "result_date": null,
+   "earned": 0,
+   "rank": 4611,
+   "field": 9685,
+   "ev": 60,
+   "ev_note": null,
+   "submission_id": null,
+   "description": null,
+   "requirements": null,
+   "logs": [
     {
-      "agent": "muse",
-      "slug": "token-radar-01",
-      "title": "Token Launch Radar",
-      "platform": "make.fun",
-      "status": "评审中",
-      "prize_pool": 1325,
-      "first_prize": 1000,
-      "paid_places": 10,
-      "deadline": "2026-12-14T18:00:00+08:00",
-      "result_date": "2026-12-29T06:10:00+08:00",
-      "earned": 0,
-      "rank": 8636,
-      "field": 9350,
-      "ev": 90,
-      "ev_note": "主观概率估算：第1名约5%×$1000 + 第2-5名约15%×$50 + 第6-10名约20%×$25 ≈ $90。开发期评级出来后修正。",
-      "submission_id": "01a1e87f-cc99-7463-9d69-efd8fc41b921",
-      "description": "给未发币的 DeFi 协议做『发币雷达』：读 DefiLlama 快照（758 个协议），用快照自身数据推导估值模型，给未发币协议排出『隐含市值』榜单（150 个，含官方观察名单全部 40 个），每个协议配一份可执行的空投农场计划，并做一个可排序、筛选、看详情的看板页面。评分方式：AI 评审两两对决胜率。",
-      "requirements": "Node 程序读 /input/snapshot.json，输出 board.json（100-4000 行、含全部 40 个观察名单、名次 1..N 连续、隐含估值随名次不递增、每行 3-12 条农场步骤）+ data.js + dashboard + dossier.json（≤1.5MiB）；程序跑两次结果逐字节一致；截图 3-4 张（每张 ≤512KiB）；提交必须附完整 AI 会话记录且代码归属覆盖 ≥30%；钱包签名提交；每人每天 ≤5 次、总 ≤10 次提交，最终作品取截止前最后一次。",
-      "logs": [
-        {
-          "date": "2026-11-17",
-          "kind": "行动",
-          "text": "注册 make.fun 账号 @plucky-owl-29（Solana 钱包），安装官方技能；全平台比完赔付结构，选定 token-radar 主攻（第1名 $1000），放弃 tiny-chess（第1名仅 $100 且须击败官方 NNUE 基准引擎）"
-        },
-        {
-          "date": "2026-11-17",
-          "kind": "行动",
-          "text": "建成估值模型：按品类取已发币同行市值/TVL 中位数倍数（5× 截尾），叠加 7 日动量、运营资历、链覆盖修正；包装/质押/桥接类按结构剔除。成品榜单 150 行、观察名单 40/40"
-        },
-        {
-          "date": "2026-11-17",
-          "kind": "行动",
-          "text": "建成看板前端（排序/筛选/详情抽屉/模型说明，零外链）与 3 张真实截图（本地无头 Chrome 渲染）"
-        },
-        {
-          "kind": "提交",
-          "text": "正式提交 Token Launch Radar：commit a26855b，官方预检 14 过 0 败，会话记录代码归属覆盖 70.7%，提交 ID 01a1e87f-cc99-7463-9d69-efd8fc41b921，Round 1 接收中",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "结果",
-          "text": "轮询 kit status：token-radar 提交 01a1e87f... 已出 Round 1 开发期评分（scored），结果未定（12-29 出）；全部检查通过，暂无可迭代的反馈，本轮不重交（已用 1/10 次）。",
-          "date": "2026-11-17"
-        }
-      ]
-    },
-    {
-      "agent": "muse",
-      "slug": "best-game-01",
-      "title": "NEONVOID - Arena Survival",
-      "platform": "make.fun",
-      "status": "评审中",
-      "prize_pool": 1000,
-      "first_prize": 400,
-      "paid_places": 10,
-      "deadline": "2026-11-19T02:00:00+08:00",
-      "result_date": null,
-      "earned": 0,
-      "rank": 4611,
-      "field": 9685,
-      "ev": 60,
-      "ev_note": null,
-      "submission_id": null,
-      "description": null,
-      "requirements": null,
-      "logs": [
-        {
-          "kind": "提交",
-          "text": "提交 NEONVOID - Arena Survival，开发期排第 4,611 / 9,685（make.fun 公开榜单 11-17 19:10）。",
-          "date": "2026-11-17"
-        }
-      ]
-    },
-    {
-      "agent": "muse",
-      "slug": "gta6-01",
-      "title": "Make GTA 6",
-      "platform": "make.fun",
-      "status": "评审中",
-      "prize_pool": 1666,
-      "first_prize": 500,
-      "paid_places": 100,
-      "deadline": "2026-11-24T23:00:00+08:00",
-      "result_date": "2026-12-10T23:00:00+08:00",
-      "earned": 0,
-      "rank": null,
-      "field": null,
-      "ev": 30,
-      "ev_note": "前 100 名分钱、入围门槛相对低，但开放世界工作量大、评审主观（估算，不算赚到）。",
-      "submission_id": "01a1eae5-9542-7477-b242-3e59532669f2",
-      "description": "做一个开放世界风格的可玩游戏：2D 俯视城市，步行/开车/偷车、交通与行人、通缉与警察追捕、任务剧情、战斗、带小地图的 HUD。密封录制：写代码前先起 record，构建须在全新会话里完成。AI 评审两两对决胜率排名。",
-      "requirements": "交源码包（不需要公开仓库）；按 kit 录制流程走；官方检查全过才能提交；每人每天 ≤5 次、总 ≤10 次。",
-      "logs": [
-        {
-          "kind": "选赛",
-          "text": "立项：$1,666 池、前 100 名分钱、侦察时 0 提交；kit 已下载、规则已读，定 2D 俯视开放世界路线。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "无进展",
-          "text": "今晚 23:00 才开赛（录制和初始化被服务器拒回），开赛后第一轮立即开工。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "行动",
-          "text": "0 点轮已开工构建中（密封录制 + 全新会话构建）。",
-          "date": "2026-11-18"
-        },
-        {
-          "time": "2026-11-18T03:04:00+08:00",
-          "kind": "提交",
-          "text": "重建并提交 Solmar Bay：密封录制 01a1ead5… seal 成功（--finish 补封），commit 4ef6dbe，新写 2,322 行、dossier 795,000 字节、4 张截图；kit check 5 过 0 败，提交 ID 01a1eae5-9542-7477-b242-3e59532669f2（第 1 次/上限 10 次）；玩法闭环实测 24/24 通过、修了任务点碰撞 bug；Round 1 有效性检查全过，开发期评审中，结果约 12-10。"
-        }
-      ]
-    },
-    {
-      "agent": "grok",
-      "slug": "gta6-01",
-      "title": "Make GTA 6",
-      "platform": "make.fun",
-      "status": "已选赛，未提交",
-      "prize_pool": 1666,
-      "first_prize": 500,
-      "paid_places": 100,
-      "deadline": "2026-11-24T23:00:00+08:00",
-      "result_date": "2026-12-10T23:00:00+08:00",
-      "earned": 0,
-      "rank": null,
-      "field": null,
-      "ev": null,
-      "ev_note": "grok 只给情景区间：可能 $0，进入奖区 $4–$500；无可靠概率，不精算期望收益。选赛依据：免费、100 个获奖名额、7 天窗口。",
-      "submission_id": null,
-      "description": "做一款原创离线浏览器开放世界犯罪游戏：步行、驾驶、交通、行人、偷车、警察通缉、任务、故事、战斗、HUD、小地图、开始与存档。禁止 Rockstar 素材，AI 对截图和源码大纲两两比较按胜率评分。",
-      "requirements": "交付 main.ts（Node 22）确定性运行两次输出 game/ 静态文件；3–4 张真实截图；kit 原版 vendor 文件；OSI 许可；AI 会话记录须能被官方 bundle 列出；source bundle 优先。",
-      "logs": [
-        {
-          "kind": "行动",
-          "text": "完成注册（账号 @bright-koala-11，经 muse 推荐链接），定时轮次已设（整点每 3 小时），checkin 720 分钟、wake 关闭均已验证。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "选赛",
-          "text": "选定免费赛 Make GTA 6（gta6-01），23:00 开赛前只做准备。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "行动",
-          "text": "开工第 0 步检查：本机自动化会话一度列不出（未通过）；00:00 用 OpenCode 补做，dry-run 找到 1 个会话、run 记录可补齐，会话可被 bundle 列出。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "无进展",
-          "text": "比赛已开放，但尚未启动 live record、未写作品代码、未提交；等确认可用模型额度后再开工。",
-          "date": "2026-11-18"
-        }
-      ]
-    },
-    {
-      "agent": "cue",
-      "slug": "gta6-01",
-      "title": "Make GTA 6",
-      "platform": "make.fun",
-      "status": "评审中",
-      "prize_pool": 1666,
-      "first_prize": 500,
-      "paid_places": 100,
-      "deadline": "2026-11-24T23:00:00+08:00",
-      "result_date": "2026-12-10T23:00:00+08:00",
-      "earned": 0,
-      "rank": 5,
-      "field": 508,
-      "ev": 14.88,
-      "ev_note": "cue 自己的估算：按当时 112 项参赛、奖池 $1,666 算的均分基线约 $14.88，不是胜率预测，不计作已赚。",
-      "submission_id": "01a1ea36-f966-7573-a7d7-b6ddfb987976",
-      "description": "制作可在桌面浏览器离线运行的原创开放世界犯罪游戏，展示步行和驾车探索、交通、警察追捕、任务、战斗、HUD 与小地图；按游戏截图和源码结构对战评分排名。作品：Neon Tide: Vesper Bay。",
-      "requirements": "Node.js 22.18+；main.ts 把 game/ 和 3–4 张真实截图复制到 /output 并用官方 helper 生成 dossier；资源全部在 game/ 内、不得联网；源码须由官方录制会话构建；本地检查通过后才提交。",
-      "logs": [
-        {
-          "kind": "行动",
-          "text": "开工：注册账号 @clever-quasar-76，循环每 180 分钟一轮；会话检查一度未通过、密钥长期保存待确认，未参赛。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "选赛",
-          "text": "选定 Make GTA 6（gta6-01），免费，前 100 名有奖。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "提交",
-          "text": "作品 Neon Tide: Vesper Bay 已提交（source bundle，提交 ID 01a1ea36-f966-7573-a7d7-b6ddfb987976）；官方有效性检查全过，代码归属 99.8%。",
-          "date": "2026-11-17"
-        },
-        {
-          "kind": "结果",
-          "text": "开发阶段已评分：0.990081（12 胜 0 平 0 负），暂列第 5（名次未最终确认，placements held）；已赢得 $0、已到账 $0。本轮不重复提交。",
-          "date": "2026-11-18"
-        }
-      ]
+     "kind": "提交",
+     "text": "提交 NEONVOID - Arena Survival，开发期排第 4,611 / 9,685（make.fun 公开榜单 11-17 19:10）。",
+     "date": "2026-11-17"
     }
-  ],
-  "history": [
+   ]
+  },
+  {
+   "agent": "muse",
+   "slug": "gta6-01",
+   "title": "Make GTA 6",
+   "platform": "make.fun",
+   "status": "评审中",
+   "prize_pool": 1666,
+   "first_prize": 500,
+   "paid_places": 100,
+   "deadline": "2026-11-24T23:00:00+08:00",
+   "result_date": "2026-12-10T23:00:00+08:00",
+   "earned": 0,
+   "rank": null,
+   "field": null,
+   "ev": 30,
+   "ev_note": "前 100 名分钱、入围门槛相对低，但开放世界工作量大、评审主观（估算，不算赚到）。",
+   "submission_id": "01a1eae5-9542-7477-b242-3e59532669f2",
+   "description": "做一个开放世界风格的可玩游戏：2D 俯视城市，步行/开车/偷车、交通与行人、通缉与警察追捕、任务剧情、战斗、带小地图的 HUD。密封录制：写代码前先起 record，构建须在全新会话里完成。AI 评审两两对决胜率排名。",
+   "requirements": "交源码包（不需要公开仓库）；按 kit 录制流程走；官方检查全过才能提交；每人每天 ≤5 次、总 ≤10 次。",
+   "logs": [
     {
-      "date": "2026-11-17",
-      "muse": 0,
-      "dots": 0,
-      "grok": 0,
-      "cue": 0,
-      "today": 0
+     "kind": "选赛",
+     "text": "立项：$1,666 池、前 100 名分钱、侦察时 0 提交；kit 已下载、规则已读，定 2D 俯视开放世界路线。",
+     "date": "2026-11-17"
     },
     {
-      "date": "2026-11-18",
-      "muse": 0,
-      "dots": 0,
-      "grok": 0,
-      "cue": 0,
-      "today": 0
+     "kind": "无进展",
+     "text": "今晚 23:00 才开赛（录制和初始化被服务器拒回），开赛后第一轮立即开工。",
+     "date": "2026-11-17"
+    },
+    {
+     "kind": "行动",
+     "text": "0 点轮已开工构建中（密封录制 + 全新会话构建）。",
+     "date": "2026-11-18"
+    },
+    {
+     "time": "2026-11-18T03:04:00+08:00",
+     "kind": "提交",
+     "text": "重建并提交 Solmar Bay：密封录制 01a1ead5… seal 成功（--finish 补封），commit 4ef6dbe，新写 2,322 行、dossier 795,000 字节、4 张截图；kit check 5 过 0 败，提交 ID 01a1eae5-9542-7477-b242-3e59532669f2（第 1 次/上限 10 次）；玩法闭环实测 24/24 通过、修了任务点碰撞 bug；Round 1 有效性检查全过，开发期评审中，结果约 12-10。"
     }
-  ],
-  "daily": [
+   ]
+  },
+  {
+   "agent": "grok",
+   "slug": "gta6-01",
+   "title": "Make GTA 6",
+   "platform": "make.fun",
+   "status": "已选赛，未提交",
+   "prize_pool": 1666,
+   "first_prize": 500,
+   "paid_places": 100,
+   "deadline": "2026-11-24T23:00:00+08:00",
+   "result_date": "2026-12-10T23:00:00+08:00",
+   "earned": 0,
+   "rank": null,
+   "field": null,
+   "ev": null,
+   "ev_note": "grok 只给情景区间：可能 $0，进入奖区 $4–$500；无可靠概率，不精算期望收益。选赛依据：免费、100 个获奖名额、7 天窗口。",
+   "submission_id": null,
+   "description": "做一款原创离线浏览器开放世界犯罪游戏：步行、驾驶、交通、行人、偷车、警察通缉、任务、故事、战斗、HUD、小地图、开始与存档。禁止 Rockstar 素材，AI 对截图和源码大纲两两比较按胜率评分。",
+   "requirements": "交付 main.ts（Node 22）确定性运行两次输出 game/ 静态文件；3–4 张真实截图；kit 原版 vendor 文件；OSI 许可；AI 会话记录须能被官方 bundle 列出；source bundle 优先。",
+   "logs": [
     {
-      "date": "2026-11-17",
-      "agent": "muse",
-      "done": "make.fun 注册并选定赛道；token-radar 作品从模型、看板到截图全部建成并正式提交（第 1 次提交）",
-      "results": "提交被平台接收，Round 1 处理中；开发期评级待出。已赚 $0，期望收益估算 $90",
-      "lessons": "① dossier 必须按官方 starter 的原始字节方式写，JSON.stringify 会把字节数组写成 9MB 废文件——动手前先对官方 starter。② 截图核验不能信预览图，以 DOM 实测尺寸为准。③ 付费门票类赏金不碰，只做免费赛道，除非用户批准",
-      "tomorrow": "查 token-radar 的 Round 1 结果与开发期评级；侦察 make.fun 全部新赏金并按期望收益排序；选定第 2 个任务开工"
+     "kind": "行动",
+     "text": "完成注册（账号 @bright-koala-11，经 muse 推荐链接），定时轮次已设（整点每 3 小时），checkin 720 分钟、wake 关闭均已验证。",
+     "date": "2026-11-17"
     },
     {
-      "agent": "grok",
-      "date": "2026-11-17",
-      "done": "完成 make.fun 注册（@bright-koala-11，经推荐链接），选定免费赛 Make GTA 6；按新版开工说明补做第 0 步检查（会话与密钥对）。",
-      "results": "提交 0 次，无名次；已赢 $0、已到账 $0。本周官方已赢目标 $0，实际 $0。会话检查未通过（本机自动化会话列不出），已在群里【问 Jasonsu】。",
-      "lessons": "开工说明要求会话能被 bundle 列出，否则先不参赛；handed_over 默认拿不到奖金；改走可记录会话的客户端须先验证。",
-      "tomorrow": "等 Jasonsu 给出可被 bundle 读取的会话方案后再取 kit、建仓；继续每 3 小时一轮检查账户与写日志。"
+     "kind": "选赛",
+     "text": "选定免费赛 Make GTA 6（gta6-01），23:00 开赛前只做准备。",
+     "date": "2026-11-17"
     },
     {
-      "agent": "cue",
-      "date": "2026-11-17",
-      "done": "注册 make.fun 账号 @clever-quasar-76，验证私有仓库写入，确认 180 分钟循环；读群并按新版开工说明检查会话和钱包；23:00 选赛 gta6-01 并于 23:53 完成首个作品提交。",
-      "results": "提交 1 次（Neon Tide: Vesper Bay），有效性检查全过，开发阶段评分中；已赢得 $0、已到账 $0。",
-      "lessons": "bundle 未找到当前会话时，不能把手工整理记录当作有奖金资格的会话；密钥重启后持久性仍待核实（开工时）。",
-      "tomorrow": "跟进 gta6-01 开发阶段分数；待会话与持久保存问题解决后复测，再筛选免报名费比赛。"
+     "kind": "行动",
+     "text": "开工第 0 步检查：本机自动化会话一度列不出（未通过）；00:00 用 OpenCode 补做，dry-run 找到 1 个会话、run 记录可补齐，会话可被 bundle 列出。",
+     "date": "2026-11-17"
+    },
+    {
+     "kind": "无进展",
+     "text": "比赛已开放，但尚未启动 live record、未写作品代码、未提交；等确认可用模型额度后再开工。",
+     "date": "2026-11-18"
     }
-  ],
-  "weekly": [
+   ]
+  },
+  {
+   "agent": "cue",
+   "slug": "gta6-01",
+   "title": "Make GTA 6",
+   "platform": "make.fun",
+   "status": "评审中",
+   "prize_pool": 1666,
+   "first_prize": 500,
+   "paid_places": 100,
+   "deadline": "2026-11-24T23:00:00+08:00",
+   "result_date": "2026-12-10T23:00:00+08:00",
+   "earned": 0,
+   "rank": 5,
+   "field": 508,
+   "ev": 14.88,
+   "ev_note": "cue 自己的估算：按当时 112 项参赛、奖池 $1,666 算的均分基线约 $14.88，不是胜率预测，不计作已赚。",
+   "submission_id": "01a1ea36-f966-7573-a7d7-b6ddfb987976",
+   "description": "制作可在桌面浏览器离线运行的原创开放世界犯罪游戏，展示步行和驾车探索、交通、警察追捕、任务、战斗、HUD 与小地图；按游戏截图和源码结构对战评分排名。作品：Neon Tide: Vesper Bay。",
+   "requirements": "Node.js 22.18+；main.ts 把 game/ 和 3–4 张真实截图复制到 /output 并用官方 helper 生成 dossier；资源全部在 game/ 内、不得联网；源码须由官方录制会话构建；本地检查通过后才提交。",
+   "logs": [
     {
-      "week_start": "2026-11-17",
-      "week_end": "2026-11-23",
-      "agent": "muse",
-      "goal_usd": null,
-      "won_usd": 0,
-      "goals": "① token-radar 拿到开发期评级并按反馈至少迭代 1 次；② 侦察 ≥5 个新免费赏金、逐个算期望收益；③ 启动第 2 个高期望收益任务并做出可提交版本",
-      "targets": "本周目标：管线期望收益从 $90 提升到 ≥$240；实际收益目标 $0（radar 12-29 才出结果，本周以期望收益和管线建设计量）",
-      "review": null,
-      "next": null
+     "kind": "行动",
+     "text": "开工：注册账号 @clever-quasar-76，循环每 180 分钟一轮；会话检查一度未通过、密钥长期保存待确认，未参赛。",
+     "date": "2026-11-17"
     },
     {
-      "week_start": "2026-11-17",
-      "week_end": "2026-11-23",
-      "agent": "grok",
-      "goal_usd": 0,
-      "won_usd": 0,
-      "goals": "开赛后完成一件原创作品；check 全过后在提交限额内做一次高质量首交；争取最终进入前 10；持续写日志。",
-      "targets": "本周目标：官方已赢 $0（不低于上周实际 $0）。所选比赛 2026-12-10 才出结果，不能把潜在奖金算进本周。",
-      "review": null,
-      "next": null
+     "kind": "选赛",
+     "text": "选定 Make GTA 6（gta6-01），免费，前 100 名有奖。",
+     "date": "2026-11-17"
+    },
+    {
+     "kind": "提交",
+     "text": "作品 Neon Tide: Vesper Bay 已提交（source bundle，提交 ID 01a1ea36-f966-7573-a7d7-b6ddfb987976）；官方有效性检查全过，代码归属 99.8%。",
+     "date": "2026-11-17"
+    },
+    {
+     "kind": "结果",
+     "text": "开发阶段已评分：0.990081（12 胜 0 平 0 负），暂列第 5（名次未最终确认，placements held）；已赢得 $0、已到账 $0。本轮不重复提交。",
+     "date": "2026-11-18"
     }
-  ]
+   ]
+  },
+  {
+   "agent": "muse",
+   "slug": "gta6-twitch-ccu-forecast-01",
+   "title": "GTA VI Twitch CCU Forecast",
+   "platform": "make.fun",
+   "status": "构建中",
+   "prize_pool": 250,
+   "first_prize": 50,
+   "paid_places": 20,
+   "deadline": "2026-11-19T09:00:00+08:00",
+   "result_date": "2026-12-04T14:00:00+08:00",
+   "earned": 0,
+   "rank": null,
+   "field": 9452,
+   "ev": 4,
+   "ev_note": "第一名约 2%×$50 + 前 3 约 4%×$30 + 前 10 约 8%×$10 + 前 20 约 12%×$7 ≈ $4（估算，不算赚到）。",
+   "submission_id": null,
+   "description": "写一个程序（main.py），根据 GTA 6 发售日第 1 小时 Twitch 观看数 + 42 个历史大作发售曲线，预测第 2–24 小时每小时观看人数的 5 个分位数；评分是 log 尺度 pinball loss，越低越好；须击败官方基线（练习赛 loss 约 0.387）才能拿奖。",
+   "requirements": "免报名费；源码包提交（source bundle，不用公开 GitHub 仓库）；AI 会话记录 bundle；程序 8 秒内跑完、无网络、两次运行逐字节一致；原创代码覆盖 ≥80%；每天 ≤10 次、总 ≤20 次提交。",
+   "logs": [
+    {
+     "date": "2026-11-18",
+     "kind": "选赛",
+     "text": "立项：第 4 个任务。$250 池、前 20 名分钱、明早 09:00 截止；预测程序（main.py），以 hour-1 print 为锚、用 42 个历史发售曲线建模；已派新会话子 agent 构建 v1，目标今晚提交拿练习赛评分后再迭代。"
+    }
+   ]
+  }
+ ],
+ "history": [
+  {
+   "date": "2026-11-17",
+   "muse": 0,
+   "dots": 0,
+   "grok": 0,
+   "cue": 0,
+   "today": 0
+  },
+  {
+   "date": "2026-11-18",
+   "muse": 0,
+   "dots": 0,
+   "grok": 0,
+   "cue": 0,
+   "today": 0
+  }
+ ],
+ "daily": [
+  {
+   "date": "2026-11-17",
+   "agent": "muse",
+   "done": "make.fun 注册并选定赛道；token-radar 作品从模型、看板到截图全部建成并正式提交（第 1 次提交）",
+   "results": "提交被平台接收，Round 1 处理中；开发期评级待出。已赚 $0，期望收益估算 $90",
+   "lessons": "① dossier 必须按官方 starter 的原始字节方式写，JSON.stringify 会把字节数组写成 9MB 废文件——动手前先对官方 starter。② 截图核验不能信预览图，以 DOM 实测尺寸为准。③ 付费门票类赏金不碰，只做免费赛道，除非用户批准",
+   "tomorrow": "查 token-radar 的 Round 1 结果与开发期评级；侦察 make.fun 全部新赏金并按期望收益排序；选定第 2 个任务开工"
+  },
+  {
+   "agent": "grok",
+   "date": "2026-11-17",
+   "done": "完成 make.fun 注册（@bright-koala-11，经推荐链接），选定免费赛 Make GTA 6；按新版开工说明补做第 0 步检查（会话与密钥对）。",
+   "results": "提交 0 次，无名次；已赢 $0、已到账 $0。本周官方已赢目标 $0，实际 $0。会话检查未通过（本机自动化会话列不出），已在群里【问 Jasonsu】。",
+   "lessons": "开工说明要求会话能被 bundle 列出，否则先不参赛；handed_over 默认拿不到奖金；改走可记录会话的客户端须先验证。",
+   "tomorrow": "等 Jasonsu 给出可被 bundle 读取的会话方案后再取 kit、建仓；继续每 3 小时一轮检查账户与写日志。"
+  },
+  {
+   "agent": "cue",
+   "date": "2026-11-17",
+   "done": "注册 make.fun 账号 @clever-quasar-76，验证私有仓库写入，确认 180 分钟循环；读群并按新版开工说明检查会话和钱包；23:00 选赛 gta6-01 并于 23:53 完成首个作品提交。",
+   "results": "提交 1 次（Neon Tide: Vesper Bay），有效性检查全过，开发阶段评分中；已赢得 $0、已到账 $0。",
+   "lessons": "bundle 未找到当前会话时，不能把手工整理记录当作有奖金资格的会话；密钥重启后持久性仍待核实（开工时）。",
+   "tomorrow": "跟进 gta6-01 开发阶段分数；待会话与持久保存问题解决后复测，再筛选免报名费比赛。"
+  }
+ ],
+ "weekly": [
+  {
+   "week_start": "2026-11-17",
+   "week_end": "2026-11-23",
+   "agent": "muse",
+   "goal_usd": null,
+   "won_usd": 0,
+   "goals": "① token-radar 拿到开发期评级并按反馈至少迭代 1 次；② 侦察 ≥5 个新免费赏金、逐个算期望收益；③ 启动第 2 个高期望收益任务并做出可提交版本",
+   "targets": "本周目标：管线期望收益从 $90 提升到 ≥$240；实际收益目标 $0（radar 12-29 才出结果，本周以期望收益和管线建设计量）",
+   "review": null,
+   "next": null
+  },
+  {
+   "week_start": "2026-11-17",
+   "week_end": "2026-11-23",
+   "agent": "grok",
+   "goal_usd": 0,
+   "won_usd": 0,
+   "goals": "开赛后完成一件原创作品；check 全过后在提交限额内做一次高质量首交；争取最终进入前 10；持续写日志。",
+   "targets": "本周目标：官方已赢 $0（不低于上周实际 $0）。所选比赛 2026-12-10 才出结果，不能把潜在奖金算进本周。",
+   "review": null,
+   "next": null
+  }
+ ]
 }
