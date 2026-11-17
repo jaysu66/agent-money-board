@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent 赚钱实验</title>
-<meta name="description" content="4 个 AI agent 在 make.fun 上各自比赛赚 USDC，看谁赚得最多">
+<meta name="description" content="几个 AI agent 在 make.fun 上各自比赛赚 USDC，看谁赚得最多">
 <link rel="icon" href="data:,">
 <script>
   (function () { try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {} })();
@@ -21,7 +21,7 @@
     --page: #f4f5f7; --surface: #ffffff; --surface-2: #f3f4f6; --hero-bg: #ffffff;
     --ink: #111827; --ink-2: #374151; --muted: #6b7280;
     --grid: #e5e7eb; --axis: #d1d5db; --border: #e3e5e9;
-    --s-muse: #2a78d6; --s-dots: #eb6834; --s-grok: #1baf7a; --s-cue: #eda100;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
     --good: #0ca30c; --good-ink: #067a06; --warn: #fab219; --warn-ink: #b45309; --bad: #d03b3b;
     --shadow: 0 1px 2px rgba(16, 24, 40, .05);
   }
@@ -31,7 +31,7 @@
       --page: #0b0c0e; --surface: #16181c; --surface-2: #1f2228; --hero-bg: #000000;
       --ink: #f3f4f6; --ink-2: #d1d5db; --muted: #9ca3af;
       --grid: #2a2e35; --axis: #3a3f47; --border: #2a2e35;
-      --s-muse: #3987e5; --s-dots: #d95926; --s-grok: #199e70; --s-cue: #c98500;
+      --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
       --good-ink: #34c234; --warn-ink: #f5b544; --shadow: none;
     }
   }
@@ -40,7 +40,7 @@
     --page: #0b0c0e; --surface: #16181c; --surface-2: #1f2228; --hero-bg: #000000;
     --ink: #f3f4f6; --ink-2: #d1d5db; --muted: #9ca3af;
     --grid: #2a2e35; --axis: #3a3f47; --border: #2a2e35;
-    --s-muse: #3987e5; --s-dots: #d95926; --s-grok: #199e70; --s-cue: #c98500;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
     --good-ink: #34c234; --warn-ink: #f5b544; --shadow: none;
   }
 
@@ -316,7 +316,7 @@
   <div class="wrap top">
     <div>
       <h1>Agent 赚钱实验</h1>
-      <p class="lede">4 个 AI agent 在 make.fun 上各自比赛赚 USDC，看谁赚得最多</p>
+      <p class="lede">几个 AI agent 在 make.fun 上各自比赛赚 USDC，看谁赚得最多</p>
     </div>
     <div class="meta">
       <span id="updated">正在读取数据…</span>
@@ -332,11 +332,11 @@
         <div class="sharks" id="sharks" aria-hidden="true"></div>
         <div class="hero-fade"></div>
         <div class="hero-copy">
-          <p class="hero-label">4 个 agent 合计已赢得</p>
+          <p class="hero-label">所有 agent 合计已赢得</p>
           <p class="hero-num" id="hero-num">—</p>
           <p class="hero-sub" id="hero-sub"></p>
         </div>
-        <p class="hero-key">4 条鲨鱼 = 4 个 agent · 排名越高鲨鱼越大</p>
+        <p class="hero-key">每条鲨鱼是一个 agent · 排名越高鲨鱼越大</p>
       </div>
       <div class="card kpis" id="kpis"></div>
     </section>
@@ -353,8 +353,9 @@
 <script type="module">
 import { mount as mountSharks } from "./vendor/ascii-sharks.js";
 
-const ORDER = ["muse", "dots", "grok", "cue"];
-const SHARK_KIND = { muse: "hammerhead", dots: "classic", grok: "thresher", cue: "zebra" };
+// agent 的顺序以 data.json 里 agents 的顺序为准；新 agent 加在末尾，颜色和鲨鱼按顺序分配，最多 8 个。
+let ORDER = [];
+const SHARK_KINDS = ["hammerhead", "classic", "thresher", "zebra", "tiger", "mako", "greathammer", "nurse"];
 const STATUS_ORDER = ["建造中", "选赛", "评审中", "已出结果", "已领奖", "已放弃"];
 const DONE = ["已出结果", "已领奖", "已放弃"];
 const TABS = [["#/", "总览"], ["#/tasks", "任务"], ["#/daily", "每日复盘"], ["#/weekly", "周计划"]];
@@ -380,7 +381,7 @@ function h(tag, props, ...kids) {
 const isNum = (v) => typeof v === "number" && Number.isFinite(v);
 const usd = (v) => !isNum(v) ? "—" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: Math.abs(v) < 100 && v % 1 ? 2 : 0 });
 const int = (v) => !isNum(v) ? "—" : v.toLocaleString("en-US");
-const color = (id) => ORDER.includes(id) ? `var(--s-${id})` : "var(--muted)";
+const color = (id) => { const i = ORDER.indexOf(id); return i >= 0 ? `var(--s${(i % 8) + 1})` : "var(--muted)"; };
 const sumOf = (list, key) => { const vals = list.map((a) => a[key]).filter(isNum); return vals.length ? vals.reduce((x, y) => x + y, 0) : null; };
 function parts(iso) {
   const d = new Date(iso);
@@ -448,7 +449,7 @@ function paintSharks() {
   const ranks = D.ranking.total;
   const allTied = ranks.every((r) => r.rank === 1);
   const SIZE = { 1: 1.25, 2: 1.05, 3: .9, 4: .78 };
-  const specs = D.agents.filter((a) => SHARK_KIND[a.id]).map((a) => ({ kind: SHARK_KIND[a.id], size: allTied ? 1 : (SIZE[a._rank] ?? .7) }));
+  const specs = D.agents.map((a, i) => ({ kind: SHARK_KINDS[i % 8], size: allTied ? 1 : (SIZE[a._rank] ?? .7) }));
   if (sharks) { syncSharks({ sharks: specs }); return; }
   Object.assign(sharkOpts, { theme: themeNow(), sharks: specs, height: $("sharks").clientHeight || 236 });
   try { sharks = mountSharks($("sharks"), sharkOpts); } catch (e) { console.warn("鲨鱼动画没能启动", e); return; }
@@ -483,8 +484,8 @@ window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); })
 
 function prepare(data) {
   const ref = new Date(data.updated_at || Date.now());
-  const agents = ORDER.map((id) => data.agents.find((a) => a.id === id)).filter(Boolean)
-    .concat(data.agents.filter((a) => !ORDER.includes(a.id)));
+  const agents = data.agents.filter((a) => a && a.id).slice(0, 8);
+  ORDER = agents.map((a) => a.id);
   agents.forEach((a) => { a._act = activity(a, ref); });
   const rankBy = (key) => {
     const list = [...agents].sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0) || ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
@@ -722,7 +723,7 @@ function taskPage(t) {
   const field = (k, v) => h("div", { class: "field" }, h("dt", null, k), h("dd", null, v));
   const at = (iso) => (iso ? new Date(iso).toLocaleString("sv-SE", { timeZone: "Asia/Shanghai" }).slice(0, 16) : "—");
   const logs = [...t.logs].sort(byNewest);
-  const KIND = { "结果": "var(--good)", "提交": "var(--s-muse)", "行动": "var(--axis)", "复盘": "var(--warn)" };
+  const KIND = { "结果": "var(--good)", "提交": "var(--ink-2)", "行动": "var(--axis)", "复盘": "var(--warn)" };
   const paid = isNum(t.paid_places) ? t.paid_places : null;
   return [
     h("section", null,

@@ -1,6 +1,6 @@
 # Agent 赚钱实验 · 面板
 
-4 个 AI agent（muse、dots、grok、cue）在 make.fun 上各自比赛赚 USDC，看谁赚得最多。
+几个 AI agent（目前 muse、dots、grok、cue）在 make.fun 上各自比赛赚 USDC，看谁赚得最多。最多 8 个：新 agent 加在 `agents` 末尾，颜色和鲨鱼按顺序自动分配，加进去以后不改顺序。
 
 - 线上地址：https://jaysu66.github.io/agent-money-board/
 - 页面：总览 · 任务 · 每日复盘 · 周计划；`#/task/<agent>/<比赛>` 是比赛详情，`#/agent/<名字>` 是单个 agent 的详情。
@@ -11,7 +11,7 @@
 
 字段和 muse 原来面板的表一一对应（tasks、task_logs、daily_reviews、weekly_plans），多了一个 `agent` 字段区分是谁的。
 
-1. 读 agent-money-lab 仓库里 4 个人的 `agents/<名字>/log.md`。
+1. 读 agent-money-lab 仓库里所有人的 `agents/<名字>/log.md`。
 2. 每场比赛的中文说明、官方要求、期望收益估算，照抄 agent 在"选赛"那条记录里写的；动态照抄每轮记录。
 3. 名次去 make.fun 公开榜单查：`GET https://make.fun/api/competitions/<比赛>/leaderboard`，按账号找到那一行，取 `rank` 和总条目数。
 4. 0 点那次：`history` 末尾追加当天每个人的累计已赢得；把 21 点的日报抄进 `daily`。周一的本周计划和周日的周复盘抄进 `weekly`。
@@ -28,7 +28,7 @@
 | 字段 | 意思 |
 |---|---|
 | `updated_at` / `updated_by` / `experiment_start` | 这次更新的时间、谁更新的、实验开始日期 |
-| `agents[]` | `id`（muse/dots/grok/cue）、`platform`、`handle`、`won_usd`（已赢得，排名按它）、`received_usd`（已到账）、`week_won_usd` / `week_goal_usd`（本周已赢得 / 本周目标金额）、`last_active`（log.md 最新一条记录的时间） |
+| `agents[]` | `id`（小写英文，顺序固定）、`platform`、`handle`、`won_usd`（已赢得，排名按它）、`received_usd`（已到账）、`week_won_usd` / `week_goal_usd`（本周已赢得 / 本周目标金额）、`last_active`（log.md 最新一条记录的时间） |
 | `tasks[]` | `agent`、`slug`、`title`、`platform`、`status`（选赛 / 建造中 / 评审中 / 已出结果 / 已领奖 / 已放弃）、`prize_pool`、`first_prize`、`paid_places`（前几名有奖）、`deadline`、`result_date`、`earned`（已赚）、`rank`、`field`（总条目数）、`ev`、`ev_note`（期望收益和依据）、`submission_id`、`description`（任务是做什么的，中文）、`requirements`（官方要求，中文）、`logs` |
 | `tasks[].logs[]` | `{"time": "2026-11-17T15:54:00+08:00", "kind": "提交", "text": "..."}`，`kind` 用 行动 / 提交 / 结果 / 复盘；只知道日期就写 `"date": "2026-11-17"` |
 | `history[]` | `{"date": "2026-11-18", "muse": 0, "dots": 0, "grok": 0, "cue": 0}`，每天 0 点追加，记当时的累计已赢得 |
