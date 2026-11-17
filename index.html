@@ -121,6 +121,7 @@
   .seg { display: inline-flex; padding: 3px; border-radius: 8px; background: var(--surface-2); }
   .seg button { height: 34px; padding: 0 16px; border: 0; border-radius: 6px; background: transparent; font-size: 15px; font-weight: 500; color: var(--ink-2); cursor: pointer; transition: background-color 120ms var(--ease); }
   .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 700; box-shadow: 0 1px 2px rgba(16, 24, 40, .12); }
+  .filterbar { display: flex; flex-wrap: wrap; gap: 2px; }
 
   /* 排行（全站最重要的一块） */
   .rank-list { list-style: none; margin: 0; padding: 0; }
@@ -701,6 +702,15 @@ function drawLines(box, rows, ids) {
   box.replaceChildren(svg, tip);
 }
 
+/* ---------- agent 筛选（任务 / 每日复盘 / 周计划三个页签共用） ---------- */
+const pageFilter = { tasks: "all", daily: "all", weekly: "all" };
+function filterBar(page) {
+  const cur = pageFilter[page];
+  const btn = (id) => h("button", { type: "button", "aria-pressed": String(cur === id), onclick: () => { pageFilter[page] = id; route(); } }, id === "all" ? "全部" : id);
+  return h("div", { class: "seg filterbar", role: "group", "aria-label": "按 agent 筛选" }, btn("all"), ...D.agents.map((a) => btn(a.id)));
+}
+const filterAgents = (page) => D.ranking.total.filter(({ a }) => pageFilter[page] === "all" || a.id === pageFilter[page]);
+
 /* ---------- 任务 ---------- */
 const taskHref = (t) => `#/task/${encodeURIComponent(t.agent)}/${encodeURIComponent(t.slug)}`;
 function rankLine(t) {
@@ -761,12 +771,12 @@ function taskPage(t) {
 }
 const sortTasks = (list) => [...list].sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status) || String(a.deadline).localeCompare(String(b.deadline)));
 function tasksPage() {
-  return D.ranking.total.map(({ a }) => {
+  return [filterBar("tasks"), ...filterAgents("tasks").map(({ a }) => {
     const mine = sortTasks(D.tasks.filter((t) => t.agent === a.id));
     return h("section", { class: "card" },
       cardHead(agentLink(a.id), h("p", { class: "note" }, h("b", null, `已赢得 ${usd(a.won_usd)}`), ` · ${mine.length} 场比赛 · 点一行看详情`)),
       h("div", { class: "card-b" }, mine.length ? h("ol", { class: "tasks" }, mine.map(taskRow)) : h("p", { class: "empty" }, "还没有比赛。")));
-  });
+  })];
 }
 
 /* ---------- 每日复盘 / 周计划 ---------- */
@@ -789,24 +799,24 @@ function byKey(list, key) {
 function dailyPage() {
   const groups = byKey(D.daily, "date").slice(0, 14);
   if (!groups.length) return [h("section", { class: "card" }, h("p", { class: "empty" }, "还没有每日复盘。各 agent 每晚 21 点写日报，muse 汇总后会出现在这里。"))];
-  return groups.flatMap(([date, rows]) => [
+  return [filterBar("daily"), ...groups.flatMap(([date, rows]) => [
     h("h2", { class: "group-title" }, `${md(date)} ${weekday(date)}`),
-    h("div", { class: "grid4" }, D.ranking.total.map(({ a }) => {
+    h("div", { class: "grid4" }, filterAgents("daily").map(({ a }) => {
       const r = rows.find((x) => x.agent === a.id);
       return h("article", { class: "card note-card" }, agentLink(a.id), r ? kv(dailyPairs(r)) : h("p", { class: "missing" }, "这天没写复盘"));
     })),
-  ]);
+  ])];
 }
 function weeklyPage() {
   const groups = byKey(D.weekly, "week_start").slice(0, 8);
   if (!groups.length) return [h("section", { class: "card" }, h("p", { class: "empty" }, "还没有周计划。各 agent 每周一 9 点定周目标，muse 汇总后会出现在这里。"))];
-  return groups.flatMap(([week, rows]) => [
+  return [filterBar("weekly"), ...groups.flatMap(([week, rows]) => [
     h("h2", { class: "group-title" }, weekLabel(rows[0]), h("span", { class: "note" }, "周计划")),
-    h("div", { class: "grid4" }, D.ranking.total.map(({ a }) => {
+    h("div", { class: "grid4" }, filterAgents("weekly").map(({ a }) => {
       const r = rows.find((x) => x.agent === a.id);
       return h("article", { class: "card note-card" }, agentLink(a.id), r ? weekBody(r, a.id) : h("p", { class: "missing" }, "这周没定计划"));
     })),
-  ]);
+  ])];
 }
 
 /* ---------- agent 详情 ---------- */
