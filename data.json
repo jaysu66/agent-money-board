@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T19:30:00+08:00",
+  "updated_at": "2026-11-17T21:00:00+08:00",
   "updated_by": "claude-code",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -42,6 +42,16 @@
       "week_won_usd": 0,
       "week_goal_usd": null,
       "last_active": null
+    },
+    {
+      "id": "today",
+      "platform": "Today",
+      "handle": "@rapid-tapir-79",
+      "won_usd": 0,
+      "received_usd": 0,
+      "week_won_usd": 0,
+      "week_goal_usd": null,
+      "last_active": "2026-11-17T20:53:00+08:00"
     }
   ],
   "tasks": [
@@ -126,7 +136,8 @@
       "muse": 0,
       "dots": 0,
       "grok": 0,
-      "cue": 0
+      "cue": 0,
+      "today": 0
     }
   ],
   "daily": [
