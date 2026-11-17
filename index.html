@@ -206,6 +206,77 @@
   footer { margin: 64px 0 0; padding: 24px 0 48px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 12px; line-height: 1.7; }
   footer p { margin: 0; }
 
+  /* 对比卡片（模型排行榜式） */
+  .sub-head { margin: 0 0 12px; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+  .sub-head.next { margin-top: 24px; }
+  .compare-grid { display: grid; gap: 16px; }
+  .compare-grid.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .compare-grid.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .card { padding: 16px; }
+  .card-title { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
+  .card-note { margin: 2px 0 12px; font-size: 12px; line-height: 1.5; color: var(--muted); }
+  .card-foot { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+  .bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .bar-row {
+    display: grid; grid-template-columns: 16px 60px minmax(0, 1fr); align-items: center; gap: 8px;
+    min-height: 36px; margin: 0 -8px; padding: 0 8px; border-radius: 6px;
+    color: inherit; text-decoration: none; transition: background-color 120ms var(--ease);
+  }
+  .bar-row:hover { background: var(--surface-2); }
+  .bar-rank { font-size: 12px; color: var(--muted); text-align: right; }
+  .bar-name { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+  .bar-name .dot { margin-top: 0; width: 8px; height: 8px; }
+  .bar-track { position: relative; display: flex; align-items: center; min-width: 0; height: 24px; }
+  .bar-track::before { content: ""; position: absolute; left: 0; top: 2px; bottom: 2px; width: 1px; background: var(--axis); }
+  .bar { display: block; flex: none; height: 18px; width: calc(var(--w) * .7); border-radius: 0 4px 4px 0; background: var(--c); }
+  .bar-val { margin-left: 8px; font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .bar-goal { font-weight: 400; color: var(--ink-2); }
+  .bullet { position: relative; display: block; flex: none; height: 18px; width: calc(var(--w) * .7); }
+  .bullet-goal { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; background: color-mix(in srgb, var(--c) 24%, transparent); }
+  .bullet-bar { position: absolute; left: 0; top: 4px; bottom: 4px; border-radius: 0 4px 4px 0; background: var(--c); }
+
+  /* agent 详情页 */
+  .back { display: inline-flex; align-items: center; gap: 8px; height: 40px; font-size: 14px; color: var(--ink-2); text-decoration: none; }
+  .back:hover { color: var(--ink); }
+  .dh { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 24px; }
+  .dh-name { display: flex; align-items: center; gap: 12px; margin: 4px 0 0; font-size: clamp(32px, 5vw, 48px); font-weight: 500; line-height: 1.05; letter-spacing: -.03em; }
+  .dh-name .dot { width: 14px; height: 14px; margin-top: 0; }
+  .dh-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 12px 0 0; font-size: 13px; color: var(--ink-2); }
+  .dh-rank { text-align: right; }
+  .dh-rank-num { margin: 2px 0 0; font-size: 32px; font-weight: 500; line-height: 1.1; letter-spacing: -.02em; }
+  .kv { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 8px 16px; margin: 0; padding: 16px 24px; font-size: 14px; }
+  .kv dt { color: var(--ink-2); }
+  .kv dd { margin: 0; }
+  .kv dd.none { color: var(--muted); }
+
+  /* 离奖金线 */
+  .ml { list-style: none; margin: 0; padding: 8px 24px 0; }
+  .ml-row { display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) minmax(170px, 210px); align-items: center; gap: 16px; padding: 12px 0; border-top: 1px solid var(--grid); }
+  .ml-row:first-child { border-top: 0; }
+  .ml-row.axis { padding: 0 0 16px; border-top: 0; }
+  .ml-track { position: relative; height: 24px; }
+  .ml-line { position: absolute; left: 0; right: 0; top: 11px; height: 2px; border-radius: 1px; background: var(--grid); }
+  .ml-zone { position: absolute; left: 0; top: 4px; height: 16px; width: var(--z); min-width: 3px; border-right: 2px solid var(--good); border-radius: 4px 0 0 4px; background: color-mix(in srgb, var(--good) 20%, transparent); }
+  .ml-tick { position: absolute; top: 7px; left: var(--p); width: 1px; height: 10px; background: var(--axis); }
+  .ml-dot { position: absolute; top: 6px; left: var(--p); width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px var(--surface); }
+  .ml-axis { position: relative; height: 16px; }
+  .ml-axis span { position: absolute; left: var(--p); transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .ml-axis span:first-child { transform: none; }
+  .ml-res { font-size: 13px; text-align: right; }
+  .ml-res .sub { color: var(--ink-2); }
+
+  /* 打卡格 */
+  .ck { padding: 16px 24px; overflow-x: auto; }
+  .ck-grid { display: grid; grid-template-columns: 52px repeat(8, 24px) auto; gap: 6px 4px; align-items: center; width: max-content; }
+  .ck-h { font: 500 11px/1 var(--mono); color: var(--muted); text-align: center; }
+  .ck-d { font: 500 12px/1 var(--mono); color: var(--ink-2); }
+  .ck-c { display: block; width: 24px; height: 24px; border-radius: 4px; background: var(--grid); }
+  .ck-c.on { background: var(--c); }
+  .ck-n { padding-left: 8px; font-size: 12px; color: var(--ink-2); }
+  .ck-legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 12px 0 0; font-size: 12px; color: var(--ink-2); }
+  .ck-legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .ck-legend .ck-c { width: 12px; height: 12px; border-radius: 3px; }
+
   /* 加载 / 出错 */
   .skel { display: block; height: 14px; border-radius: 4px; background: var(--surface-2); }
   .skel + .skel { margin-top: 12px; }
@@ -229,6 +300,7 @@
 
   /* 响应式 */
   @media (max-width: 1024px) {
+    .compare-grid.g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .row { grid-template-columns: 56px minmax(160px, 1.4fr) 1fr 1fr minmax(140px, 1.2fr); }
     .row .c-received, .row .c-review { display: none; }
   }
@@ -265,6 +337,16 @@
     .row .c-status { grid-column: 2 / -1; }
     .row-detail { grid-column: 2 / -1; margin-top: 0; }
     .chart-panel { padding: 16px; }
+    .compare-grid.g3, .compare-grid.g4 { grid-template-columns: minmax(0, 1fr); }
+    .dh { padding: 16px; }
+    .dh-rank { text-align: left; }
+    .kv { grid-template-columns: 1fr; gap: 2px; padding: 16px; }
+    .kv dd { margin-bottom: 8px; }
+    .ml { padding: 4px 16px 0; }
+    .ml-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .ml-row.axis > :first-child, .ml-row.axis > :last-child { display: none; }
+    .ml-res { text-align: left; }
+    .ck { padding: 16px; }
     .events { padding: 4px 16px; }
     .event { grid-template-columns: 1fr; gap: 2px; }
   }
@@ -402,6 +484,7 @@ paintThemeButton();
 
 /* ---------- 读数据 ---------- */
 const src = new URLSearchParams(location.search).get("data") || "data.json";
+let DATA = null;
 async function load() {
   const content = $("content");
   content.setAttribute("aria-busy", "true");
@@ -410,8 +493,10 @@ async function load() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     if (!Array.isArray(data.agents)) throw new Error("数据里没有 agents");
-    render(data);
+    DATA = prepare(data);
+    route();
   } catch (err) {
+    console.error(err);
     $("hero-sub").textContent = "";
     $("updated").textContent = "数据读取失败";
     content.replaceChildren(h("div", { class: "panel error-box", style: { "margin-top": "16px" }, role: "alert" },
@@ -422,59 +507,104 @@ async function load() {
     content.removeAttribute("aria-busy");
   }
 }
+window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
 
-/* ---------- 渲染 ---------- */
-function render(data) {
+/* ---------- 整理数据 ---------- */
+const DONE = ["已出结果", "已领奖", "已放弃"];
+const pct = (v) => !isNum(v) ? "—" : `${Math.round(v * 100)}%`;
+function checkinRate(rows, id) {
+  const days = rows.map((r) => r[id]).filter((s) => typeof s === "string" && /^[01]{8}$/.test(s));
+  if (!days.length) return null;
+  return days.join("").split("").filter((c) => c === "1").length / (days.length * 8);
+}
+function prepare(data) {
   const ref = new Date(data.updated_at || Date.now());
-  const now = new Date();
   const agents = ORDER.map((id) => data.agents.find((a) => a.id === id)).filter(Boolean)
     .concat(data.agents.filter((a) => !ORDER.includes(a.id)));
-  agents.forEach((a) => { a._act = activity(a, ref); });
-
+  const tasksAll = (data.tasks || []).filter(Boolean);
+  const activityRows = (data.activity || []).filter((r) => r && r.date).sort((a, b) => a.date.localeCompare(b.date));
+  for (const a of agents) {
+    a._act = activity(a, ref);
+    const mine = tasksAll.filter((t) => t.agent === a.id);
+    a._stats = {
+      entries: mine.filter((t) => t.status !== "已放弃" && t.status !== "选赛").length,
+      wins: mine.filter((t) => (t.won_usd ?? 0) > 0).length,
+      submissions: sumOf(mine, "submissions"),
+      checkin: checkinRate(activityRows.slice(-7), a.id),
+    };
+  }
   const ranked = [...agents].sort((a, b) =>
     (b.won_usd ?? 0) - (a.won_usd ?? 0) || (b.received_usd ?? 0) - (a.received_usd ?? 0) || ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
   let place = 0, prev = null;
   ranked.forEach((a, i) => { const w = a.won_usd ?? 0; if (w !== prev) { place = i + 1; prev = w; } a._rank = place; });
-  const tieCount = (r) => ranked.filter((a) => a._rank === r).length;
+  return {
+    raw: data, ref, now: new Date(), agents, ranked, tasks: tasksAll, activity: activityRows,
+    history: (data.history || []).filter((r) => r && r.date).sort((a, b) => a.date.localeCompare(b.date)),
+    events: (data.events || []).filter((e) => e && e.text),
+    tieCount: (r) => ranked.filter((a) => a._rank === r).length,
+  };
+}
 
-  /* 顶栏与主视觉 */
-  const staleHrs = (now - ref) / 36e5;
+/* ---------- 路由 ---------- */
+function route() {
+  if (!DATA) return;
+  const m = location.hash.match(/^#\/agent\/([\w-]+)/);
+  const agent = m ? DATA.agents.find((a) => a.id === m[1]) : null;
+  paintChrome(DATA, Boolean(agent));
+  const blocks = (agent ? agentView(DATA, agent) : overview(DATA)).filter(Boolean);
+  blocks.forEach((b, i) => { b.classList.add("reveal"); b.style.setProperty("--i", i); });
+  $("content").replaceChildren(...blocks);
+  document.title = agent ? `${agent.id} · Agent 赚钱实验` : "Agent 赚钱实验 · 排行榜";
+}
+
+function paintChrome(D, isDetail) {
   const upd = $("updated");
-  upd.replaceChildren(`数据更新于 ${when(data.updated_at)} · ${data.updated_by || "—"}`);
-  if (staleHrs > 13) upd.append(" ", statusChip({ kind: "warn", label: "超过 12 小时没更新" }));
+  upd.replaceChildren(`数据更新于 ${when(D.raw.updated_at)} · ${D.raw.updated_by || "—"}`);
+  if ((D.now - D.ref) / 36e5 > 13) upd.append(" ", statusChip({ kind: "warn", label: "超过 12 小时没更新" }));
+  document.querySelector(".hero").hidden = isDetail;
 
-  const total = sumOf(agents, "won_usd") ?? 0;
+  const total = sumOf(D.agents, "won_usd") ?? 0;
   $("hero-num").textContent = usd(total);
-  const start = data.experiment_start ? new Date(data.experiment_start + "T00:00:00+08:00") : null;
-  const day = start ? Math.max(1, Math.floor((ref - start) / 864e5) + 1) : null;
-  const leader = ranked[0];
+  const start = D.raw.experiment_start ? new Date(D.raw.experiment_start + "T00:00:00+08:00") : null;
+  const day = start ? Math.max(1, Math.floor((D.ref - start) / 864e5) + 1) : null;
+  const [leader, second] = D.ranked;
   let sub;
   if (!leader || (leader.won_usd ?? 0) === 0) sub = "还没有人赢到奖金";
-  else if (tieCount(1) > 1) sub = `并列第一：${ranked.filter((a) => a._rank === 1).map((a) => a.id).join("、")}，各 ${usd(leader.won_usd)}`;
-  else sub = `领先：${leader.id} ${usd(leader.won_usd)}` + (ranked[1] ? `，第二名 ${ranked[1].id} ${usd(ranked[1].won_usd ?? 0)}` : "");
+  else if (D.tieCount(1) > 1) sub = `并列第一：${D.ranked.filter((a) => a._rank === 1).map((a) => a.id).join("、")}，各 ${usd(leader.won_usd)}`;
+  else sub = `领先：${leader.id} ${usd(leader.won_usd)}` + (second ? `，第二名 ${second.id} ${usd(second.won_usd ?? 0)}` : "");
   $("hero-sub").textContent = sub + (day ? ` · 实验第 ${day} 天` : "");
 
-  const allTied = tieCount(1) === ranked.length;
+  const allTied = D.tieCount(1) === D.ranked.length;
   const SIZE = { 1: 1.25, 2: 1.05, 3: .9, 4: .78 };
-  sharkSpecs = agents.filter((a) => SHARK_KIND[a.id]).map((a) => ({ kind: SHARK_KIND[a.id], size: allTied ? 1 : (SIZE[a._rank] ?? .7) }));
-  if (!sharks) {
+  sharkSpecs = D.agents.filter((a) => SHARK_KIND[a.id]).map((a) => ({ kind: SHARK_KIND[a.id], size: allTied ? 1 : (SIZE[a._rank] ?? .7) }));
+  if (!sharks && !isDetail) {
     Object.assign(sharkOpts, { theme: themeNow(), sharks: sharkSpecs, height: $("sharks").clientHeight || 300 });
     try { sharks = mountSharks($("sharks"), sharkOpts); } catch (e) { console.warn("鲨鱼动画没能启动", e); }
     // 组件场景自带 480px 最小高度，比主视觉高，鲨鱼会游到看不见的地方；压回主视觉的高度。
     const sharkRoot = $("sharks").firstElementChild?.shadowRoot;
     if (sharkRoot) sharkRoot.append(h("style", null, ".ao-scene{min-height:0!important}"));
     new ResizeObserver(() => { const hh = $("sharks").clientHeight; if (hh && hh !== sharkOpts.height) syncSharks({ height: hh }); }).observe($("sharks"));
-  } else syncSharks({ sharks: sharkSpecs });
+  } else if (sharks) syncSharks({ sharks: sharkSpecs });
+}
 
-  /* 内容 */
-  const blocks = [tiles(agents), board(ranked, tieCount), trend(data.history || [], agents), tasks(data.tasks || [], agents, now), events(data.events || [])];
-  blocks.forEach((b, i) => { b.classList.add("reveal"); b.style.setProperty("--i", i); });
-  $("content").replaceChildren(...blocks);
+const secHead = (label, title, note) => h("div", { class: "sec-head" },
+  h("div", null, h("p", { class: "label" }, label), h("h2", null, title)), note ? h("p", { class: "sec-note" }, note) : null);
+const tile = (label, value, foot) => h("div", { class: "tile" }, h("p", { class: "cell-label" }, label), h("p", { class: "tile-value" }, value), h("p", { class: "tile-foot" }, foot));
+
+/* ---------- 总览 ---------- */
+function overview(D) {
+  return [
+    tiles(D.agents),
+    compare(D),
+    board(D),
+    trend(D.history, D.agents),
+    tasks(D.tasks, D.agents, D.now, true),
+    events(D.events),
+  ];
 }
 
 function tiles(agents) {
   const working = agents.filter((a) => a._act.kind === "good").length;
-  const tile = (label, value, foot) => h("div", { class: "tile" }, h("p", { class: "cell-label" }, label), h("p", { class: "tile-value" }, value), h("p", { class: "tile-foot" }, foot));
   return h("section", { class: "tiles", "aria-label": "关键数字" },
     tile("已到账（合计）", usd(sumOf(agents, "received_usd")), "领到钱包里的 USDC"),
     tile("评审中的作品", int(sumOf(agents, "in_review")), "已提交、还没出结果"),
@@ -482,36 +612,181 @@ function tiles(agents) {
     tile("在干活", `${working} / ${agents.length}`, "3 小时内有新记录"));
 }
 
-function board(ranked, tieCount) {
+function compare(D) {
+  const A = D.agents;
+  return h("section", { class: "block", id: "compare" },
+    secHead("Head to head", "谁赚得多", "像模型排行榜一样逐项比；点任意一行看这个 agent 的详情"),
+    h("p", { class: "sub-head" }, "金额"),
+    h("div", { class: "compare-grid g3" },
+      barCard("累计已赢得", "make.fun 公布结果的奖金合计，排行榜按它排", A.map((a) => ({ id: a.id, v: a.won_usd })), usd),
+      barCard("本周已赢得", "浅色长条是各自定的本周目标，深色是已经赢到的", A.map((a) => ({ id: a.id, v: a.week_won_usd, goal: a.week_goal_usd })), usd),
+      barCard("已到账", "已经领到自己钱包里的 USDC", A.map((a) => ({ id: a.id, v: a.received_usd })), usd)),
+    h("p", { class: "sub-head next" }, "战绩"),
+    h("div", { class: "compare-grid g4" },
+      barCard("获奖场次", "拿到奖金的比赛数", A.map((a) => ({ id: a.id, v: a._stats.wins })), int),
+      barCard("参赛场次", "建造中、评审中和已出结果的比赛", A.map((a) => ({ id: a.id, v: a._stats.entries })), int),
+      barCard("提交次数", "所有比赛加起来，没记的不算", A.map((a) => ({ id: a.id, v: a._stats.submissions })), int),
+      barCard("7 天打卡率", "每 3 小时一轮，有记录的轮数占比", A.map((a) => ({ id: a.id, v: a._stats.checkin })), pct)));
+}
+
+function barCard(title, note, items, fmt) {
+  const vals = items.map((i) => i.v).filter(isNum);
+  const max = Math.max(0, ...vals, ...items.map((i) => i.goal).filter(isNum));
+  const sorted = [...items].sort((a, b) => (isNum(b.v) ? b.v : -Infinity) - (isNum(a.v) ? a.v : -Infinity) || ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+  let place = 0, prev;
+  sorted.forEach((it, i) => { const v = isNum(it.v) ? it.v : null; if (v !== prev) { place = i + 1; prev = v; } it.r = v === null ? null : place; });
+  let foot = null;
+  if (!vals.length) foot = "还没有数据";
+  else if (vals.every((v) => v === 0)) foot = "大家都还是 0，出结果后这里会拉开差距";
+  return h("div", { class: "panel card" },
+    h("p", { class: "card-title" }, title),
+    h("p", { class: "card-note" }, note),
+    h("ol", { class: "bars" }, sorted.map((it) => {
+      const w = max > 0 && isNum(it.v) ? (100 * it.v) / max : 0;
+      const g = max > 0 && isNum(it.goal) && it.goal > 0 ? (100 * it.goal) / max : null;
+      return h("li", null, h("a", {
+        class: "bar-row", href: `#/agent/${encodeURIComponent(it.id)}`,
+        "aria-label": `${it.id}：${fmt(it.v)}${isNum(it.goal) ? `，目标 ${fmt(it.goal)}` : ""}。查看 ${it.id} 的详情`,
+      },
+        h("span", { class: "bar-rank num" }, it.r ?? "–"),
+        h("span", { class: "bar-name" }, h("i", { class: "dot", style: { "--c": color(it.id) } }), it.id),
+        h("span", { class: "bar-track" },
+          g !== null
+            // 有目标：浅色长条是目标，里面的深色细条是已经赢到的（子弹图），数字跟在两者中更长的那个后面。
+            ? h("span", { class: "bullet", style: { "--w": `${Math.max(w, g)}%` } },
+                h("i", { class: "bullet-goal", style: { "--c": color(it.id), width: `${(100 * g) / Math.max(w, g)}%` } }),
+                w > 0 ? h("i", { class: "bullet-bar", style: { "--c": color(it.id), width: `${(100 * w) / Math.max(w, g)}%` } }) : null)
+            : w > 0 ? h("i", { class: "bar", style: { "--w": `${w}%`, "--c": color(it.id) } }) : null,
+          h("span", { class: "bar-val num" }, fmt(it.v), isNum(it.goal) && it.goal > 0 ? h("span", { class: "bar-goal" }, ` / ${fmt(it.goal)}`) : null))));
+    })),
+    foot ? h("p", { class: "card-foot" }, foot) : null);
+}
+
+function weekCell(a) {
+  if (!(isNum(a.week_goal_usd) && a.week_goal_usd > 0))
+    return h("div", null, h("p", { class: "cell-label" }, "本周目标"), h("p", { class: "cell-value", style: { "font-size": "15px", color: "var(--muted)" } }, "还没定"));
+  const done = (100 * (a.week_won_usd ?? 0)) / a.week_goal_usd;
+  return h("div", null,
+    h("p", { class: "cell-label" }, `本周 ${usd(a.week_won_usd ?? 0)} / 目标 ${usd(a.week_goal_usd)}`),
+    h("div", { class: "meter", role: "img", "aria-label": `本周目标完成 ${Math.round(done)}%` },
+      h("i", { style: { "--w": `${Math.min(100, done)}%`, "--c": color(a.id) } })));
+}
+
+function board(D) {
   const list = h("ol", { class: "board" });
-  for (const a of ranked) {
-    const week = isNum(a.week_goal_usd) && a.week_goal_usd > 0
-      ? h("div", null,
-          h("p", { class: "cell-label" }, `本周 ${usd(a.week_won_usd ?? 0)} / 目标 ${usd(a.week_goal_usd)}`),
-          h("div", { class: "meter", role: "img", "aria-label": `本周目标完成 ${Math.round(100 * (a.week_won_usd ?? 0) / a.week_goal_usd)}%` },
-            h("i", { style: { "--w": `${Math.min(100, 100 * (a.week_won_usd ?? 0) / a.week_goal_usd)}%`, "--c": color(a.id) } })))
-      : h("div", null, h("p", { class: "cell-label" }, "本周目标"), h("p", { class: "cell-value", style: { "font-size": "15px", color: "var(--muted)" } }, "还没定"));
+  for (const a of D.ranked) {
     const details = [["今日目标", a.today_goal], ["在做", a.doing], ["明天改什么", a.next]].filter(([, v]) => v);
     list.append(h("li", { class: "row" + (a._rank === 1 && (a.won_usd ?? 0) > 0 ? " lead" : "") },
-      h("div", { class: "rank num" }, String(a._rank).padStart(2, "0"), tieCount(a._rank) > 1 ? h("span", { class: "tie" }, "并列") : null),
+      h("div", { class: "rank num" }, String(a._rank).padStart(2, "0"), D.tieCount(a._rank) > 1 ? h("span", { class: "tie" }, "并列") : null),
       h("div", { class: "who" }, h("i", { class: "dot", style: { "--c": color(a.id) } }),
-        h("div", { style: { "min-width": "0" } }, h("p", { class: "who-name" }, a.id), h("p", { class: "who-sub" }, a.platform || "—"), h("p", { class: "who-handle" }, a.handle || "未注册"))),
+        h("div", { style: { "min-width": "0" } },
+          h("p", { class: "who-name" }, h("a", { href: `#/agent/${encodeURIComponent(a.id)}` }, a.id)),
+          h("p", { class: "who-sub" }, a.platform || "—"), h("p", { class: "who-handle" }, a.handle || "未注册"))),
       h("div", null, h("p", { class: "cell-label" }, "已赢得"), h("p", { class: "cell-value big" }, usd(a.won_usd))),
-      h("div", { class: "c-received" }, h("p", { class: "cell-label" }, "已到账"), h("p", { class: "cell-value" }, usd(a.received_usd))),
+      h("div", { class: "c-received" }, h("p", { class: "cell-label" }, "获奖 / 参赛"), h("p", { class: "cell-value" }, `${a._stats.wins} / ${a._stats.entries}`)),
       h("div", { class: "c-review" }, h("p", { class: "cell-label" }, "评审中"), h("p", { class: "cell-value" }, int(a.in_review))),
-      h("div", { class: "c-week" }, week),
+      h("div", { class: "c-week" }, weekCell(a)),
       h("div", { class: "c-status" }, h("p", { class: "cell-label" }, `最后活动 ${when(a.last_active)}`), statusChip(a._act)),
       details.length ? h("div", { class: "row-detail" }, details.map(([k, v]) => h("span", null, h("b", null, k + "："), v))) : null));
   }
   return h("section", { class: "block", id: "board" },
-    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Leaderboard"), h("h2", null, "排行榜")),
-      h("p", { class: "sec-note" }, "按已赢得排名，只认 make.fun 公布的结果；估算不算")),
+    secHead("Leaderboard", "排行榜", "按已赢得排名，只认 make.fun 公布的结果；点名字看详情"),
     h("div", { class: "panel" }, list));
 }
 
-function trend(history, agents) {
+/* ---------- agent 详情页 ---------- */
+function agentView(D, a) {
+  const mine = D.tasks.filter((t) => t.agent === a.id);
+  const tie = D.tieCount(a._rank) > 1;
+  const head = h("section", null,
+    h("a", { class: "back", href: "#/" }, "← 返回总览"),
+    h("div", { class: "panel dh" },
+      h("div", null,
+        h("p", { class: "label" }, a.platform || "agent"),
+        h("h2", { class: "dh-name" }, h("i", { class: "dot", style: { "--c": color(a.id) } }), a.id),
+        h("p", { class: "dh-meta" }, h("span", { class: "who-handle" }, a.handle || "未注册"), statusChip(a._act), h("span", null, `最后活动 ${when(a.last_active)}`))),
+      h("div", { class: "dh-rank" },
+        h("p", { class: "cell-label" }, "当前排名（按已赢得）"),
+        h("p", { class: "dh-rank-num" }, `第 ${a._rank} 名`),
+        h("p", { class: "tile-foot" }, `共 ${D.agents.length} 个 agent${tie ? "，并列" : ""}`))));
+  const weekFoot = isNum(a.week_goal_usd) && a.week_goal_usd > 0 ? `目标 ${usd(a.week_goal_usd)}，完成 ${Math.round((100 * (a.week_won_usd ?? 0)) / a.week_goal_usd)}%` : "还没定本周目标";
+  const kpis = h("section", { class: "tiles", "aria-label": `${a.id} 的关键数字` },
+    tile("已赢得", usd(a.won_usd), "make.fun 公布的结果"),
+    tile("已到账", usd(a.received_usd), "领到钱包里的 USDC"),
+    tile("本周已赢得", usd(a.week_won_usd), weekFoot),
+    tile("获奖 / 参赛", `${a._stats.wins} / ${a._stats.entries}`, `评审中 ${int(a.in_review)} 个`));
+  const kv = [["今日目标", a.today_goal], ["在做", a.doing], ["明天改什么", a.next]];
+  const today = h("section", { class: "block" },
+    secHead("Today", "今天在干什么", "来自它自己的记录"),
+    h("dl", { class: "panel kv" }, kv.flatMap(([k, v]) => [h("dt", null, k), h("dd", { class: v ? null : "none" }, v || "还没写")])));
+  return [
+    head, kpis, today,
+    moneyLine(a, mine),
+    checkin(a, D.activity),
+    trend(D.history, D.agents, a.id),
+    tasks(mine, D.agents, D.now, false),
+    events(D.events.filter((e) => e.agent === a.id)),
+  ];
+}
+
+function moneyLine(a, mine) {
+  const rows = mine.filter((t) => isNum(t.rank) && isNum(t.field) && t.field > 1 && t.status !== "已放弃");
+  const section = (body) => h("section", { class: "block" },
+    secHead("Distance to prize", "离奖金线还差多少", "越靠左越好；绿色区域是拿钱的名次"), h("div", { class: "panel" }, body));
+  if (!rows.length) return section(h("p", { class: "empty" }, "还没有名次数据。提交作品后，make.fun 榜单上会有实时名次。"));
+  const top = Math.max(...rows.map((t) => t.field));
+  const L = Math.log10(top);
+  const pos = (r) => `${Math.min(100, (100 * Math.log10(Math.max(1, r))) / L)}%`;
+  const ticks = [1, 10, 100, 1000, 10000, 100000].filter((v) => v <= top);
+  const list = h("ol", { class: "ml" });
+  for (const t of rows) {
+    const paid = isNum(t.paid_places) ? t.paid_places : null;
+    const inMoney = paid !== null && t.rank <= paid;
+    const finished = DONE.includes(t.status);
+    const res = inMoney
+      ? h("span", null, statusChip({ kind: "good", label: finished ? `第 ${int(t.rank)} 名，拿到奖金` : `第 ${int(t.rank)} 名，在奖金区` }))
+      : h("span", null, h("span", { class: "num" }, `第 ${int(t.rank)} 名`),
+          h("span", { class: "sub num" }, paid !== null ? `前 ${int(paid)} 名有奖，还差 ${int(t.rank - paid)} 名` : "这场没写奖金名次"));
+    list.append(h("li", { class: "ml-row" },
+      h("div", null, h("span", { class: "t-title" }, t.title || t.slug), h("span", { class: "sub" }, `${t.slug || ""} · ${t.status || "—"} · 共 ${int(t.field)} 个作品`)),
+      h("div", { class: "ml-track", role: "img", "aria-label": `${t.title || t.slug}：第 ${t.rank} 名，共 ${t.field} 个${paid !== null ? `，前 ${paid} 名有奖` : ""}` },
+        h("i", { class: "ml-line" }),
+        paid !== null ? h("i", { class: "ml-zone", style: { "--z": pos(paid) } }) : null,
+        ticks.map((v) => h("i", { class: "ml-tick", style: { "--p": pos(v) } })),
+        h("i", { class: "ml-dot", style: { "--p": pos(t.rank), "--c": color(a.id) } })),
+      h("div", { class: "ml-res" }, res)));
+  }
+  list.append(h("li", { class: "ml-row axis", "aria-hidden": "true" }, h("div"),
+    h("div", { class: "ml-axis" }, ticks.map((v) => h("span", { style: { "--p": pos(v) } }, v === 1 ? "第 1 名" : int(v)))), h("div")));
+  return section(list);
+}
+
+function checkin(a, rowsAll) {
+  const rows = rowsAll.filter((r) => typeof r[a.id] === "string" && /^[01]{8}$/.test(r[a.id])).slice(-7);
+  const section = (body) => h("section", { class: "block" },
+    secHead("Check-in", "24 小时打卡", "每 3 小时一轮，这一轮写了记录就填色"), h("div", { class: "panel ck" }, body));
+  if (!rows.length) return section(h("p", { class: "empty", style: { padding: "16px 0" } }, "还没有打卡数据。muse 每次汇总时会按记录时间补上。"));
+  const grid = h("div", { class: "ck-grid" }, h("span"), [0, 3, 6, 9, 12, 15, 18, 21].map((hr) => h("span", { class: "ck-h" }, hr)), h("span"));
+  for (const r of rows) {
+    const bits = r[a.id];
+    const on = bits.split("").filter((c) => c === "1").length;
+    grid.append(h("span", { class: "ck-d" }, dayLabel(r.date)),
+      ...bits.split("").map((c, i) => h("i", {
+        class: "ck-c" + (c === "1" ? " on" : ""), style: { "--c": color(a.id) },
+        title: `${dayLabel(r.date)} ${String(i * 3).padStart(2, "0")}:00–${String(i * 3 + 3).padStart(2, "0")}:00 ${c === "1" ? "有记录" : "没记录"}`,
+      })),
+      h("span", { class: "ck-n num" }, `${on} / 8`));
+  }
+  const rate = checkinRate(rows, a.id);
+  return section([grid, h("p", { class: "ck-legend" },
+    h("span", null, h("i", { class: "ck-c on", style: { "--c": color(a.id) } }), "有记录"),
+    h("span", null, h("i", { class: "ck-c" }), "没记录"),
+    h("span", null, `最近 ${rows.length} 天打卡率 ${pct(rate)}`))]);
+}
+
+/* ---------- 走势 ---------- */
+function trend(rows, agents, focus) {
   const ids = agents.map((a) => a.id);
-  const rows = history.filter((r) => r && r.date).sort((a, b) => a.date.localeCompare(b.date));
   const chart = h("div", { class: "chart" });
   const tableBox = h("div", { hidden: true });
   const toggle = h("button", { class: "ghost-btn", type: "button", "aria-pressed": "false" }, "表格");
@@ -524,21 +799,21 @@ function trend(history, agents) {
     h("thead", null, h("tr", null, h("th", null, "日期"), ids.map((id) => h("th", { class: "r" }, id)))),
     h("tbody", null, rows.map((r) => h("tr", null, h("td", { "data-label": "日期", class: "num" }, r.date), ids.map((id) => h("td", { class: "r num", "data-label": id }, usd(r[id]))))))));
   const allZero = rows.every((r) => ids.every((id) => !(r[id] > 0)));
+  const legend = focus
+    ? [h("li", null, h("i", { class: "key", style: { "--c": color(focus) } }), focus), h("li", null, h("i", { class: "key", style: { "--c": "var(--axis)" } }), "其他 agent")]
+    : ids.map((id) => h("li", null, h("i", { class: "key", style: { "--c": color(id) } }), id));
   const panel = h("div", { class: "panel chart-panel" },
-    h("div", { class: "chart-bar" },
-      h("ul", { class: "legend", "aria-label": "图例" }, ids.map((id) => h("li", null, h("i", { class: "key", style: { "--c": color(id) } }), id))),
-      toggle),
+    h("div", { class: "chart-bar" }, h("ul", { class: "legend", "aria-label": "图例" }, legend), toggle),
     rows.length ? chart : h("p", { class: "empty" }, "还没有走势数据。muse 每天 0 点会记一个点。"),
     tableBox,
     h("p", { class: "chart-note" }, allZero ? "每天 0 点记一个点。现在大家都是 $0，线会叠在一起。" : "每天 0 点记一个点，数值是当时累计已赢得。"));
   if (rows.length) {
-    const draw = () => drawLines(chart, rows, ids);
+    const draw = () => drawLines(chart, rows, ids, focus);
     requestAnimationFrame(draw);
     new ResizeObserver(() => draw()).observe(chart);
   }
   return h("section", { class: "block", id: "trend" },
-    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Trend"), h("h2", null, "累计已赢得走势")),
-      h("p", { class: "sec-note" }, "谁在追谁，看斜率")),
+    secHead("Trend", focus ? `${focus} 的累计已赢得` : "累计已赢得走势", focus ? "灰线是其他 agent，用来对照" : "谁在追谁，看斜率"),
     panel);
 }
 
@@ -549,19 +824,21 @@ function niceMax(v) {
   return 10 * p;
 }
 
-function drawLines(box, rows, ids) {
+function drawLines(box, rows, ids, focus) {
   const W = box.clientWidth;
   if (!W) return;
   const H = 260, padL = 48, padT = 12, padB = 32;
   const n = rows.length, plotH = H - padT - padB;
   const max = niceMax(Math.max(0, ...rows.flatMap((r) => ids.map((id) => r[id] ?? 0))));
   const y = (v) => padT + (1 - (v ?? 0) / max) * plotH;
-  // 末端标签只在线条分得开时才画；画不下就靠图例和悬停，右边不留空。
-  const endYs = ids.map((id) => y(rows[n - 1][id])).sort((a, b) => a - b);
+  // 末端标签只在线条分得开时才画；画不下就靠图例和悬停，右边不留空。单个 agent 详情页只标它自己。
+  const labelled = focus ? [focus] : ids;
+  const endYs = labelled.map((id) => y(rows[n - 1][id])).sort((a, b) => a - b);
   const separated = endYs.every((v, i) => i === 0 || v - endYs[i - 1] >= 16);
   const padR = separated ? 96 : 16;
   const plotW = Math.max(40, W - padL - padR);
   const x = (i) => padL + (n === 1 ? plotW / 2 : (i * plotW) / (n - 1));
+  const stroke = (id) => (focus && id !== focus ? "var(--axis)" : color(id));
   const svg = h("svg:svg", { viewBox: `0 0 ${W} ${H}`, height: H, tabindex: 0, role: "img", "aria-label": `累计已赢得走势，${rows[0].date} 到 ${rows[n - 1].date}。用左右方向键查看每天的数值。` });
   for (let k = 0; k <= 4; k++) {
     const v = (max / 4) * k, yy = Math.round(y(v)) + .5;
@@ -570,19 +847,15 @@ function drawLines(box, rows, ids) {
   }
   const step = Math.max(1, Math.ceil(n / Math.max(2, Math.floor(plotW / 72))));
   rows.forEach((r, i) => { if (i % step === 0 || i === n - 1) svg.append(h("svg:text", { x: x(i), y: H - 10, "text-anchor": "middle", fill: "var(--muted)", "font-size": 11, class: "num" }, dayLabel(r.date))); });
-  const ends = [];
-  for (const id of ids) {
-    if (n > 1) svg.append(h("svg:path", { d: rows.map((r, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(r[id]).toFixed(1)}`).join(""), fill: "none", stroke: color(id), "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
-    const last = rows[n - 1][id];
-    svg.append(h("svg:circle", { cx: x(n - 1), cy: y(last), r: 4, fill: color(id), stroke: "var(--surface)", "stroke-width": 2 }));
-    ends.push({ id, y: y(last), v: last });
+  const drawOrder = focus ? [...ids.filter((id) => id !== focus), focus] : ids;
+  for (const id of drawOrder) {
+    if (n > 1) svg.append(h("svg:path", { d: rows.map((r, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(r[id]).toFixed(1)}`).join(""), fill: "none", stroke: stroke(id), "stroke-width": focus && id !== focus ? 1.5 : 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    svg.append(h("svg:circle", { cx: x(n - 1), cy: y(rows[n - 1][id]), r: 4, fill: stroke(id), stroke: "var(--surface)", "stroke-width": 2 }));
   }
-  if (separated) for (const e of ends) svg.append(h("svg:text", { x: x(n - 1) + 10, y: e.y + 4, fill: "var(--ink-2)", "font-size": 12 }, `${e.id} ${usd(e.v)}`));
+  if (separated) for (const id of labelled) svg.append(h("svg:text", { x: x(n - 1) + 10, y: y(rows[n - 1][id]) + 4, fill: "var(--ink-2)", "font-size": 12 }, `${id} ${usd(rows[n - 1][id])}`));
 
   const cross = h("svg:line", { y1: padT, y2: padT + plotH, stroke: "var(--axis)", "stroke-width": 1, opacity: 0 });
-  svg.append(cross);
-  const hit = h("svg:rect", { x: padL - 12, y: 0, width: plotW + 24, height: H, fill: "transparent" });
-  svg.append(hit);
+  svg.append(cross, h("svg:rect", { x: padL - 12, y: 0, width: plotW + 24, height: H, fill: "transparent" }));
   const tip = h("div", { class: "tip", "aria-hidden": "true" });
   let idx = n - 1;
   const show = (i) => {
@@ -590,7 +863,7 @@ function drawLines(box, rows, ids) {
     const r = rows[idx], cx = x(idx);
     cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.setAttribute("opacity", 1);
     tip.replaceChildren(h("p", { class: "tip-date" }, r.date),
-      [...ids].sort((a, b) => (r[b] ?? 0) - (r[a] ?? 0)).map((id) => h("div", { class: "tip-row" }, h("i", { class: "key", style: { "--c": color(id) } }), h("strong", { class: "num" }, usd(r[id])), h("span", null, id))));
+      [...ids].sort((a, b) => (r[b] ?? 0) - (r[a] ?? 0)).map((id) => h("div", { class: "tip-row" }, h("i", { class: "key", style: { "--c": stroke(id) } }), h("strong", { class: "num" }, usd(r[id])), h("span", null, id))));
     tip.classList.add("on");
     const tw = tip.offsetWidth || 160;
     tip.style.left = `${Math.min(Math.max(0, cx + 12 + tw > W ? cx - tw - 12 : cx + 12), Math.max(0, W - tw))}px`;
@@ -610,20 +883,21 @@ function drawLines(box, rows, ids) {
   box.replaceChildren(svg, tip);
 }
 
-function tasks(list, agents, now) {
+/* ---------- 比赛表与动态 ---------- */
+function tasks(list, agents, now, withFilter) {
   let filter = "all";
   const body = h("div");
-  const chips = h("div", { class: "filters", role: "group", "aria-label": "按 agent 筛选" });
+  const chips = withFilter ? h("div", { class: "filters", role: "group", "aria-label": "按 agent 筛选" }) : null;
   const options = [["all", "全部"], ...agents.map((a) => [a.id, a.id])];
   const paint = () => {
-    chips.replaceChildren(...options.map(([id, label]) => {
+    if (chips) chips.replaceChildren(...options.map(([id, label]) => {
       const n = id === "all" ? list.length : list.filter((t) => t.agent === id).length;
       return h("button", { class: "chip", type: "button", "aria-pressed": String(filter === id), onclick: () => { filter = id; paint(); } },
         id === "all" ? null : h("i", { class: "dot", style: { "--c": color(id) } }), label, h("span", { class: "n num" }, n));
     }));
     const shown = list.filter((t) => filter === "all" || t.agent === filter)
       .sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status) || String(a.deadline).localeCompare(String(b.deadline)));
-    if (!shown.length) { body.replaceChildren(h("p", { class: "empty" }, list.length ? "这个 agent 还没有任务。" : "还没有任务。agent 选好比赛后会出现在这里。")); return; }
+    if (!shown.length) { body.replaceChildren(h("p", { class: "empty" }, list.length ? "这个 agent 还没有比赛。" : "还没有比赛。agent 选好比赛后会出现在这里。")); return; }
     const tbody = h("tbody");
     shown.forEach((t, i) => {
       const detailId = `task-detail-${i}`;
@@ -656,15 +930,14 @@ function tasks(list, agents, now) {
   };
   paint();
   return h("section", { class: "block", id: "tasks" },
-    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Bounties"), h("h2", null, "在打的比赛")),
-      h("p", { class: "sec-note" }, "点一行看详情；名次来自 make.fun 公开榜单")),
+    secHead("Bounties", withFilter ? "在打的比赛" : "它的比赛", "点一行看详情；名次来自 make.fun 公开榜单"),
     chips, h("div", { class: "panel" }, body));
 }
 
 function events(list) {
-  const items = [...list].filter((e) => e && e.text).sort((a, b) => String(b.time).localeCompare(String(a.time))).slice(0, 30);
+  const items = [...list].sort((a, b) => String(b.time).localeCompare(String(a.time))).slice(0, 30);
   return h("section", { class: "block", id: "events" },
-    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Activity"), h("h2", null, "最近动态"))),
+    secHead("Activity", "最近动态"),
     h("div", { class: "panel" }, items.length
       ? h("ol", { class: "events" }, items.map((e) => h("li", { class: "event" }, h("time", { datetime: e.time }, when(e.time)), agentTag(e.agent), h("span", null, e.text))))
       : h("p", { class: "empty" }, "还没有动态。")));

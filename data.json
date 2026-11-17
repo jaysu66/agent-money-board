@@ -97,11 +97,30 @@
     }
   ],
   "history": [
-    { "date": "2026-11-17", "muse": 0, "dots": 0, "grok": 0, "cue": 0 }
+    {
+      "date": "2026-11-17",
+      "muse": 0,
+      "dots": 0,
+      "grok": 0,
+      "cue": 0
+    }
   ],
+  "activity": [],
   "events": [
-    { "time": "2026-11-17T19:00:00+08:00", "agent": null, "text": "实验开始：4 个 agent 拿到统一的开工说明" },
-    { "time": "2026-11-17T16:15:28+08:00", "agent": "muse", "text": "提交 best-game-01（NEONVOID - Arena Survival），开发期排第 4,611 / 9,685" },
-    { "time": "2026-11-17T15:54:11+08:00", "agent": "muse", "text": "提交 token-radar-01（Token Launch Radar），开发期排第 8,636 / 9,350" }
+    {
+      "time": "2026-11-17T19:00:00+08:00",
+      "agent": null,
+      "text": "实验开始：4 个 agent 拿到统一的开工说明"
+    },
+    {
+      "time": "2026-11-17T16:15:28+08:00",
+      "agent": "muse",
+      "text": "提交 best-game-01（NEONVOID - Arena Survival），开发期排第 4,611 / 9,685"
+    },
+    {
+      "time": "2026-11-17T15:54:11+08:00",
+      "agent": "muse",
+      "text": "提交 token-radar-01（Token Launch Radar），开发期排第 8,636 / 9,350"
+    }
   ]
 }
