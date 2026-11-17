@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T19:10:00+08:00",
+  "updated_at": "2026-11-17T19:30:00+08:00",
   "updated_by": "claude-code",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -11,7 +11,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-17T16:15:28+08:00"
+      "last_active": "2026-11-17T19:04:00+08:00"
     },
     {
       "id": "dots",
@@ -49,25 +49,75 @@
       "agent": "muse",
       "slug": "token-radar-01",
       "title": "Token Launch Radar",
+      "platform": "make.fun",
       "status": "评审中",
-      "rank": 8636,
-      "field": 9350,
+      "prize_pool": 1325,
+      "first_prize": 1000,
       "paid_places": 10,
       "deadline": "2026-12-14T18:00:00+08:00",
-      "won_usd": 0,
-      "note": "11-17 15:54 提交，校验通过，开发期实时评分。名次取自 make.fun 公开榜单（11-17 19:10）。"
+      "result_date": "2026-12-29T06:10:00+08:00",
+      "earned": 0,
+      "rank": 8636,
+      "field": 9350,
+      "ev": 90,
+      "ev_note": "主观概率估算：第1名约5%×$1000 + 第2-5名约15%×$50 + 第6-10名约20%×$25 ≈ $90。开发期评级出来后修正。",
+      "submission_id": "01a1e87f-cc99-7463-9d69-efd8fc41b921",
+      "description": "给未发币的 DeFi 协议做『发币雷达』：读 DefiLlama 快照（758 个协议），用快照自身数据推导估值模型，给未发币协议排出『隐含市值』榜单（150 个，含官方观察名单全部 40 个），每个协议配一份可执行的空投农场计划，并做一个可排序、筛选、看详情的看板页面。评分方式：AI 评审两两对决胜率。",
+      "requirements": "Node 程序读 /input/snapshot.json，输出 board.json（100-4000 行、含全部 40 个观察名单、名次 1..N 连续、隐含估值随名次不递增、每行 3-12 条农场步骤）+ data.js + dashboard + dossier.json（≤1.5MiB）；程序跑两次结果逐字节一致；截图 3-4 张（每张 ≤512KiB）；提交必须附完整 AI 会话记录且代码归属覆盖 ≥30%；钱包签名提交；每人每天 ≤5 次、总 ≤10 次提交，最终作品取截止前最后一次。",
+      "logs": [
+        {
+          "date": "2026-11-17",
+          "kind": "行动",
+          "text": "注册 make.fun 账号 @plucky-owl-29（Solana 钱包），安装官方技能；全平台比完赔付结构，选定 token-radar 主攻（第1名 $1000），放弃 tiny-chess（第1名仅 $100 且须击败官方 NNUE 基准引擎）"
+        },
+        {
+          "date": "2026-11-17",
+          "kind": "行动",
+          "text": "建成估值模型：按品类取已发币同行市值/TVL 中位数倍数（5× 截尾），叠加 7 日动量、运营资历、链覆盖修正；包装/质押/桥接类按结构剔除。成品榜单 150 行、观察名单 40/40"
+        },
+        {
+          "date": "2026-11-17",
+          "kind": "行动",
+          "text": "建成看板前端（排序/筛选/详情抽屉/模型说明，零外链）与 3 张真实截图（本地无头 Chrome 渲染）"
+        },
+        {
+          "time": "2026-11-17T15:54:00+08:00",
+          "kind": "提交",
+          "text": "正式提交 Token Launch Radar：commit a26855b，官方预检 14 过 0 败，会话记录代码归属覆盖 70.7%，提交 ID 01a1e87f-cc99-7463-9d69-efd8fc41b921，Round 1 接收中"
+        },
+        {
+          "time": "2026-11-17T19:04:00+08:00",
+          "kind": "结果",
+          "text": "轮询 kit status：token-radar 提交 01a1e87f... 已出 Round 1 开发期评分（scored），结果未定（12-29 出）；全部检查通过，暂无可迭代的反馈，本轮不重交（已用 1/10 次）。"
+        }
+      ]
     },
     {
       "agent": "muse",
       "slug": "best-game-01",
       "title": "NEONVOID - Arena Survival",
+      "platform": "make.fun",
       "status": "评审中",
-      "rank": 4611,
-      "field": 9685,
+      "prize_pool": 1000,
+      "first_prize": 400,
       "paid_places": 10,
       "deadline": "2026-11-19T02:00:00+08:00",
-      "won_usd": 0,
-      "note": "11-17 16:15 提交，校验通过，开发期实时评分。名次取自 make.fun 公开榜单（11-17 19:10）。"
+      "result_date": null,
+      "earned": 0,
+      "rank": 4611,
+      "field": 9685,
+      "ev": 60,
+      "ev_note": null,
+      "submission_id": null,
+      "description": null,
+      "requirements": null,
+      "logs": [
+        {
+          "time": "2026-11-17T16:15:28+08:00",
+          "kind": "提交",
+          "text": "提交 NEONVOID - Arena Survival，开发期排第 4,611 / 9,685（make.fun 公开榜单 11-17 19:10）。"
+        }
+      ]
     }
   ],
   "history": [
@@ -79,6 +129,27 @@
       "cue": 0
     }
   ],
-  "daily": [],
-  "weekly": []
+  "daily": [
+    {
+      "date": "2026-11-17",
+      "agent": "muse",
+      "done": "make.fun 注册并选定赛道；token-radar 作品从模型、看板到截图全部建成并正式提交（第 1 次提交）",
+      "results": "提交被平台接收，Round 1 处理中；开发期评级待出。已赚 $0，期望收益估算 $90",
+      "lessons": "① dossier 必须按官方 starter 的原始字节方式写，JSON.stringify 会把字节数组写成 9MB 废文件——动手前先对官方 starter。② 截图核验不能信预览图，以 DOM 实测尺寸为准。③ 付费门票类赏金不碰，只做免费赛道，除非用户批准",
+      "tomorrow": "查 token-radar 的 Round 1 结果与开发期评级；侦察 make.fun 全部新赏金并按期望收益排序；选定第 2 个任务开工"
+    }
+  ],
+  "weekly": [
+    {
+      "week_start": "2026-11-17",
+      "week_end": "2026-11-23",
+      "agent": "muse",
+      "goal_usd": null,
+      "won_usd": 0,
+      "goals": "① token-radar 拿到开发期评级并按反馈至少迭代 1 次；② 侦察 ≥5 个新免费赏金、逐个算期望收益；③ 启动第 2 个高期望收益任务并做出可提交版本",
+      "targets": "本周目标：管线期望收益从 $90 提升到 ≥$240；实际收益目标 $0（radar 12-29 才出结果，本周以期望收益和管线建设计量）",
+      "review": null,
+      "next": null
+    }
+  ]
 }

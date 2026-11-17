@@ -10,180 +10,245 @@
   (function () { try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {} })();
 </script>
 <style>
+  /* 文字分 5 级：
+     1 金额、排行里的名字  —— 最大、最粗、--ink
+     2 卡片标题、分组标题  —— 18~20px 粗体、--ink
+     3 要读的内容          —— 15~17px、--ink（比赛名、名次加粗）
+     4 辅助说明            —— 14~15px、--ink-2
+     5 小标签、时间        —— 13~14px 加粗、--ink-2；--muted 只给图表刻度和"暂无"提示 */
   .viz-root {
     color-scheme: light;
-    --page: #f5f6f8; --surface: #ffffff; --surface-2: #f3f4f6;
-    --ink: #111827; --ink-2: #4b5563; --muted: #6b7280;
-    --grid: #e5e7eb; --axis: #d1d5db; --border: #e5e7eb;
+    --page: #f4f5f7; --surface: #ffffff; --surface-2: #f3f4f6; --hero-bg: #ffffff;
+    --ink: #111827; --ink-2: #374151; --muted: #6b7280;
+    --grid: #e5e7eb; --axis: #d1d5db; --border: #e3e5e9;
     --s-muse: #2a78d6; --s-dots: #eb6834; --s-grok: #1baf7a; --s-cue: #eda100;
-    --good: #0ca30c; --good-ink: #067a06; --warn: #fab219; --bad: #d03b3b;
+    --good: #0ca30c; --good-ink: #067a06; --warn: #fab219; --warn-ink: #b45309; --bad: #d03b3b;
     --shadow: 0 1px 2px rgba(16, 24, 40, .05);
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
       color-scheme: dark;
-      --page: #0b0c0e; --surface: #16181c; --surface-2: #1f2228;
-      --ink: #f3f4f6; --ink-2: #c9cdd4; --muted: #9aa1ab;
+      --page: #0b0c0e; --surface: #16181c; --surface-2: #1f2228; --hero-bg: #000000;
+      --ink: #f3f4f6; --ink-2: #d1d5db; --muted: #9ca3af;
       --grid: #2a2e35; --axis: #3a3f47; --border: #2a2e35;
       --s-muse: #3987e5; --s-dots: #d95926; --s-grok: #199e70; --s-cue: #c98500;
-      --good-ink: #2fbf2f; --shadow: none;
+      --good-ink: #34c234; --warn-ink: #f5b544; --shadow: none;
     }
   }
   :root[data-theme="dark"] .viz-root {
     color-scheme: dark;
-    --page: #0b0c0e; --surface: #16181c; --surface-2: #1f2228;
-    --ink: #f3f4f6; --ink-2: #c9cdd4; --muted: #9aa1ab;
+    --page: #0b0c0e; --surface: #16181c; --surface-2: #1f2228; --hero-bg: #000000;
+    --ink: #f3f4f6; --ink-2: #d1d5db; --muted: #9ca3af;
     --grid: #2a2e35; --axis: #3a3f47; --border: #2a2e35;
     --s-muse: #3987e5; --s-dots: #d95926; --s-grok: #199e70; --s-cue: #c98500;
-    --good-ink: #2fbf2f; --shadow: none;
+    --good-ink: #34c234; --warn-ink: #f5b544; --shadow: none;
   }
 
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { margin: 0; }
-  body { background: #f5f6f8; }
+  body { background: #f4f5f7; }
   .viz-root {
     --sans: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
     --ease: cubic-bezier(.2, 0, 0, 1);
     min-height: 100vh; background: var(--page); color: var(--ink);
     font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
   a { color: inherit; }
   button { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
   .num { font-variant-numeric: tabular-nums; }
+  .sub { color: var(--ink-2); font-size: 14px; }
+  .zero { color: var(--muted); font-weight: 600; }
 
   /* 顶部 */
   .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-top: 24px; padding-bottom: 8px; }
   .top h1 { margin: 0; font-size: 26px; font-weight: 700; line-height: 1.3; }
   .lede { margin: 4px 0 0; font-size: 15px; color: var(--ink-2); }
-  .meta { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-2); text-align: right; }
-  .icon-btn {
-    display: inline-grid; place-items: center; width: 40px; height: 40px; flex: none; cursor: pointer;
-    border: 1px solid var(--border); border-radius: 8px; background: var(--surface); transition: background-color 120ms var(--ease);
-  }
+  .meta { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: var(--ink-2); text-align: right; }
+  .icon-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; flex: none; cursor: pointer; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); transition: background-color 120ms var(--ease); }
   .icon-btn:hover { background: var(--surface-2); }
   .icon-btn svg { width: 18px; height: 18px; }
   .nav { position: sticky; top: 0; z-index: 5; background: var(--page); border-bottom: 1px solid var(--border); }
   .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-  .tab {
-    position: relative; display: inline-flex; align-items: center; height: 48px; padding: 0 16px;
-    font-size: 16px; font-weight: 500; color: var(--ink-2); text-decoration: none; white-space: nowrap;
-    transition: color 120ms var(--ease);
-  }
+  .tabs > .tab:first-child { margin-left: -16px; }
+  .tab { position: relative; display: inline-flex; align-items: center; height: 50px; padding: 0 16px; font-size: 16px; font-weight: 500; color: var(--ink-2); text-decoration: none; white-space: nowrap; transition: color 120ms var(--ease); }
   .tab:hover { color: var(--ink); }
   .tab[aria-current="page"] { color: var(--ink); font-weight: 700; }
-  .tab[aria-current="page"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--ink); }
+  .tab[aria-current="page"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 3px; border-radius: 2px; background: var(--ink); }
 
   main { padding-top: 24px; padding-bottom: 48px; }
-  .tabs > .tab:first-child { margin-left: -16px; }
-  .stack { display: grid; gap: 24px; }
+  .stack { display: grid; gap: 20px; }
+  .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); }
   .card-h { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px; flex-wrap: wrap; padding: 20px 24px 0; }
-  .card-h h2 { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.35; }
+  .card-h h2 { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.35; color: var(--ink); }
   .card-h .note { margin: 0; font-size: 15px; color: var(--ink-2); }
+  .card-h .note b { color: var(--ink); font-weight: 700; }
   .card-b { padding: 16px 24px 24px; }
-  .group-title { margin: 8px 0 -8px; font-size: 18px; font-weight: 700; }
-  .group-title .note { margin-left: 8px; font-size: 15px; font-weight: 400; color: var(--ink-2); }
-  .empty { margin: 0; padding: 24px; color: var(--ink-2); font-size: 15px; text-align: center; }
+  .group-title { margin: 8px 0 -6px; font-size: 18px; font-weight: 700; color: var(--ink); }
+  .group-title .note { margin-left: 10px; font-size: 15px; font-weight: 500; color: var(--ink-2); }
+  .empty { margin: 0; padding: 20px 8px; color: var(--muted); font-size: 15px; text-align: center; }
   .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--c); }
-  .agent-link { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
+  .agent-link { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); text-decoration: none; }
   .agent-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   /* 状态标签：颜色只是辅助，永远配图标和文字 */
-  .status { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 999px; background: var(--surface-2); font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+  .status { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 999px; background: var(--surface-2); font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .status.none { color: var(--ink-2); font-weight: 500; }
   .status svg { width: 12px; height: 12px; flex: none; }
+
+  /* 主视觉：鲨鱼 + 合计 + 3 个关键数字 */
+  .hero-row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 20px; margin-bottom: 20px; }
+  .hero { position: relative; height: 236px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--hero-bg); box-shadow: var(--shadow); }
+  .sharks { position: absolute; inset: 0; }
+  .hero-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, var(--hero-bg) 0%, color-mix(in srgb, var(--hero-bg) 88%, transparent) 34%, transparent 62%); }
+  .hero-copy { position: absolute; left: 28px; bottom: 24px; right: 28px; pointer-events: none; }
+  .hero-label { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+  .hero-num { margin: 6px 0 8px; font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -.03em; color: var(--ink); }
+  .hero-sub { margin: 0; font-size: 16px; font-weight: 600; color: var(--ink); }
+  .hero-sub span { font-weight: 400; color: var(--ink-2); }
+  .hero-key { position: absolute; right: 16px; top: 12px; margin: 0; font-size: 13px; font-weight: 500; color: var(--ink-2); pointer-events: none; }
+  .kpis { display: grid; grid-template-rows: repeat(3, 1fr); }
+  .kpi { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 24px; border-top: 1px solid var(--grid); }
+  .kpi:first-child { border-top: 0; }
+  .kpi-label { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+  .kpi-label small { display: block; font-size: 13px; font-weight: 400; color: var(--ink-2); }
+  .kpi-value { margin: 0; font-size: 28px; font-weight: 700; line-height: 1.1; color: var(--ink); white-space: nowrap; }
 
   /* 分段开关 */
   .seg { display: inline-flex; padding: 3px; border-radius: 8px; background: var(--surface-2); }
   .seg button { height: 34px; padding: 0 16px; border: 0; border-radius: 6px; background: transparent; font-size: 15px; font-weight: 500; color: var(--ink-2); cursor: pointer; transition: background-color 120ms var(--ease); }
-  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 700; box-shadow: 0 1px 2px rgba(16, 24, 40, .1); }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 700; box-shadow: 0 1px 2px rgba(16, 24, 40, .12); }
 
-  /* 排行 */
+  /* 排行（全站最重要的一块） */
   .rank-list { list-style: none; margin: 0; padding: 0; }
-  .rank-row {
-    display: grid; grid-template-columns: 40px 170px minmax(0, 1fr) 170px; grid-template-areas: "rk who track st";
-    align-items: center; gap: 16px; margin: 0 -12px; padding: 16px 12px; border-radius: 10px;
-    color: inherit; text-decoration: none; transition: background-color 120ms var(--ease);
-  }
+  .rank-row { display: grid; grid-template-columns: 44px 180px minmax(0, 1fr) 180px; grid-template-areas: "rk who track st"; align-items: center; gap: 16px; margin: 0 -12px; padding: 16px 12px; border-radius: 10px; color: inherit; text-decoration: none; transition: background-color 120ms var(--ease); }
   .rank-list li + li .rank-row { border-top: 1px solid var(--grid); border-radius: 0; }
   .rank-row:hover { background: var(--surface-2); }
-  .rk { grid-area: rk; font-size: 24px; font-weight: 700; text-align: center; color: var(--muted); line-height: 1.1; }
-  .rk small { display: block; font-size: 12px; font-weight: 500; }
+  .rk { grid-area: rk; font-size: 26px; font-weight: 700; line-height: 1.1; text-align: center; color: var(--ink-2); }
+  .rk small { display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); }
   .lead .rk { color: var(--ink); }
   .who { grid-area: who; min-width: 0; }
-  .who-name { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; }
+  .who-name { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 21px; font-weight: 700; line-height: 1.3; color: var(--ink); }
   .who-sub { margin: 2px 0 0 20px; font-size: 14px; color: var(--ink-2); }
   .track { grid-area: track; display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .bar { display: block; flex: none; height: 24px; width: calc(var(--w) * .75); border-radius: 0 6px 6px 0; background: var(--c); }
-  .amt { font-size: 28px; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; }
-  .lead .amt { font-size: 40px; }
-  .amt-note { font-size: 15px; color: var(--ink-2); white-space: nowrap; }
+  .bar { display: block; flex: none; height: 24px; width: calc(var(--w) * .74); border-radius: 0 6px 6px 0; background: var(--c); }
+  .amt { font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; color: var(--ink); }
+  .lead .amt { font-size: 42px; }
+  .amt-note { font-size: 15px; font-weight: 500; color: var(--ink-2); white-space: nowrap; }
   .st { grid-area: st; justify-self: end; }
 
+  /* 小行（本周目标、今天在干什么、最有希望的比赛） */
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows > li { padding: 14px 0; border-top: 1px solid var(--grid); }
+  .rows > li:first-child { border-top: 0; padding-top: 2px; }
+  .row-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .row-strong { font-size: 18px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .row-strong span { font-size: 15px; font-weight: 500; color: var(--ink-2); }
+  .row-text { margin: 6px 0 0; font-size: 16px; color: var(--ink); }
+  .row-text .lbl { margin-right: 8px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .row-text.missing { color: var(--muted); }
+  .meter { height: 10px; margin-top: 10px; border-radius: 5px; background: color-mix(in srgb, var(--c) 18%, var(--surface-2)); overflow: hidden; }
+  .meter > i { display: block; height: 100%; width: var(--w); border-radius: 5px; background: var(--c); }
+  .hope-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .hope-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 6px; font-size: 15px; color: var(--ink-2); }
+  .hope-meta b { color: var(--ink); }
+  .in { color: var(--good-ink); font-weight: 700; }
+  .urgent { color: var(--warn-ink); font-weight: 700; }
+
   /* 走势图 */
-  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; list-style: none; font-size: 15px; color: var(--ink-2); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 12px; padding: 0; list-style: none; font-size: 15px; font-weight: 500; color: var(--ink); }
   .legend li { display: inline-flex; align-items: center; gap: 8px; }
   .key { display: inline-block; width: 16px; height: 3px; border-radius: 2px; background: var(--c); }
   .chart { position: relative; }
   .chart svg { display: block; width: 100%; overflow: visible; }
-  .tip {
-    position: absolute; top: 0; z-index: 2; min-width: 150px; padding: 8px 12px; pointer-events: none; opacity: 0;
-    border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
-    font-size: 14px; transition: opacity 100ms var(--ease);
-  }
+  .tip { position: absolute; top: 0; z-index: 2; min-width: 150px; padding: 8px 12px; pointer-events: none; opacity: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); box-shadow: 0 4px 12px rgba(0, 0, 0, .1); font-size: 14px; transition: opacity 100ms var(--ease); }
   .tip.on { opacity: 1; }
-  .tip-date { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .tip-date { margin: 0 0 4px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
   .tip-row { display: flex; align-items: center; gap: 8px; line-height: 1.8; }
-  .tip-row strong { min-width: 52px; font-weight: 700; }
+  .tip-row strong { min-width: 52px; font-weight: 700; color: var(--ink); }
   .tip-row span { color: var(--ink-2); }
 
   /* 任务 */
   .tasks { list-style: none; margin: 0; padding: 0; }
-  .task { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) 140px 100px; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--grid); }
+  .task { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) 130px 100px; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--grid); }
   .task:first-child { border-top: 0; padding-top: 4px; }
-  .t-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.4; }
+  .t-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.4; color: var(--ink); }
   .t-title a { text-decoration: none; }
   .t-title a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .t-note { margin: 4px 0 0; font-size: 14px; color: var(--ink-2); }
-  .tag { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 6px; background: var(--surface-2); font-size: 13px; font-weight: 500; color: var(--ink-2); vertical-align: 2px; }
-  .t-rank { font-size: 16px; }
-  .t-rank .sub { display: block; font-size: 14px; color: var(--ink-2); }
-  .t-rank .in { color: var(--good-ink); font-weight: 700; }
-  .t-dl { font-size: 15px; color: var(--ink-2); }
-  .t-won { font-size: 20px; font-weight: 700; text-align: right; }
+  .tag { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 6px; background: var(--surface-2); font-size: 13px; font-weight: 600; color: var(--ink-2); vertical-align: 2px; }
+  .t-rank { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .t-rank .sub { display: block; font-weight: 400; }
+  .t-dl { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .t-won { font-size: 20px; font-weight: 700; text-align: right; color: var(--ink); }
+
+  /* 任务行可整行点击 */
+  a.task { color: inherit; text-decoration: none; margin: 0 -12px; padding-left: 12px; padding-right: 12px; border-radius: 10px; transition: background-color 120ms var(--ease); }
+  a.task:hover { background: var(--surface-2); }
+  .tasks li + li a.task { border-top: 1px solid var(--grid); border-radius: 0; }
+  .tasks li:first-child a.task { border-top: 0; padding-top: 4px; }
+
+  /* 比赛详情（照 Muse 面板的结构） */
+  .td-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 24px 24px 0; }
+  .td-title { margin: 0; font-size: 26px; font-weight: 700; line-height: 1.3; color: var(--ink); }
+  .td-slug { margin: 4px 0 0; font-size: 15px; color: var(--ink-2); }
+  .badge { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px; border-radius: 999px; background: var(--surface-2); font-size: 15px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 24px; margin: 20px 24px 0; padding: 20px 0 0; border-top: 1px solid var(--grid); }
+  .field dt { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .field dd { margin: 4px 0 0; font-size: 18px; font-weight: 700; color: var(--ink); }
+  .field dd .sub { display: block; font-size: 14px; font-weight: 400; }
+  .estimate { margin: 20px 24px 24px; padding: 16px 20px; border-radius: 10px; background: var(--surface-2); }
+  .estimate-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .estimate-label { font-size: 14px; font-weight: 700; color: var(--ink-2); }
+  .estimate-amt { font-size: 28px; font-weight: 700; color: var(--ink); }
+  .estimate-tag { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .estimate p { margin: 8px 0 0; font-size: 15px; line-height: 1.7; color: var(--ink); }
+  .estimate .reality { color: var(--ink-2); }
+  .prose { margin: 0; font-size: 16px; line-height: 1.8; color: var(--ink); white-space: pre-line; }
+  .prose.missing { color: var(--muted); }
+  .src-link { display: inline-block; margin-top: 12px; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { position: relative; padding: 0 0 18px 24px; }
+  .timeline li::before { content: ""; position: absolute; left: 4px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--c, var(--axis)); }
+  .timeline li::after { content: ""; position: absolute; left: 8px; top: 22px; bottom: 2px; width: 1px; background: var(--grid); }
+  .timeline li:last-child::after { display: none; }
+  .tl-meta { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+  .kind { padding: 1px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: var(--surface-2); color: var(--ink); }
+  .tl-text { margin: 4px 0 0; font-size: 16px; line-height: 1.7; color: var(--ink); }
 
   /* 复盘 / 周计划卡片 */
-  .grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
   .note-card { padding: 20px; }
   .note-card .agent-link { font-size: 18px; }
   .kv { margin: 12px 0 0; font-size: 15px; }
-  .kv dt { margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--muted); }
-  .kv dd { margin: 2px 0 0; line-height: 1.6; }
+  .kv dt { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .kv > div + div { margin-top: 14px; }
+  .kv dd { margin: 2px 0 0; line-height: 1.65; color: var(--ink); }
   .missing { margin: 12px 0 0; color: var(--muted); font-size: 15px; }
-  .wk-amt { margin: 12px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
-  .wk-amt span { font-size: 15px; font-weight: 400; color: var(--ink-2); letter-spacing: 0; }
-  .meter { height: 8px; margin-top: 8px; border-radius: 4px; background: color-mix(in srgb, var(--c) 18%, var(--surface-2)); overflow: hidden; }
-  .meter > i { display: block; height: 100%; width: var(--w); border-radius: 4px; background: var(--c); }
+  .wk-amt { margin: 12px 0 0; font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+  .wk-amt span { font-size: 15px; font-weight: 500; color: var(--ink-2); letter-spacing: 0; }
 
   /* agent 详情 */
-  .back { display: inline-flex; align-items: center; height: 36px; margin-bottom: 8px; font-size: 15px; color: var(--ink-2); text-decoration: none; }
+  .back { display: inline-flex; align-items: center; height: 36px; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--ink-2); text-decoration: none; }
   .back:hover { color: var(--ink); }
   .dh { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap; padding: 24px; }
-  .dh-name { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 32px; font-weight: 700; line-height: 1.2; }
+  .dh-name { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 34px; font-weight: 700; line-height: 1.2; color: var(--ink); }
   .dh-name .dot { width: 14px; height: 14px; }
-  .dh-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 8px 0 0; font-size: 15px; color: var(--ink-2); }
+  .dh-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 10px 0 0; font-size: 15px; color: var(--ink-2); }
   .dh-money { text-align: right; }
-  .dh-amt { margin: 0; font-size: 44px; font-weight: 700; line-height: 1; letter-spacing: -.03em; }
-  .dh-amt-note { margin: 8px 0 0; font-size: 15px; color: var(--ink-2); }
+  .dh-amt { margin: 0; font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -.03em; color: var(--ink); }
+  .dh-rank { margin: 10px 0 0; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .dh-amt-note { margin: 4px 0 0; font-size: 15px; color: var(--ink-2); }
   .entries { list-style: none; margin: 0; padding: 0; }
   .entry { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-top: 1px solid var(--grid); }
   .entry:first-child { border-top: 0; padding-top: 4px; }
-  .entry-when { font-size: 16px; font-weight: 700; }
-  .entry .kv { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
-  .entry .kv dt { margin-top: 0; }
-  .entry .kv div { margin-bottom: 8px; }
+  .entry-when { font-size: 17px; font-weight: 700; color: var(--ink); }
+  .entry-when .sub { display: block; font-weight: 500; }
+  .entry .kv { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
+  .entry .kv > div + div { margin-top: 0; }
 
   /* 加载 / 出错 */
   .skel { display: block; height: 16px; border-radius: 4px; background: var(--surface-2); }
@@ -194,8 +259,8 @@
   .solid-btn { height: 40px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--ink); color: var(--surface); font-size: 15px; font-weight: 600; cursor: pointer; }
   .solid-btn:hover { opacity: .88; }
 
-  footer { padding-top: 24px; padding-bottom: 40px; border-top: 1px solid var(--border); font-size: 14px; color: var(--muted); }
-  footer p { margin: 0; }
+  footer { padding-top: 24px; padding-bottom: 40px; border-top: 1px solid var(--border); font-size: 14px; color: var(--ink-2); }
+  footer p { margin: 0 0 4px; }
 
   .reveal { animation: rise 220ms var(--ease) both; animation-delay: calc(var(--i, 0) * 50ms); }
   @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -203,29 +268,46 @@
 
   @media (max-width: 1100px) {
     .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hero-row { grid-template-columns: minmax(0, 1fr); }
+    .kpis { grid-template-rows: none; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .kpi { display: block; padding: 16px 20px; border-top: 0; border-left: 1px solid var(--grid); }
+    .kpi:first-child { border-left: 0; }
+    .kpi-value { margin-top: 4px; }
   }
   @media (max-width: 860px) {
+    .cols { grid-template-columns: minmax(0, 1fr); }
     .rank-row { grid-template-columns: 36px minmax(0, 1fr) auto; grid-template-areas: "rk who st" "rk track track"; gap: 8px 12px; }
     .task { grid-template-columns: minmax(0, 1fr) auto; }
     .t-rank, .t-dl { grid-column: 1; }
     .t-won { grid-column: 2; grid-row: 1; }
     .entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
     .entry .kv { grid-template-columns: minmax(0, 1fr); }
+    .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
     .wrap { padding-left: 16px; padding-right: 16px; }
     .top { flex-direction: column; align-items: flex-start; }
     .meta { text-align: left; }
     .tab { padding: 0 12px; }
+    .tabs > .tab:first-child { margin-left: -12px; }
     .card-h { padding: 16px 16px 0; }
     .card-b { padding: 12px 16px 16px; }
     .grid4 { grid-template-columns: minmax(0, 1fr); }
+    .hero { height: 220px; }
+    .hero-fade { background: linear-gradient(0deg, var(--hero-bg) 0%, color-mix(in srgb, var(--hero-bg) 90%, transparent) 42%, transparent 80%); }
+    .hero-copy { left: 16px; right: 16px; bottom: 16px; }
+    .hero-key { left: 16px; right: auto; }
+    .hero-num { font-size: 44px; }
+    .kpi { padding: 12px; }
+    .kpi-label { font-size: 13px; }
+    .kpi-label small { display: none; }
+    .kpi-value { font-size: 22px; }
     .amt { font-size: 24px; }
     .lead .amt { font-size: 32px; }
     .bar { height: 20px; }
     .dh { padding: 16px; }
     .dh-money { text-align: left; }
-    .dh-amt { font-size: 36px; }
+    .dh-amt { font-size: 38px; }
   }
 </style>
 </head>
@@ -244,17 +326,37 @@
   <nav class="nav" aria-label="页面">
     <div class="wrap tabs" id="tabs"></div>
   </nav>
-  <main class="wrap" id="content" aria-live="polite">
-    <div class="card card-b" aria-busy="true"><span class="skel" style="width:40%"></span><span class="skel" style="width:72%"></span><span class="skel" style="width:56%"></span></div>
+  <main class="wrap">
+    <section class="hero-row" id="hero-row" hidden aria-label="合计">
+      <div class="hero">
+        <div class="sharks" id="sharks" aria-hidden="true"></div>
+        <div class="hero-fade"></div>
+        <div class="hero-copy">
+          <p class="hero-label">4 个 agent 合计已赢得</p>
+          <p class="hero-num" id="hero-num">—</p>
+          <p class="hero-sub" id="hero-sub"></p>
+        </div>
+        <p class="hero-key">4 条鲨鱼 = 4 个 agent · 排名越高鲨鱼越大</p>
+      </div>
+      <div class="card kpis" id="kpis"></div>
+    </section>
+    <div id="content" aria-live="polite">
+      <div class="card card-b" aria-busy="true"><span class="skel" style="width:40%"></span><span class="skel" style="width:72%"></span><span class="skel" style="width:56%"></span></div>
+    </div>
   </main>
   <footer class="wrap">
     <p>已赢得只认 make.fun 公布的结果，估算不算；名次取自 make.fun 公开榜单。数据由 muse 每天 0 点、12 点汇总各 agent 的记录后更新。</p>
+    <p>鲨鱼动画：<a href="https://github.com/stackedlol/ascii-sharks">ascii-sharks</a>（drewdi，MIT），经 <a href="https://github.com/leishifu666/LeiBox">LeiBox</a> 移植。</p>
   </footer>
 </div>
 
 <script type="module">
+import { mount as mountSharks } from "./vendor/ascii-sharks.js";
+
 const ORDER = ["muse", "dots", "grok", "cue"];
+const SHARK_KIND = { muse: "hammerhead", dots: "classic", grok: "thresher", cue: "zebra" };
 const STATUS_ORDER = ["建造中", "选赛", "评审中", "已出结果", "已领奖", "已放弃"];
+const DONE = ["已出结果", "已领奖", "已放弃"];
 const TABS = [["#/", "总览"], ["#/tasks", "任务"], ["#/daily", "每日复盘"], ["#/weekly", "周计划"]];
 const root = document.documentElement;
 const $ = (id) => document.getElementById(id);
@@ -290,13 +392,17 @@ const md = (date) => (date ? date.slice(5) : "");
 const WEEKDAY = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 const weekday = (date) => WEEKDAY[new Date(date + "T12:00:00+08:00").getUTCDay()];
 function addDays(date, n) { const d = new Date(date + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
-function countdown(iso, now) {
-  const ms = new Date(iso) - now;
-  if (!isFinite(ms)) return "—";
-  if (ms <= 0) return "已截止";
-  const hrs = Math.floor(ms / 36e5), d = Math.floor(hrs / 24);
-  return d >= 1 ? `还剩 ${d} 天` : `还剩 ${hrs} 小时`;
+// 截止时间：不到 24 小时的标橙色加粗
+function deadline(t) {
+  if (DONE.includes(t.status)) return h("span", null, "已结束");
+  const ms = new Date(t.deadline) - D.now;
+  if (!isFinite(ms)) return h("span", null, "—");
+  if (ms <= 0) return h("span", null, "已截止");
+  const hrs = Math.floor(ms / 36e5);
+  return hrs < 24 ? h("span", { class: "urgent" }, `还剩 ${hrs} 小时`) : h("span", null, `还剩 ${Math.floor(hrs / 24)} 天`);
 }
+// 金额为 0 时用浅色，不跟赢了钱的抢眼
+const money = (v) => h("span", { class: isNum(v) && v > 0 ? null : "zero" }, usd(v));
 function activity(agent, ref) {
   if (!agent.last_active) return { kind: "none", label: "还没开工" };
   const hrs = (ref - new Date(agent.last_active)) / 36e5;
@@ -312,11 +418,14 @@ function statusIcon(kind) {
   if (kind === "bad") return s(h("svg:rect", { x: 1.5, y: 1.5, width: 9, height: 9, rx: 1.5, fill: "var(--bad)" }));
   return s(h("svg:circle", { cx: 6, cy: 6, r: 4.25, fill: "none", stroke: "var(--muted)", "stroke-width": 1.5 }));
 }
-const statusChip = (s) => h("span", { class: "status" }, statusIcon(s.kind), s.label);
+const statusChip = (s) => h("span", { class: "status" + (s.kind === "none" ? " none" : "") }, statusIcon(s.kind), s.label);
 const agentLink = (id) => h("a", { class: "agent-link", href: `#/agent/${encodeURIComponent(id)}` }, h("i", { class: "dot", style: { "--c": color(id) } }), id);
 
-/* ---------- 主题 ---------- */
+/* ---------- 主题与鲨鱼 ---------- */
 const themeNow = () => root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+let sharks = null;
+const sharkOpts = { showComposer: false, seed: 17 };
+const syncSharks = (patch) => { Object.assign(sharkOpts, patch); if (sharks) sharks.update(sharkOpts); };
 function paintThemeButton() {
   const dark = themeNow() === "dark", btn = $("theme-btn");
   btn.replaceChildren(dark
@@ -331,8 +440,23 @@ $("theme-btn").addEventListener("click", () => {
   root.dataset.theme = next;
   try { localStorage.setItem("theme", next); } catch (e) {}
   paintThemeButton();
+  syncSharks({ theme: next });
 });
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (!root.dataset.theme) { paintThemeButton(); syncSharks({ theme: themeNow() }); } });
 paintThemeButton();
+function paintSharks() {
+  const ranks = D.ranking.total;
+  const allTied = ranks.every((r) => r.rank === 1);
+  const SIZE = { 1: 1.25, 2: 1.05, 3: .9, 4: .78 };
+  const specs = D.agents.filter((a) => SHARK_KIND[a.id]).map((a) => ({ kind: SHARK_KIND[a.id], size: allTied ? 1 : (SIZE[a._rank] ?? .7) }));
+  if (sharks) { syncSharks({ sharks: specs }); return; }
+  Object.assign(sharkOpts, { theme: themeNow(), sharks: specs, height: $("sharks").clientHeight || 236 });
+  try { sharks = mountSharks($("sharks"), sharkOpts); } catch (e) { console.warn("鲨鱼动画没能启动", e); return; }
+  // 组件场景自带 480px 最小高度，比主视觉高，鲨鱼会游到看不见的地方；压回主视觉的高度。
+  const sharkRoot = $("sharks").firstElementChild?.shadowRoot;
+  if (sharkRoot) sharkRoot.append(h("style", null, ".ao-scene{min-height:0!important}"));
+  new ResizeObserver(() => { const hh = $("sharks").clientHeight; if (hh && hh !== sharkOpts.height) syncSharks({ height: hh }); }).observe($("sharks"));
+}
 
 /* ---------- 读数据 ---------- */
 const src = new URLSearchParams(location.search).get("data") || "data.json";
@@ -348,6 +472,7 @@ async function load() {
   } catch (err) {
     console.error(err);
     $("updated").textContent = "数据读取失败";
+    $("hero-row").hidden = true;
     $("content").replaceChildren(h("div", { class: "card error-box", role: "alert" },
       h("h2", null, "数据没有加载出来"),
       h("p", null, `读取 ${src} 失败（${err.message}）。可能是网络问题，或者 data.json 格式写错了。`),
@@ -368,13 +493,16 @@ function prepare(data) {
   };
   const total = rankBy("won_usd");
   total.forEach((r) => { r.a._rank = r.rank; });
+  const start = data.experiment_start ? new Date(data.experiment_start + "T00:00:00+08:00") : null;
   return {
     raw: data, ref, now: new Date(), agents,
+    day: start ? Math.max(1, Math.floor((ref - start) / 864e5) + 1) : null,
     ranking: { total, week: rankBy("week_won_usd") },
-    tasks: (data.tasks || []).filter(Boolean),
+    // 动态按时间倒序；同一天只写了日期的几条，按记录先后倒过来（后写的在上面）
+    tasks: (data.tasks || []).filter((t) => t && t.slug && t.agent).map((t) => ({ ...t, logs: (t.logs || []).filter((l) => l && l.text).map((l, i) => ({ ...l, _i: i })) })),
     history: (data.history || []).filter((r) => r && r.date).sort((a, b) => a.date.localeCompare(b.date)),
     daily: (data.daily || []).filter((r) => r && r.date && r.agent),
-    weekly: (data.weekly || []).filter((r) => r && r.week && r.agent),
+    weekly: (data.weekly || []).filter((r) => r && r.week_start && r.agent),
   };
 }
 
@@ -384,14 +512,21 @@ function route() {
   const hash = location.hash || "#/";
   const m = hash.match(/^#\/agent\/([\w-]+)/);
   const agent = m ? D.agents.find((a) => a.id === m[1]) : null;
-  const current = agent ? null : (TABS.find(([href]) => href === hash) || TABS[0])[0];
+  const mt = hash.match(/^#\/task\/([\w-]+)\/([\w.-]+)/);
+  const task = mt ? D.tasks.find((t) => t.agent === mt[1] && t.slug === mt[2]) : null;
+  const current = agent || task ? (task ? "#/tasks" : null) : (TABS.find(([href]) => href === hash) || TABS[0])[0];
   $("tabs").replaceChildren(...TABS.map(([href, label]) => h("a", { class: "tab", href, "aria-current": href === current ? "page" : null }, label)));
   const upd = $("updated");
   upd.replaceChildren(`数据更新于 ${when(D.raw.updated_at)}`);
   if ((D.now - D.ref) / 36e5 > 13) upd.append(" ", statusChip({ kind: "warn", label: "超过 12 小时没更新" }));
 
+  const isOverview = current === "#/" && !task;
+  $("hero-row").hidden = !isOverview;
+  if (isOverview) { paintHero(); paintSharks(); }
+
   let blocks;
-  if (agent) blocks = agentPage(agent);
+  if (task) blocks = taskPage(task);
+  else if (agent) blocks = agentPage(agent);
   else if (current === "#/tasks") blocks = tasksPage();
   else if (current === "#/daily") blocks = dailyPage();
   else if (current === "#/weekly") blocks = weeklyPage();
@@ -399,24 +534,43 @@ function route() {
   blocks = blocks.filter(Boolean);
   blocks.forEach((b, i) => { b.classList.add("reveal"); b.style.setProperty("--i", i); });
   $("content").replaceChildren(h("div", { class: "stack" }, blocks));
-  document.title = agent ? `${agent.id} · Agent 赚钱实验` : `${TABS.find(([href]) => href === current)[1]} · Agent 赚钱实验`;
+  document.title = task ? `${task.title || task.slug} · Agent 赚钱实验` : agent ? `${agent.id} · Agent 赚钱实验` : `${TABS.find(([href]) => href === current)[1]} · Agent 赚钱实验`;
 }
 const cardHead = (title, ...right) => h("div", { class: "card-h" }, h("h2", null, title), right);
 
-/* ---------- 总览：谁赚得最多 ---------- */
+/* ---------- 总览 ---------- */
+function paintHero() {
+  const ranks = D.ranking.total, [first, second] = ranks;
+  const dayText = D.day ? ` · 实验第 ${D.day} 天` : "";
+  $("hero-num").textContent = usd(sumOf(D.agents, "won_usd") ?? 0);
+  const sub = $("hero-sub");
+  if (!first || first.v === 0) sub.replaceChildren("还没有人赢到奖金", h("span", null, dayText));
+  else if (ranks.filter((r) => r.rank === 1).length > 1) sub.replaceChildren(`并列第一：${ranks.filter((r) => r.rank === 1).map((r) => r.a.id).join("、")}`, h("span", null, `，各 ${usd(first.v)}${dayText}`));
+  else sub.replaceChildren(`领先：${first.a.id} ${usd(first.v)}`, h("span", null, `${second ? `，第二名 ${second.a.id} ${usd(second.v)}` : ""}${dayText}`));
+  const active = D.tasks.filter((t) => !DONE.includes(t.status) && t.status !== "选赛");
+  const working = D.agents.filter((a) => a._act.kind === "good").length;
+  const kpi = (label, note, value) => h("div", { class: "kpi" }, h("p", { class: "kpi-label" }, label, h("small", null, note)), h("p", { class: "kpi-value num" }, value));
+  $("kpis").replaceChildren(
+    kpi("已到账", "领到钱包里的 USDC", usd(sumOf(D.agents, "received_usd"))),
+    kpi("在干活", "3 小时内有新记录", `${working} / ${D.agents.length}`),
+    kpi("在打的比赛", "建造中和评审中", `${active.length} 场`));
+}
+
 function overviewPage() {
+  return [rankingCard(), h("div", { class: "cols" }, weekGoalsCard(), recentCard()), h("div", { class: "cols" }, hopeCard(), trendCard())];
+}
+
+function rankingCard() {
   let mode = "total";
   const body = h("div", { class: "card-b" });
   const seg = h("div", { class: "seg", role: "group", "aria-label": "排行口径" });
-  const start = D.raw.experiment_start ? new Date(D.raw.experiment_start + "T00:00:00+08:00") : null;
-  const day = start ? Math.max(1, Math.floor((D.ref - start) / 864e5) + 1) : null;
   const note = h("p", { class: "note" });
   const paint = () => {
     seg.replaceChildren(...[["total", "累计"], ["week", "本周"]].map(([k, label]) =>
       h("button", { type: "button", "aria-pressed": String(mode === k), onclick: () => { mode = k; paint(); } }, label)));
     const rows = D.ranking[mode];
     const sum = rows.reduce((s, r) => s + (isNum(r.v) ? r.v : 0), 0);
-    note.textContent = `${mode === "total" ? "合计已赢得" : "本周合计"} ${usd(sum)}${day ? ` · 实验第 ${day} 天` : ""}`;
+    note.replaceChildren(mode === "total" ? "按已赢得排名，只认 make.fun 公布的结果" : "按本周已赢得排名", h("b", null, ` · 合计 ${usd(sum)}`));
     const max = Math.max(0, ...rows.map((r) => r.v));
     const ties = (rank) => rows.filter((r) => r.rank === rank).length;
     body.replaceChildren(
@@ -428,17 +582,57 @@ function overviewPage() {
           h("div", { class: "who" }, h("p", { class: "who-name" }, h("i", { class: "dot", style: { "--c": color(a.id) } }), a.id), h("p", { class: "who-sub" }, a.platform || "")),
           h("div", { class: "track" },
             w > 0 ? h("i", { class: "bar", style: { "--w": `${w}%`, "--c": color(a.id) } }) : null,
-            h("span", { class: "amt" }, usd(r.v)),
+            h("span", { class: "amt num" }, usd(r.v)),
             goal ? h("span", { class: "amt-note" }, `目标 ${usd(goal)}`) : null),
           h("div", { class: "st" }, statusChip(a._act))));
       })),
       ...(max === 0 ? [h("p", { class: "t-note", style: { "margin-top": "12px" } }, mode === "total" ? "还没有人赢到奖金。比赛出结果后，这里会拉开差距。" : "这周还没有人赢到奖金。")] : []));
   };
   paint();
-  return [
-    h("section", { class: "card" }, cardHead("谁赚得最多", note, seg), body),
-    h("section", { class: "card" }, cardHead("累计已赢得走势", h("p", { class: "note" }, "每天 0 点记一次")), h("div", { class: "card-b" }, trendChart())),
-  ];
+  return h("section", { class: "card" }, cardHead("谁赚得最多", note, seg), body);
+}
+
+function weekGoalsCard() {
+  return h("section", { class: "card" }, cardHead("本周目标进度", h("p", { class: "note" }, "各自定的目标，周一 9 点更新")),
+    h("div", { class: "card-b" }, h("ul", { class: "rows" }, D.ranking.week.map(({ a }) => {
+      const goal = isNum(a.week_goal_usd) && a.week_goal_usd > 0 ? a.week_goal_usd : null;
+      const won = a.week_won_usd ?? 0;
+      return h("li", null,
+        h("div", { class: "row-top" }, agentLink(a.id),
+          goal ? h("span", { class: "row-strong num" }, usd(won), h("span", null, ` / ${usd(goal)} · ${Math.round((100 * won) / goal)}%`)) : h("span", { class: "row-strong" }, h("span", null, "还没定周目标"))),
+        goal ? h("div", { class: "meter", style: { "--c": color(a.id) }, role: "img", "aria-label": `完成 ${Math.round((100 * won) / goal)}%` }, h("i", { style: { "--w": `${Math.min(100, (100 * won) / goal)}%` } })) : null);
+    }))));
+}
+
+const logTime = (l) => l.time || l.date || "";
+const byNewest = (x, y) => logTime(y).slice(0, 10).localeCompare(logTime(x).slice(0, 10)) || logTime(y).localeCompare(logTime(x)) || (y._i ?? 0) - (x._i ?? 0);
+const logWhen = (l) => (l.time ? when(l.time) : md(l.date));
+function recentCard() {
+  const latest = (id) => D.tasks.filter((t) => t.agent === id).flatMap((t) => t.logs.map((l) => ({ ...l, task: t })))
+    .sort(byNewest)[0];
+  return h("section", { class: "card" }, cardHead("最近在干什么", h("p", { class: "note" }, "每个 agent 最新一条比赛动态")),
+    h("div", { class: "card-b" }, h("ul", { class: "rows" }, D.ranking.total.map(({ a }) => {
+      const l = latest(a.id);
+      return h("li", null,
+        h("div", { class: "row-top" }, agentLink(a.id), statusChip(a._act)),
+        l ? h("p", { class: "row-text" }, h("span", { class: "lbl" }, `${logWhen(l)} ${l.kind || ""}`), l.text)
+          : h("p", { class: "row-text missing" }, "还没有动态"));
+    }))));
+}
+
+function hopeCard() {
+  const list = D.tasks.filter((t) => !DONE.includes(t.status) && isNum(t.rank) && isNum(t.paid_places) && t.paid_places > 0)
+    .sort((a, b) => a.rank / a.paid_places - b.rank / b.paid_places).slice(0, 5);
+  return h("section", { class: "card" }, cardHead("最有希望拿钱的比赛", h("p", { class: "note" }, "按离奖金线的远近排")),
+    h("div", { class: "card-b" }, list.length ? h("ol", { class: "rows" }, list.map((t) => {
+      const inMoney = t.rank <= t.paid_places;
+      return h("li", null,
+        h("div", { class: "row-top" }, h("a", { class: "hope-title", href: taskHref(t), style: { "text-decoration": "none" } }, t.title || t.slug), agentLink(t.agent)),
+        h("div", { class: "hope-meta" },
+          inMoney ? h("span", { class: "in" }, `第 ${int(t.rank)} 名 · 在奖金区`) : h("span", null, h("b", null, `第 ${int(t.rank)} 名`), `，还差 ${int(t.rank - t.paid_places)} 名`),
+          h("span", null, `前 ${t.paid_places} 名有奖`),
+          deadline(t)));
+    })) : h("p", { class: "empty" }, "还没有在打的比赛有名次。")));
 }
 
 function niceMax(v) {
@@ -447,26 +641,28 @@ function niceMax(v) {
   for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p;
   return 10 * p;
 }
-function trendChart() {
+function trendCard() {
   const rows = D.history, ids = D.agents.map((a) => a.id);
-  if (!rows.length) return h("p", { class: "empty" }, "还没有走势数据。muse 每天 0 点会记一个点。");
-  const box = h("div", { class: "chart" });
-  const wrap = h("div", null, h("ul", { class: "legend", "aria-label": "图例", style: { "margin-bottom": "12px" } },
-    ids.map((id) => h("li", null, h("i", { class: "key", style: { "--c": color(id) } }), id))), box);
-  const draw = () => drawLines(box, rows, ids);
-  requestAnimationFrame(draw);
-  new ResizeObserver(draw).observe(box);
-  return wrap;
+  let body;
+  if (!rows.length) body = h("p", { class: "empty" }, "还没有走势数据。muse 每天 0 点会记一个点。");
+  else {
+    const box = h("div", { class: "chart" });
+    body = [h("ul", { class: "legend", "aria-label": "图例" }, ids.map((id) => h("li", null, h("i", { class: "key", style: { "--c": color(id) } }), id))), box];
+    const draw = () => drawLines(box, rows, ids);
+    requestAnimationFrame(draw);
+    new ResizeObserver(draw).observe(box);
+  }
+  return h("section", { class: "card" }, cardHead("累计已赢得走势", h("p", { class: "note" }, "每天 0 点记一次")), h("div", { class: "card-b" }, body));
 }
 function drawLines(box, rows, ids) {
   const W = box.clientWidth;
   if (!W) return;
-  const H = 240, padL = 52, padT = 12, padB = 32, n = rows.length, plotH = H - padT - padB;
+  const H = 220, padL = 52, padT = 12, padB = 32, n = rows.length, plotH = H - padT - padB;
   const max = niceMax(Math.max(0, ...rows.flatMap((r) => ids.map((id) => r[id] ?? 0))));
   const y = (v) => padT + (1 - (v ?? 0) / max) * plotH;
   const endYs = ids.map((id) => y(rows[n - 1][id])).sort((a, b) => a - b);
   const separated = endYs.every((v, i) => i === 0 || v - endYs[i - 1] >= 18);
-  const padR = separated ? 104 : 16, plotW = Math.max(40, W - padL - padR);
+  const padR = separated ? 100 : 16, plotW = Math.max(40, W - padL - padR);
   const x = (i) => padL + (n === 1 ? plotW / 2 : (i * plotW) / (n - 1));
   const svg = h("svg:svg", { viewBox: `0 0 ${W} ${H}`, height: H, tabindex: 0, role: "img", "aria-label": `累计已赢得走势，${rows[0].date} 到 ${rows[n - 1].date}。用左右方向键查看每天的数值。` });
   for (let k = 0; k <= 4; k++) {
@@ -480,7 +676,7 @@ function drawLines(box, rows, ids) {
     if (n > 1) svg.append(h("svg:path", { d: rows.map((r, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(r[id]).toFixed(1)}`).join(""), fill: "none", stroke: color(id), "stroke-width": 2.5, "stroke-linejoin": "round", "stroke-linecap": "round" }));
     svg.append(h("svg:circle", { cx: x(n - 1), cy: y(rows[n - 1][id]), r: 4.5, fill: color(id), stroke: "var(--surface)", "stroke-width": 2 }));
   }
-  if (separated) for (const id of ids) svg.append(h("svg:text", { x: x(n - 1) + 10, y: y(rows[n - 1][id]) + 5, fill: "var(--ink)", "font-size": 14, "font-weight": 600 }, `${id} ${usd(rows[n - 1][id])}`));
+  if (separated) for (const id of ids) svg.append(h("svg:text", { x: x(n - 1) + 10, y: y(rows[n - 1][id]) + 5, fill: "var(--ink)", "font-size": 14, "font-weight": 700 }, `${id} ${usd(rows[n - 1][id])}`));
   const cross = h("svg:line", { y1: padT, y2: padT + plotH, stroke: "var(--axis)", "stroke-width": 1, opacity: 0 });
   svg.append(cross, h("svg:rect", { x: padL - 12, y: 0, width: plotW + 24, height: H, fill: "transparent" }));
   const tip = h("div", { class: "tip", "aria-hidden": "true" });
@@ -505,42 +701,84 @@ function drawLines(box, rows, ids) {
 }
 
 /* ---------- 任务 ---------- */
-function taskRow(t) {
+const taskHref = (t) => `#/task/${encodeURIComponent(t.agent)}/${encodeURIComponent(t.slug)}`;
+function rankLine(t) {
   const paid = isNum(t.paid_places) ? t.paid_places : null;
-  let rank;
-  if (!isNum(t.rank)) rank = h("div", { class: "t-rank" }, "还没有名次");
-  else if (paid !== null && t.rank <= paid) rank = h("div", { class: "t-rank" }, h("span", { class: "in" }, `第 ${int(t.rank)} 名 · 在奖金区`), h("span", { class: "sub" }, `前 ${paid} 名有奖`));
-  else rank = h("div", { class: "t-rank" }, `第 ${int(t.rank)} 名`, h("span", { class: "sub" }, paid !== null ? `还差 ${int(t.rank - paid)} 名进奖金区（前 ${paid} 名有奖）` : `共 ${int(t.field)} 个作品`));
-  const done = ["已出结果", "已领奖", "已放弃"].includes(t.status);
-  return h("li", { class: "task" },
+  if (!isNum(t.rank)) return h("div", { class: "t-rank" }, h("span", { class: "zero" }, "还没有名次"));
+  if (paid !== null && t.rank <= paid) return h("div", { class: "t-rank" }, h("span", { class: "in" }, `第 ${int(t.rank)} 名 · 在奖金区`), h("span", { class: "sub" }, `前 ${paid} 名有奖`));
+  return h("div", { class: "t-rank" }, `第 ${int(t.rank)} 名`, h("span", { class: "sub" }, paid !== null ? `还差 ${int(t.rank - paid)} 名进奖金区（前 ${paid} 名有奖）` : `共 ${int(t.field)} 个作品`));
+}
+function taskRow(t) {
+  const last = [...t.logs].sort(byNewest)[0];
+  return h("li", null, h("a", { class: "task", href: taskHref(t) },
     h("div", null,
-      h("p", { class: "t-title" }, t.slug ? h("a", { href: `https://make.fun/bounty/${encodeURIComponent(t.slug)}`, target: "_blank", rel: "noopener" }, t.title || t.slug) : (t.title || "—"), h("span", { class: "tag" }, t.status || "—")),
-      t.note ? h("p", { class: "t-note" }, t.note) : null),
-    rank,
-    h("div", { class: "t-dl" }, done ? "已结束" : countdown(t.deadline, D.now)),
-    h("div", { class: "t-won num" }, usd(t.won_usd)));
+      h("p", { class: "t-title" }, t.title || t.slug, h("span", { class: "tag" }, t.status || "—")),
+      last ? h("p", { class: "t-note" }, `${logWhen(last)} ${last.kind || ""}：${last.text}`) : null),
+    rankLine(t),
+    h("div", { class: "t-dl" }, deadline(t)),
+    h("div", { class: "t-won num" }, money(t.earned))));
+}
+function taskPage(t) {
+  const field = (k, v) => h("div", { class: "field" }, h("dt", null, k), h("dd", null, v));
+  const at = (iso) => (iso ? new Date(iso).toLocaleString("sv-SE", { timeZone: "Asia/Shanghai" }).slice(0, 16) : "—");
+  const logs = [...t.logs].sort(byNewest);
+  const KIND = { "结果": "var(--good)", "提交": "var(--s-muse)", "行动": "var(--axis)", "复盘": "var(--warn)" };
+  const paid = isNum(t.paid_places) ? t.paid_places : null;
+  return [
+    h("section", null,
+      h("a", { class: "back", href: "#/tasks" }, "← 返回任务"),
+      h("div", { class: "card" },
+        h("div", { class: "td-head" },
+          h("div", null, h("h1", { class: "td-title" }, t.title || t.slug), h("p", { class: "td-slug" }, `${t.slug} · ${t.platform || "make.fun"}`)),
+          h("span", { class: "badge" }, t.status || "—")),
+        h("dl", { class: "fields" },
+          field("所属 Agent", agentLink(t.agent)),
+          field("奖金池", usd(t.prize_pool)),
+          field("第一名奖金", usd(t.first_prize)),
+          field("已赚", money(t.earned)),
+          field("提交截止", [at(t.deadline), h("span", { class: "sub" }, deadline(t))]),
+          field("出结果", at(t.result_date)),
+          field("当前名次", isNum(t.rank) ? [`第 ${int(t.rank)} 名`, h("span", { class: "sub" }, `共 ${int(t.field)} 个作品${paid !== null ? `，前 ${paid} 名有奖` : ""}`)] : "还没有名次"),
+          field("提交 ID", t.submission_id ? h("span", { style: { "font-size": "14px", "font-weight": "500", "overflow-wrap": "anywhere" } }, t.submission_id) : "—")),
+        h("div", { class: "estimate" },
+          h("div", { class: "estimate-head" }, h("span", { class: "estimate-label" }, "期望收益估算"), h("span", { class: "estimate-amt num" }, usd(t.ev)), h("span", { class: "estimate-tag" }, "估算，不计入已赢得")),
+          t.ev_note ? h("p", null, t.ev_note) : h("p", { class: "reality" }, "agent 还没写估算依据。"),
+          isNum(t.rank) && paid !== null && t.rank > paid ? h("p", { class: "reality" }, `对照：当前第 ${int(t.rank)} 名，离奖金线还差 ${int(t.rank - paid)} 名。`) : null))),
+    h("section", { class: "card" }, cardHead("任务是做什么的"),
+      h("div", { class: "card-b" }, t.description ? h("p", { class: "prose" }, t.description) : h("p", { class: "prose missing" }, "agent 还没同步这场比赛的中文说明。"))),
+    h("section", { class: "card" }, cardHead("官方要求"),
+      h("div", { class: "card-b" },
+        t.requirements ? h("p", { class: "prose" }, t.requirements) : h("p", { class: "prose missing" }, "agent 还没同步官方要求的中文版。"),
+        h("a", { class: "src-link", href: `https://make.fun/bounty/${encodeURIComponent(t.slug)}`, target: "_blank", rel: "noopener" }, "看 make.fun 原文 →"))),
+    h("section", { class: "card" }, cardHead("动态", h("p", { class: "note" }, "已做了什么、提交了什么，新的在上面")),
+      h("div", { class: "card-b" }, logs.length
+        ? h("ol", { class: "timeline" }, logs.map((l) => h("li", { style: { "--c": KIND[l.kind] || "var(--axis)" } },
+            h("div", { class: "tl-meta" }, h("span", null, logWhen(l)), l.kind ? h("span", { class: "kind" }, l.kind) : null),
+            h("p", { class: "tl-text" }, l.text))))
+        : h("p", { class: "empty" }, "还没有动态。"))),
+  ];
 }
 const sortTasks = (list) => [...list].sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status) || String(a.deadline).localeCompare(String(b.deadline)));
 function tasksPage() {
   return D.ranking.total.map(({ a }) => {
     const mine = sortTasks(D.tasks.filter((t) => t.agent === a.id));
     return h("section", { class: "card" },
-      cardHead(agentLink(a.id), h("p", { class: "note" }, `已赢得 ${usd(a.won_usd)} · ${mine.length} 场比赛`)),
+      cardHead(agentLink(a.id), h("p", { class: "note" }, h("b", null, `已赢得 ${usd(a.won_usd)}`), ` · ${mine.length} 场比赛 · 点一行看详情`)),
       h("div", { class: "card-b" }, mine.length ? h("ol", { class: "tasks" }, mine.map(taskRow)) : h("p", { class: "empty" }, "还没有比赛。")));
   });
 }
 
 /* ---------- 每日复盘 / 周计划 ---------- */
 const kv = (pairs) => h("dl", { class: "kv" }, pairs.filter(([, v]) => v).map(([k, v]) => h("div", null, h("dt", null, k), h("dd", null, v))));
-const dailyPairs = (r) => [["目标", r.goal], ["结果", r.result], ["教训", r.lesson], ["明天改什么", r.tomorrow]];
-function weekLabel(r) { return r.start ? `${md(r.start)} ~ ${md(addDays(r.start, 6))}` : r.week; }
-function weekBody(r, a) {
+const dailyPairs = (r) => [["今天做了什么", r.done], ["结果与进展", r.results], ["经验教训", r.lessons], ["明天计划", r.tomorrow]];
+const weekLabel = (r) => `${md(r.week_start)} ~ ${md(r.week_end || addDays(r.week_start, 6))}`;
+function weekBody(r, id) {
   const goal = isNum(r.goal_usd) && r.goal_usd > 0 ? r.goal_usd : null;
   return [
-    h("p", { class: "wk-amt" }, usd(r.won_usd ?? 0), h("span", null, goal ? ` / 目标 ${usd(goal)}` : " · 没定金额目标")),
-    goal ? h("div", { class: "meter", style: { "--c": color(a) }, role: "img", "aria-label": `完成 ${Math.round((100 * (r.won_usd ?? 0)) / goal)}%` },
+    goal ? h("p", { class: "wk-amt num" }, usd(r.won_usd ?? 0), h("span", null, ` / 目标 ${usd(goal)}`)) : null,
+    goal ? h("div", { class: "meter", style: { "--c": color(id) }, role: "img", "aria-label": `完成 ${Math.round((100 * (r.won_usd ?? 0)) / goal)}%` },
       h("i", { style: { "--w": `${Math.min(100, (100 * (r.won_usd ?? 0)) / goal)}%` } })) : null,
-    kv([["打法", r.plan], ["周复盘", r.review]]),
+    kv([["本周目标", r.goals], ["目标说明", r.targets], ["周复盘", r.review || "（周末填）"], ["下周计划", r.next || "（周末填）"]]),
   ];
 }
 function byKey(list, key) {
@@ -559,10 +797,10 @@ function dailyPage() {
   ]);
 }
 function weeklyPage() {
-  const groups = byKey(D.weekly, "week").slice(0, 8);
+  const groups = byKey(D.weekly, "week_start").slice(0, 8);
   if (!groups.length) return [h("section", { class: "card" }, h("p", { class: "empty" }, "还没有周计划。各 agent 每周一 9 点定周目标，muse 汇总后会出现在这里。"))];
   return groups.flatMap(([week, rows]) => [
-    h("h2", { class: "group-title" }, `第 ${week.split("W")[1] || week} 周`, h("span", { class: "note" }, weekLabel(rows[0]))),
+    h("h2", { class: "group-title" }, weekLabel(rows[0]), h("span", { class: "note" }, "周计划")),
     h("div", { class: "grid4" }, D.ranking.total.map(({ a }) => {
       const r = rows.find((x) => x.agent === a.id);
       return h("article", { class: "card note-card" }, agentLink(a.id), r ? weekBody(r, a.id) : h("p", { class: "missing" }, "这周没定计划"));
@@ -574,7 +812,7 @@ function weeklyPage() {
 function agentPage(a) {
   const mine = sortTasks(D.tasks.filter((t) => t.agent === a.id));
   const daily = D.daily.filter((r) => r.agent === a.id).sort((x, y) => y.date.localeCompare(x.date)).slice(0, 14);
-  const weekly = D.weekly.filter((r) => r.agent === a.id).sort((x, y) => y.week.localeCompare(x.week)).slice(0, 8);
+  const weekly = D.weekly.filter((r) => r.agent === a.id).sort((x, y) => y.week_start.localeCompare(x.week_start)).slice(0, 8);
   const ties = D.ranking.total.filter((r) => r.rank === a._rank).length;
   const goal = isNum(a.week_goal_usd) && a.week_goal_usd > 0 ? ` / 目标 ${usd(a.week_goal_usd)}` : "";
   return [
@@ -585,17 +823,18 @@ function agentPage(a) {
           h("h1", { class: "dh-name" }, h("i", { class: "dot", style: { "--c": color(a.id) } }), a.id),
           h("p", { class: "dh-sub" }, h("span", null, [a.platform, a.handle || "未注册"].filter(Boolean).join(" · ")), statusChip(a._act), h("span", null, `最后活动 ${when(a.last_active)}`))),
         h("div", { class: "dh-money" },
-          h("p", { class: "dh-amt" }, usd(a.won_usd)),
-          h("p", { class: "dh-amt-note" }, `已赢得 · 第 ${a._rank} 名${ties > 1 ? "（并列）" : ""} · 已到账 ${usd(a.received_usd)} · 本周 ${usd(a.week_won_usd ?? 0)}${goal}`)))),
+          h("p", { class: "dh-amt num" }, usd(a.won_usd)),
+          h("p", { class: "dh-rank" }, `已赢得 · 第 ${a._rank} 名${ties > 1 ? "（并列）" : ""}`),
+          h("p", { class: "dh-amt-note" }, `已到账 ${usd(a.received_usd)} · 本周 ${usd(a.week_won_usd ?? 0)}${goal}`)))),
     h("section", { class: "card" }, cardHead("任务", h("p", { class: "note" }, `${mine.length} 场比赛`)),
       h("div", { class: "card-b" }, mine.length ? h("ol", { class: "tasks" }, mine.map(taskRow)) : h("p", { class: "empty" }, "还没有比赛。"))),
     h("section", { class: "card" }, cardHead("每日复盘"),
       h("div", { class: "card-b" }, daily.length
-        ? h("ol", { class: "entries" }, daily.map((r) => h("li", { class: "entry" }, h("div", { class: "entry-when" }, `${md(r.date)} ${weekday(r.date)}`), kv(dailyPairs(r)))))
+        ? h("ol", { class: "entries" }, daily.map((r) => h("li", { class: "entry" }, h("div", { class: "entry-when" }, md(r.date), h("span", { class: "sub" }, weekday(r.date))), kv(dailyPairs(r)))))
         : h("p", { class: "empty" }, "还没有每日复盘。"))),
     h("section", { class: "card" }, cardHead("周计划"),
       h("div", { class: "card-b" }, weekly.length
-        ? h("ol", { class: "entries" }, weekly.map((r) => h("li", { class: "entry" }, h("div", { class: "entry-when" }, `第 ${r.week.split("W")[1] || r.week} 周`, h("div", { class: "t-note" }, weekLabel(r))), h("div", null, weekBody(r, a.id)))))
+        ? h("ol", { class: "entries" }, weekly.map((r) => h("li", { class: "entry" }, h("div", { class: "entry-when" }, weekLabel(r), h("span", { class: "sub" }, "周计划")), h("div", null, weekBody(r, a.id)))))
         : h("p", { class: "empty" }, "还没有周计划。"))),
   ];
 }
