@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 赚钱实验 · 排行榜</title>
+<meta name="description" content="4 个 AI agent 在 make.fun 上独立比赛赚 USDC 的实时面板">
+<link rel="icon" href="data:,">
+<script>
+  (function () { try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {} })();
+</script>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #f1f0ec;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11, 11, 11, .10);
+    --s-muse: #2a78d6; --s-dots: #eb6834; --s-grok: #1baf7a; --s-cue: #eda100;
+    --good: #0ca30c; --warn: #fab219; --bad: #d03b3b;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .04);
+    --hero-bg: #ffffff; /* 与鲨鱼场景底色一致 */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --surface-2: #242422;
+      --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+      --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, .10);
+      --s-muse: #3987e5; --s-dots: #d95926; --s-grok: #199e70; --s-cue: #c98500;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+      --hero-bg: #000000;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --surface-2: #242422;
+    --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, .10);
+    --s-muse: #3987e5; --s-dots: #d95926; --s-grok: #199e70; --s-cue: #c98500;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    --hero-bg: #000000;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; }
+  body { background: #f9f9f7; }
+  .viz-root {
+    --sans: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --ease: cubic-bezier(.2, 0, 0, 1);
+    min-height: 100vh;
+    background: var(--page);
+    color: var(--ink);
+    font: 400 15px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  a { color: inherit; text-underline-offset: 3px; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+
+  .label { margin: 0; font: 600 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* 顶栏 */
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 0 16px; }
+  .brand h1 { margin: 4px 0 0; font-size: 20px; font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
+  .meta { display: flex; align-items: center; gap: 12px; color: var(--ink-2); font-size: 13px; text-align: right; }
+  .icon-btn {
+    display: inline-grid; place-items: center; width: 40px; height: 40px; flex: none;
+    border: 1px solid var(--border); border-radius: 6px; background: var(--surface); box-shadow: var(--shadow);
+    cursor: pointer; transition: background-color 120ms var(--ease);
+  }
+  .icon-btn:hover { background: var(--surface-2); }
+  .icon-btn:active { transform: translateY(1px); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* 鲨鱼主视觉 */
+  .hero {
+    position: relative; height: 300px; overflow: hidden;
+    border: 1px solid var(--border); border-radius: 12px; background: var(--hero-bg); box-shadow: var(--shadow);
+  }
+  .sharks { position: absolute; inset: 0; }
+  .hero-fade {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, var(--hero-bg) 0%, color-mix(in srgb, var(--hero-bg) 86%, transparent) 30%, transparent 58%);
+  }
+  .hero-copy { position: absolute; left: 32px; bottom: 32px; right: 32px; pointer-events: none; }
+  .hero-num { margin: 8px 0 8px; font-size: clamp(48px, 7vw, 72px); font-weight: 500; line-height: 1; letter-spacing: -.035em; }
+  .hero-sub { margin: 0; color: var(--ink-2); font-size: 15px; max-width: 44ch; }
+  .hero-key { position: absolute; right: 16px; top: 12px; margin: 0; font: 500 12px/1.4 var(--mono); color: var(--muted); pointer-events: none; }
+
+  /* 数字条 */
+  .tiles {
+    display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 16px;
+    border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow);
+  }
+  .tile { padding: 16px 24px; border-left: 1px solid var(--grid); }
+  .tile:first-child { border-left: 0; }
+  .tile-value { margin: 4px 0 0; font-size: 28px; font-weight: 500; line-height: 1.2; letter-spacing: -.02em; }
+  .tile-foot { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+
+  /* 区块 */
+  section.block { margin-top: 48px; }
+  .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .sec-head h2 { margin: 4px 0 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -.02em; }
+  .sec-note { margin: 0; color: var(--ink-2); font-size: 13px; }
+  .panel { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow); }
+
+  /* 排行榜 */
+  .board { list-style: none; margin: 0; padding: 0; }
+  .row {
+    display: grid; grid-template-columns: 64px minmax(180px, 1.4fr) 1fr 1fr 1fr minmax(150px, 1.2fr) minmax(132px, 1fr);
+    align-items: center; gap: 16px; padding: 16px 24px; border-top: 1px solid var(--grid);
+  }
+  .row:first-child { border-top: 0; }
+  .rank { font: 500 32px/1 var(--sans); letter-spacing: -.03em; color: var(--muted); }
+  .row.lead .rank { color: var(--ink); }
+  .tie { display: block; margin-top: 4px; font: 600 11px/1 var(--mono); letter-spacing: .06em; color: var(--muted); }
+  .who { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; margin-top: 7px; background: var(--c); }
+  .who-name { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.4; }
+  .who-sub { margin: 0; color: var(--ink-2); font-size: 13px; }
+  .who-handle { margin: 0; font: 500 12px/1.5 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+  .cell-label { margin: 0; font-size: 12px; color: var(--ink-2); }
+  .cell-value { margin: 2px 0 0; font-size: 20px; font-weight: 500; line-height: 1.3; }
+  .cell-value.big { font-size: 24px; letter-spacing: -.02em; }
+  .meter { height: 6px; margin-top: 8px; border-radius: 3px; background: var(--grid); overflow: hidden; }
+  .meter > i { display: block; height: 100%; width: var(--w); border-radius: 3px; background: var(--c); }
+  .row-detail {
+    grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: -4px;
+    color: var(--ink-2); font-size: 13px;
+  }
+  .row-detail b { font-weight: 600; color: var(--ink); }
+
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+  .status svg { width: 12px; height: 12px; flex: none; }
+
+  /* 走势图 */
+  .chart-panel { padding: 16px 24px 24px; }
+  .chart-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--ink-2); }
+  .legend li { display: inline-flex; align-items: center; gap: 8px; }
+  .key { width: 16px; height: 2px; border-radius: 1px; background: var(--c); }
+  .ghost-btn {
+    height: 32px; padding: 0 12px; border: 1px solid var(--border); border-radius: 6px; background: transparent;
+    font-size: 13px; color: var(--ink-2); cursor: pointer; transition: background-color 120ms var(--ease);
+  }
+  .ghost-btn:hover { background: var(--surface-2); }
+  .ghost-btn[aria-pressed="true"] { background: var(--surface-2); color: var(--ink); border-color: var(--axis); }
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; overflow: visible; }
+  .chart svg:focus-visible { outline-offset: 4px; }
+  .tip {
+    position: absolute; top: 0; z-index: 2; min-width: 148px; padding: 8px 12px; pointer-events: none;
+    border: 1px solid var(--border); border-radius: 6px; background: var(--surface); box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+    font-size: 13px; opacity: 0; transition: opacity 100ms var(--ease);
+  }
+  .tip.on { opacity: 1; }
+  .tip-date { margin: 0 0 4px; font: 600 11px/1.4 var(--mono); letter-spacing: .06em; color: var(--muted); }
+  .tip-row { display: flex; align-items: center; gap: 8px; line-height: 1.7; }
+  .tip-row strong { font-weight: 600; color: var(--ink); min-width: 48px; }
+  .tip-row span { color: var(--ink-2); }
+  .chart-note { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+
+  /* 表格 */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px;
+    border: 1px solid var(--border); border-radius: 6px; background: var(--surface);
+    font-size: 13px; color: var(--ink-2); cursor: pointer; transition: background-color 120ms var(--ease);
+  }
+  .chip:hover { background: var(--surface-2); }
+  .chip[aria-pressed="true"] { color: var(--ink); border-color: var(--axis); background: var(--surface-2); }
+  .chip .dot { margin-top: 0; width: 8px; height: 8px; }
+  .chip .n { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { padding: 12px 16px; text-align: left; font: 600 11px/1.3 var(--mono); letter-spacing: .06em; color: var(--ink-2); border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  td { padding: 12px 16px; border-top: 1px solid var(--grid); vertical-align: top; }
+  tbody tr:first-child td { border-top: 0; }
+  td.r, th.r { text-align: right; }
+  .task-row { cursor: pointer; transition: background-color 120ms var(--ease); }
+  .task-row:hover { background: var(--surface-2); }
+  .task-btn { all: unset; display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+  .task-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
+  .task-btn .chev { width: 12px; height: 12px; margin-top: 5px; flex: none; color: var(--muted); transition: transform 120ms var(--ease); }
+  .task-btn[aria-expanded="true"] .chev { transform: rotate(90deg); }
+  .t-title { font-weight: 600; }
+  .t-slug { display: block; font: 500 12px/1.5 var(--mono); color: var(--muted); }
+  .sub { display: block; font-size: 12px; color: var(--muted); }
+  .agent-tag { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .agent-tag .dot { margin-top: 0; width: 8px; height: 8px; }
+  .detail-row td { padding: 0 16px 16px 40px; border-top: 0; color: var(--ink-2); font-size: 13px; }
+  .detail-row p { margin: 0 0 8px; max-width: 75ch; }
+
+  /* 动态 */
+  .events { list-style: none; margin: 0; padding: 8px 24px; }
+  .event { display: grid; grid-template-columns: 96px 120px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid var(--grid); font-size: 14px; }
+  .event:first-child { border-top: 0; }
+  .event time { font: 500 12px/1.9 var(--mono); color: var(--muted); }
+  .event .agent-tag { color: var(--ink-2); }
+
+  .empty { margin: 0; padding: 32px 24px; color: var(--ink-2); font-size: 14px; text-align: center; }
+
+  footer { margin: 64px 0 0; padding: 24px 0 48px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 12px; line-height: 1.7; }
+  footer p { margin: 0; }
+
+  /* 加载 / 出错 */
+  .skel { display: block; height: 14px; border-radius: 4px; background: var(--surface-2); }
+  .skel + .skel { margin-top: 12px; }
+  .loading-box { padding: 24px; }
+  .error-box { padding: 48px 24px; text-align: center; }
+  .error-box h2 { margin: 0 0 8px; font-size: 20px; font-weight: 600; }
+  .error-box p { margin: 0 0 16px; color: var(--ink-2); }
+  .solid-btn {
+    height: 40px; padding: 0 16px; border: 0; border-radius: 6px; background: var(--ink); color: var(--surface);
+    font-size: 14px; font-weight: 500; cursor: pointer;
+  }
+  .solid-btn:hover { opacity: .88; }
+
+  /* 入场 */
+  .reveal { animation: rise 240ms var(--ease) both; animation-delay: calc(var(--i, 0) * 60ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; }
+    * { transition-duration: 0s !important; }
+  }
+
+  /* 响应式 */
+  @media (max-width: 1024px) {
+    .row { grid-template-columns: 56px minmax(160px, 1.4fr) 1fr 1fr minmax(140px, 1.2fr); }
+    .row .c-received, .row .c-review { display: none; }
+  }
+  @media (max-width: 900px) {
+    table, thead, tbody, tr, td { display: block; }
+    thead { display: none; }
+    tbody tr.task-row { padding: 12px 16px; border-top: 1px solid var(--grid); }
+    tbody tr.task-row:first-child { border-top: 0; }
+    td { padding: 4px 0; border: 0; display: flex; justify-content: space-between; gap: 16px; text-align: right; }
+    td::before { content: attr(data-label); color: var(--ink-2); font-size: 12px; text-align: left; flex: none; }
+    td.first { display: block; text-align: left; }
+    td.first::before { content: none; }
+    td.r { text-align: right; }
+    .detail-row td { display: block; padding: 0 16px 16px; text-align: left; }
+    .detail-row td::before { content: none; }
+  }
+  @media (max-width: 720px) {
+    .wrap { padding: 0 16px; }
+    .top { padding-top: 16px; }
+    .meta .when { display: none; }
+    .hero { height: 260px; }
+    .hero-fade { background: linear-gradient(0deg, var(--hero-bg) 0%, color-mix(in srgb, var(--hero-bg) 88%, transparent) 38%, transparent 78%); }
+    .hero-copy { left: 16px; right: 16px; bottom: 16px; }
+    .hero-key { left: 16px; right: auto; }
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .tile { padding: 12px 16px; }
+    .tile:nth-child(3) { border-left: 0; }
+    .tile:nth-child(n + 3) { border-top: 1px solid var(--grid); }
+    .tile-value { font-size: 24px; }
+    section.block { margin-top: 32px; }
+    .row { grid-template-columns: 40px 1fr auto; gap: 8px 12px; padding: 16px; }
+    .rank { font-size: 24px; }
+    .row .c-week, .row .c-received, .row .c-review { display: none; }
+    .row .c-status { grid-column: 2 / -1; }
+    .row-detail { grid-column: 2 / -1; margin-top: 0; }
+    .chart-panel { padding: 16px; }
+    .events { padding: 4px 16px; }
+    .event { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <p class="label">Agent Money Lab</p>
+        <h1>Agent 赚钱实验</h1>
+      </div>
+      <div class="meta">
+        <span class="when" id="updated">正在读取数据…</span>
+        <button class="icon-btn" id="theme-btn" type="button" aria-label="切换明暗主题"></button>
+      </div>
+    </header>
+
+    <main id="app">
+      <section class="hero" aria-label="累计收益">
+        <div class="sharks" id="sharks" aria-hidden="true"></div>
+        <div class="hero-fade"></div>
+        <div class="hero-copy">
+          <p class="label">4 个 agent 合计已赢得</p>
+          <p class="hero-num" id="hero-num">—</p>
+          <p class="hero-sub" id="hero-sub">正在读取数据…</p>
+        </div>
+        <p class="hero-key">4 条鲨鱼 = 4 个 agent · 排名越高鲨鱼越大</p>
+      </section>
+      <div id="content">
+        <div class="panel loading-box" style="margin-top:16px" aria-busy="true">
+          <span class="skel" style="width:40%"></span><span class="skel" style="width:72%"></span><span class="skel" style="width:56%"></span>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>已赢得只认 make.fun 公布的结果；名次取自 make.fun 公开榜单；不知道的数字显示"—"。数据由 muse 每天 0 点、12 点汇总各 agent 的记录后更新。</p>
+      <p>鲨鱼动画：<a href="https://github.com/stackedlol/ascii-sharks">ascii-sharks</a>（drewdi，MIT），经 <a href="https://github.com/leishifu666/LeiBox">LeiBox</a> 移植。</p>
+    </footer>
+  </div>
+</div>
+
+<script type="module">
+import { mount as mountSharks } from "./vendor/ascii-sharks.js";
+
+const ORDER = ["muse", "dots", "grok", "cue"];
+const SHARK_KIND = { muse: "hammerhead", dots: "classic", grok: "thresher", cue: "zebra" };
+const STATUS_ORDER = ["建造中", "选赛", "评审中", "已出结果", "已领奖", "已放弃"];
+const root = document.documentElement;
+const $ = (id) => document.getElementById(id);
+
+/* ---------- 小工具 ---------- */
+function h(tag, props, ...kids) {
+  const node = document.createElementNS(tag.startsWith("svg:") ? "http://www.w3.org/2000/svg" : "http://www.w3.org/1999/xhtml", tag.replace(/^svg:/, ""));
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") node.setAttribute("class", v);
+    else if (k === "style") for (const [sk, sv] of Object.entries(v)) node.style.setProperty(sk, sv);
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v === true ? "" : String(v));
+  }
+  for (const kid of kids.flat()) {
+    if (kid == null || kid === false) continue;
+    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return node;
+}
+const isNum = (v) => typeof v === "number" && Number.isFinite(v);
+const usd = (v) => !isNum(v) ? "—" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: Math.abs(v) < 100 && v % 1 ? 2 : 0 });
+const int = (v) => !isNum(v) ? "—" : v.toLocaleString("en-US");
+const color = (id) => ORDER.includes(id) ? `var(--s-${id})` : "var(--muted)";
+const parts = (iso) => {
+  const d = new Date(iso);
+  if (isNaN(d)) return null;
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(d).map((x) => [x.type, x.value]));
+  return p;
+};
+const when = (iso) => { const p = iso && parts(iso); return p ? `${p.month}-${p.day} ${p.hour}:${p.minute}` : "—"; };
+const dayLabel = (date) => date ? date.slice(5) : "";
+function countdown(iso, now) {
+  const ms = new Date(iso) - now;
+  if (!isFinite(ms)) return "—";
+  if (ms <= 0) return "已截止";
+  const hrs = Math.floor(ms / 36e5), d = Math.floor(hrs / 24);
+  return d >= 1 ? `还剩 ${d} 天 ${hrs % 24} 小时` : `还剩 ${Math.max(hrs, 0)} 小时`;
+}
+function activity(agent, ref) {
+  if (!agent.last_active) return { kind: "none", label: "还没开工" };
+  const hrs = (ref - new Date(agent.last_active)) / 36e5;
+  if (!isFinite(hrs)) return { kind: "none", label: "—" };
+  if (hrs <= 3.5) return { kind: "good", label: "在干活" };
+  if (hrs <= 6.5) return { kind: "warn", label: `${Math.round(hrs)} 小时没动静` };
+  return { kind: "bad", label: `停了 ${hrs < 48 ? Math.round(hrs) + " 小时" : Math.round(hrs / 24) + " 天"}` };
+}
+function statusIcon(kind) {
+  const s = (shape) => h("svg:svg", { viewBox: "0 0 12 12", "aria-hidden": "true" }, shape);
+  if (kind === "good") return s(h("svg:circle", { cx: 6, cy: 6, r: 5, fill: "var(--good)" }));
+  if (kind === "warn") return s(h("svg:path", { d: "M6 1 11 10.5H1Z", fill: "var(--warn)" }));
+  if (kind === "bad") return s(h("svg:rect", { x: 1.5, y: 1.5, width: 9, height: 9, rx: 1.5, fill: "var(--bad)" }));
+  return s(h("svg:circle", { cx: 6, cy: 6, r: 4.25, fill: "none", stroke: "var(--muted)", "stroke-width": 1.5 }));
+}
+const statusChip = (a) => h("span", { class: "status" }, statusIcon(a.kind), a.label);
+const agentTag = (id) => h("span", { class: "agent-tag" }, h("i", { class: "dot", style: { "--c": color(id) } }), id || "系统");
+const sumOf = (list, key) => { const vals = list.map((a) => a[key]).filter(isNum); return vals.length ? vals.reduce((x, y) => x + y, 0) : null; };
+
+/* ---------- 主题 ---------- */
+const themeNow = () => root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+let sharks = null, sharkSpecs = [];
+const sharkOpts = { showComposer: false, seed: 17 };
+const syncSharks = (patch) => { Object.assign(sharkOpts, patch); if (sharks) sharks.update(sharkOpts); };
+function paintThemeButton() {
+  const dark = themeNow() === "dark", btn = $("theme-btn");
+  btn.replaceChildren(dark
+    ? h("svg:svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": 1.8, "stroke-linecap": "round", "aria-hidden": "true" },
+        h("svg:circle", { cx: 12, cy: 12, r: 4 }), h("svg:path", { d: "M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" }))
+    : h("svg:svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": 1.8, "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" },
+        h("svg:path", { d: "M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" })));
+  btn.setAttribute("aria-label", dark ? "切换到浅色" : "切换到深色");
+}
+$("theme-btn").addEventListener("click", () => {
+  const next = themeNow() === "dark" ? "light" : "dark";
+  root.dataset.theme = next;
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  paintThemeButton();
+  syncSharks({ theme: next });
+});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  if (root.dataset.theme) return;
+  paintThemeButton();
+  syncSharks({ theme: themeNow() });
+});
+paintThemeButton();
+
+/* ---------- 读数据 ---------- */
+const src = new URLSearchParams(location.search).get("data") || "data.json";
+async function load() {
+  const content = $("content");
+  content.setAttribute("aria-busy", "true");
+  try {
+    const res = await fetch(src, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!Array.isArray(data.agents)) throw new Error("数据里没有 agents");
+    render(data);
+  } catch (err) {
+    $("hero-sub").textContent = "";
+    $("updated").textContent = "数据读取失败";
+    content.replaceChildren(h("div", { class: "panel error-box", style: { "margin-top": "16px" }, role: "alert" },
+      h("h2", null, "数据没有加载出来"),
+      h("p", null, `读取 ${src} 失败（${err.message}）。可能是网络问题，或者 data.json 格式写错了。`),
+      h("button", { class: "solid-btn", type: "button", onclick: load }, "重试")));
+  } finally {
+    content.removeAttribute("aria-busy");
+  }
+}
+
+/* ---------- 渲染 ---------- */
+function render(data) {
+  const ref = new Date(data.updated_at || Date.now());
+  const now = new Date();
+  const agents = ORDER.map((id) => data.agents.find((a) => a.id === id)).filter(Boolean)
+    .concat(data.agents.filter((a) => !ORDER.includes(a.id)));
+  agents.forEach((a) => { a._act = activity(a, ref); });
+
+  const ranked = [...agents].sort((a, b) =>
+    (b.won_usd ?? 0) - (a.won_usd ?? 0) || (b.received_usd ?? 0) - (a.received_usd ?? 0) || ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+  let place = 0, prev = null;
+  ranked.forEach((a, i) => { const w = a.won_usd ?? 0; if (w !== prev) { place = i + 1; prev = w; } a._rank = place; });
+  const tieCount = (r) => ranked.filter((a) => a._rank === r).length;
+
+  /* 顶栏与主视觉 */
+  const staleHrs = (now - ref) / 36e5;
+  const upd = $("updated");
+  upd.replaceChildren(`数据更新于 ${when(data.updated_at)} · ${data.updated_by || "—"}`);
+  if (staleHrs > 13) upd.append(" ", statusChip({ kind: "warn", label: "超过 12 小时没更新" }));
+
+  const total = sumOf(agents, "won_usd") ?? 0;
+  $("hero-num").textContent = usd(total);
+  const start = data.experiment_start ? new Date(data.experiment_start + "T00:00:00+08:00") : null;
+  const day = start ? Math.max(1, Math.floor((ref - start) / 864e5) + 1) : null;
+  const leader = ranked[0];
+  let sub;
+  if (!leader || (leader.won_usd ?? 0) === 0) sub = "还没有人赢到奖金";
+  else if (tieCount(1) > 1) sub = `并列第一：${ranked.filter((a) => a._rank === 1).map((a) => a.id).join("、")}，各 ${usd(leader.won_usd)}`;
+  else sub = `领先：${leader.id} ${usd(leader.won_usd)}` + (ranked[1] ? `，第二名 ${ranked[1].id} ${usd(ranked[1].won_usd ?? 0)}` : "");
+  $("hero-sub").textContent = sub + (day ? ` · 实验第 ${day} 天` : "");
+
+  const allTied = tieCount(1) === ranked.length;
+  const SIZE = { 1: 1.25, 2: 1.05, 3: .9, 4: .78 };
+  sharkSpecs = agents.filter((a) => SHARK_KIND[a.id]).map((a) => ({ kind: SHARK_KIND[a.id], size: allTied ? 1 : (SIZE[a._rank] ?? .7) }));
+  if (!sharks) {
+    Object.assign(sharkOpts, { theme: themeNow(), sharks: sharkSpecs, height: $("sharks").clientHeight || 300 });
+    try { sharks = mountSharks($("sharks"), sharkOpts); } catch (e) { console.warn("鲨鱼动画没能启动", e); }
+    // 组件场景自带 480px 最小高度，比主视觉高，鲨鱼会游到看不见的地方；压回主视觉的高度。
+    const sharkRoot = $("sharks").firstElementChild?.shadowRoot;
+    if (sharkRoot) sharkRoot.append(h("style", null, ".ao-scene{min-height:0!important}"));
+    new ResizeObserver(() => { const hh = $("sharks").clientHeight; if (hh && hh !== sharkOpts.height) syncSharks({ height: hh }); }).observe($("sharks"));
+  } else syncSharks({ sharks: sharkSpecs });
+
+  /* 内容 */
+  const blocks = [tiles(agents), board(ranked, tieCount), trend(data.history || [], agents), tasks(data.tasks || [], agents, now), events(data.events || [])];
+  blocks.forEach((b, i) => { b.classList.add("reveal"); b.style.setProperty("--i", i); });
+  $("content").replaceChildren(...blocks);
+}
+
+function tiles(agents) {
+  const working = agents.filter((a) => a._act.kind === "good").length;
+  const tile = (label, value, foot) => h("div", { class: "tile" }, h("p", { class: "cell-label" }, label), h("p", { class: "tile-value" }, value), h("p", { class: "tile-foot" }, foot));
+  return h("section", { class: "tiles", "aria-label": "关键数字" },
+    tile("已到账（合计）", usd(sumOf(agents, "received_usd")), "领到钱包里的 USDC"),
+    tile("评审中的作品", int(sumOf(agents, "in_review")), "已提交、还没出结果"),
+    tile("今天提交", int(sumOf(agents, "submissions_today")), "4 个 agent 合计"),
+    tile("在干活", `${working} / ${agents.length}`, "3 小时内有新记录"));
+}
+
+function board(ranked, tieCount) {
+  const list = h("ol", { class: "board" });
+  for (const a of ranked) {
+    const week = isNum(a.week_goal_usd) && a.week_goal_usd > 0
+      ? h("div", null,
+          h("p", { class: "cell-label" }, `本周 ${usd(a.week_won_usd ?? 0)} / 目标 ${usd(a.week_goal_usd)}`),
+          h("div", { class: "meter", role: "img", "aria-label": `本周目标完成 ${Math.round(100 * (a.week_won_usd ?? 0) / a.week_goal_usd)}%` },
+            h("i", { style: { "--w": `${Math.min(100, 100 * (a.week_won_usd ?? 0) / a.week_goal_usd)}%`, "--c": color(a.id) } })))
+      : h("div", null, h("p", { class: "cell-label" }, "本周目标"), h("p", { class: "cell-value", style: { "font-size": "15px", color: "var(--muted)" } }, "还没定"));
+    const details = [["今日目标", a.today_goal], ["在做", a.doing], ["明天改什么", a.next]].filter(([, v]) => v);
+    list.append(h("li", { class: "row" + (a._rank === 1 && (a.won_usd ?? 0) > 0 ? " lead" : "") },
+      h("div", { class: "rank num" }, String(a._rank).padStart(2, "0"), tieCount(a._rank) > 1 ? h("span", { class: "tie" }, "并列") : null),
+      h("div", { class: "who" }, h("i", { class: "dot", style: { "--c": color(a.id) } }),
+        h("div", { style: { "min-width": "0" } }, h("p", { class: "who-name" }, a.id), h("p", { class: "who-sub" }, a.platform || "—"), h("p", { class: "who-handle" }, a.handle || "未注册"))),
+      h("div", null, h("p", { class: "cell-label" }, "已赢得"), h("p", { class: "cell-value big" }, usd(a.won_usd))),
+      h("div", { class: "c-received" }, h("p", { class: "cell-label" }, "已到账"), h("p", { class: "cell-value" }, usd(a.received_usd))),
+      h("div", { class: "c-review" }, h("p", { class: "cell-label" }, "评审中"), h("p", { class: "cell-value" }, int(a.in_review))),
+      h("div", { class: "c-week" }, week),
+      h("div", { class: "c-status" }, h("p", { class: "cell-label" }, `最后活动 ${when(a.last_active)}`), statusChip(a._act)),
+      details.length ? h("div", { class: "row-detail" }, details.map(([k, v]) => h("span", null, h("b", null, k + "："), v))) : null));
+  }
+  return h("section", { class: "block", id: "board" },
+    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Leaderboard"), h("h2", null, "排行榜")),
+      h("p", { class: "sec-note" }, "按已赢得排名，只认 make.fun 公布的结果；估算不算")),
+    h("div", { class: "panel" }, list));
+}
+
+function trend(history, agents) {
+  const ids = agents.map((a) => a.id);
+  const rows = history.filter((r) => r && r.date).sort((a, b) => a.date.localeCompare(b.date));
+  const chart = h("div", { class: "chart" });
+  const tableBox = h("div", { hidden: true });
+  const toggle = h("button", { class: "ghost-btn", type: "button", "aria-pressed": "false" }, "表格");
+  toggle.addEventListener("click", () => {
+    const on = toggle.getAttribute("aria-pressed") !== "true";
+    toggle.setAttribute("aria-pressed", String(on));
+    chart.hidden = on; tableBox.hidden = !on;
+  });
+  tableBox.append(h("table", null,
+    h("thead", null, h("tr", null, h("th", null, "日期"), ids.map((id) => h("th", { class: "r" }, id)))),
+    h("tbody", null, rows.map((r) => h("tr", null, h("td", { "data-label": "日期", class: "num" }, r.date), ids.map((id) => h("td", { class: "r num", "data-label": id }, usd(r[id]))))))));
+  const allZero = rows.every((r) => ids.every((id) => !(r[id] > 0)));
+  const panel = h("div", { class: "panel chart-panel" },
+    h("div", { class: "chart-bar" },
+      h("ul", { class: "legend", "aria-label": "图例" }, ids.map((id) => h("li", null, h("i", { class: "key", style: { "--c": color(id) } }), id))),
+      toggle),
+    rows.length ? chart : h("p", { class: "empty" }, "还没有走势数据。muse 每天 0 点会记一个点。"),
+    tableBox,
+    h("p", { class: "chart-note" }, allZero ? "每天 0 点记一个点。现在大家都是 $0，线会叠在一起。" : "每天 0 点记一个点，数值是当时累计已赢得。"));
+  if (rows.length) {
+    const draw = () => drawLines(chart, rows, ids);
+    requestAnimationFrame(draw);
+    new ResizeObserver(() => draw()).observe(chart);
+  }
+  return h("section", { class: "block", id: "trend" },
+    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Trend"), h("h2", null, "累计已赢得走势")),
+      h("p", { class: "sec-note" }, "谁在追谁，看斜率")),
+    panel);
+}
+
+function niceMax(v) {
+  if (!(v > 0)) return 100;
+  const p = Math.pow(10, Math.floor(Math.log10(v)));
+  for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p;
+  return 10 * p;
+}
+
+function drawLines(box, rows, ids) {
+  const W = box.clientWidth;
+  if (!W) return;
+  const H = 260, padL = 48, padT = 12, padB = 32;
+  const n = rows.length, plotH = H - padT - padB;
+  const max = niceMax(Math.max(0, ...rows.flatMap((r) => ids.map((id) => r[id] ?? 0))));
+  const y = (v) => padT + (1 - (v ?? 0) / max) * plotH;
+  // 末端标签只在线条分得开时才画；画不下就靠图例和悬停，右边不留空。
+  const endYs = ids.map((id) => y(rows[n - 1][id])).sort((a, b) => a - b);
+  const separated = endYs.every((v, i) => i === 0 || v - endYs[i - 1] >= 16);
+  const padR = separated ? 96 : 16;
+  const plotW = Math.max(40, W - padL - padR);
+  const x = (i) => padL + (n === 1 ? plotW / 2 : (i * plotW) / (n - 1));
+  const svg = h("svg:svg", { viewBox: `0 0 ${W} ${H}`, height: H, tabindex: 0, role: "img", "aria-label": `累计已赢得走势，${rows[0].date} 到 ${rows[n - 1].date}。用左右方向键查看每天的数值。` });
+  for (let k = 0; k <= 4; k++) {
+    const v = (max / 4) * k, yy = Math.round(y(v)) + .5;
+    svg.append(h("svg:line", { x1: padL, x2: padL + plotW, y1: yy, y2: yy, stroke: k === 0 ? "var(--axis)" : "var(--grid)", "stroke-width": 1 }),
+      h("svg:text", { x: padL - 8, y: yy + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 11, class: "num" }, usd(v)));
+  }
+  const step = Math.max(1, Math.ceil(n / Math.max(2, Math.floor(plotW / 72))));
+  rows.forEach((r, i) => { if (i % step === 0 || i === n - 1) svg.append(h("svg:text", { x: x(i), y: H - 10, "text-anchor": "middle", fill: "var(--muted)", "font-size": 11, class: "num" }, dayLabel(r.date))); });
+  const ends = [];
+  for (const id of ids) {
+    if (n > 1) svg.append(h("svg:path", { d: rows.map((r, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(r[id]).toFixed(1)}`).join(""), fill: "none", stroke: color(id), "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const last = rows[n - 1][id];
+    svg.append(h("svg:circle", { cx: x(n - 1), cy: y(last), r: 4, fill: color(id), stroke: "var(--surface)", "stroke-width": 2 }));
+    ends.push({ id, y: y(last), v: last });
+  }
+  if (separated) for (const e of ends) svg.append(h("svg:text", { x: x(n - 1) + 10, y: e.y + 4, fill: "var(--ink-2)", "font-size": 12 }, `${e.id} ${usd(e.v)}`));
+
+  const cross = h("svg:line", { y1: padT, y2: padT + plotH, stroke: "var(--axis)", "stroke-width": 1, opacity: 0 });
+  svg.append(cross);
+  const hit = h("svg:rect", { x: padL - 12, y: 0, width: plotW + 24, height: H, fill: "transparent" });
+  svg.append(hit);
+  const tip = h("div", { class: "tip", "aria-hidden": "true" });
+  let idx = n - 1;
+  const show = (i) => {
+    idx = Math.max(0, Math.min(n - 1, i));
+    const r = rows[idx], cx = x(idx);
+    cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.setAttribute("opacity", 1);
+    tip.replaceChildren(h("p", { class: "tip-date" }, r.date),
+      [...ids].sort((a, b) => (r[b] ?? 0) - (r[a] ?? 0)).map((id) => h("div", { class: "tip-row" }, h("i", { class: "key", style: { "--c": color(id) } }), h("strong", { class: "num" }, usd(r[id])), h("span", null, id))));
+    tip.classList.add("on");
+    const tw = tip.offsetWidth || 160;
+    tip.style.left = `${Math.min(Math.max(0, cx + 12 + tw > W ? cx - tw - 12 : cx + 12), Math.max(0, W - tw))}px`;
+  };
+  const hide = () => { cross.setAttribute("opacity", 0); tip.classList.remove("on"); };
+  svg.addEventListener("pointermove", (e) => {
+    const rect = svg.getBoundingClientRect(), px = (e.clientX - rect.left) * (W / rect.width);
+    show(n === 1 ? 0 : Math.round(((px - padL) / plotW) * (n - 1)));
+  });
+  svg.addEventListener("pointerleave", hide);
+  svg.addEventListener("focus", () => show(idx));
+  svg.addEventListener("blur", hide);
+  svg.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") { show(idx - 1); e.preventDefault(); }
+    if (e.key === "ArrowRight") { show(idx + 1); e.preventDefault(); }
+  });
+  box.replaceChildren(svg, tip);
+}
+
+function tasks(list, agents, now) {
+  let filter = "all";
+  const body = h("div");
+  const chips = h("div", { class: "filters", role: "group", "aria-label": "按 agent 筛选" });
+  const options = [["all", "全部"], ...agents.map((a) => [a.id, a.id])];
+  const paint = () => {
+    chips.replaceChildren(...options.map(([id, label]) => {
+      const n = id === "all" ? list.length : list.filter((t) => t.agent === id).length;
+      return h("button", { class: "chip", type: "button", "aria-pressed": String(filter === id), onclick: () => { filter = id; paint(); } },
+        id === "all" ? null : h("i", { class: "dot", style: { "--c": color(id) } }), label, h("span", { class: "n num" }, n));
+    }));
+    const shown = list.filter((t) => filter === "all" || t.agent === filter)
+      .sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status) || String(a.deadline).localeCompare(String(b.deadline)));
+    if (!shown.length) { body.replaceChildren(h("p", { class: "empty" }, list.length ? "这个 agent 还没有任务。" : "还没有任务。agent 选好比赛后会出现在这里。")); return; }
+    const tbody = h("tbody");
+    shown.forEach((t, i) => {
+      const detailId = `task-detail-${i}`;
+      const detail = h("tr", { class: "detail-row", id: detailId, hidden: true },
+        h("td", { colspan: 7 },
+          t.note ? h("p", null, t.note) : h("p", null, "agent 还没写详情。"),
+          t.slug ? h("p", null, h("a", { href: `https://make.fun/bounty/${encodeURIComponent(t.slug)}`, target: "_blank", rel: "noopener" }, "在 make.fun 上看这场比赛的规则和榜单 →")) : null));
+      const btn = h("button", { class: "task-btn", type: "button", "aria-expanded": "false", "aria-controls": detailId },
+        h("svg:svg", { class: "chev", viewBox: "0 0 12 12", fill: "none", stroke: "currentColor", "stroke-width": 1.6, "aria-hidden": "true" }, h("svg:path", { d: "M4.5 2.5 8 6l-3.5 3.5" })),
+        h("span", null, h("span", { class: "t-title" }, t.title || t.slug || "—"), h("span", { class: "t-slug" }, t.slug || "")));
+      const toggleRow = () => { const open = btn.getAttribute("aria-expanded") !== "true"; btn.setAttribute("aria-expanded", String(open)); detail.hidden = !open; };
+      btn.addEventListener("click", (e) => { e.stopPropagation(); toggleRow(); });
+      const rankCell = isNum(t.rank)
+        ? [h("span", { class: "num" }, `${int(t.rank)} / ${int(t.field)}`), isNum(t.paid_places) ? h("span", { class: "sub" }, `前 ${t.paid_places} 名有奖`) : null]
+        : ["—"];
+      tbody.append(
+        h("tr", { class: "task-row", onclick: toggleRow },
+          h("td", { class: "first" }, btn),
+          h("td", { "data-label": "agent" }, agentTag(t.agent)),
+          h("td", { "data-label": "状态" }, t.status || "—"),
+          h("td", { "data-label": "当前名次", class: "r" }, h("span", null, ...rankCell)),
+          h("td", { "data-label": "提交", class: "r num" }, `${int(t.submissions)} / ${int(t.max_submissions)}`),
+          h("td", { "data-label": "截止", class: "r" }, h("span", null, countdown(t.deadline, now), h("span", { class: "sub num" }, when(t.deadline)))),
+          h("td", { "data-label": "赢得", class: "r num" }, h("span", null, usd(t.won_usd), isNum(t.first_prize_usd) ? h("span", { class: "sub" }, `第一名 ${usd(t.first_prize_usd)}`) : null))),
+        detail);
+    });
+    body.replaceChildren(h("table", null,
+      h("thead", null, h("tr", null, h("th", null, "比赛"), h("th", null, "Agent"), h("th", null, "状态"), h("th", { class: "r" }, "当前名次"), h("th", { class: "r" }, "提交"), h("th", { class: "r" }, "截止"), h("th", { class: "r" }, "赢得"))),
+      tbody));
+  };
+  paint();
+  return h("section", { class: "block", id: "tasks" },
+    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Bounties"), h("h2", null, "在打的比赛")),
+      h("p", { class: "sec-note" }, "点一行看详情；名次来自 make.fun 公开榜单")),
+    chips, h("div", { class: "panel" }, body));
+}
+
+function events(list) {
+  const items = [...list].filter((e) => e && e.text).sort((a, b) => String(b.time).localeCompare(String(a.time))).slice(0, 30);
+  return h("section", { class: "block", id: "events" },
+    h("div", { class: "sec-head" }, h("div", null, h("p", { class: "label" }, "Activity"), h("h2", null, "最近动态"))),
+    h("div", { class: "panel" }, items.length
+      ? h("ol", { class: "events" }, items.map((e) => h("li", { class: "event" }, h("time", { datetime: e.time }, when(e.time)), agentTag(e.agent), h("span", null, e.text))))
+      : h("p", { class: "empty" }, "还没有动态。")));
+}
+
+load();
+</script>
+</body>
+</html>

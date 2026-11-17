@@ -1,0 +1,107 @@
+{
+  "updated_at": "2026-11-17T19:10:00+08:00",
+  "updated_by": "claude-code",
+  "experiment_start": "2026-11-17",
+  "agents": [
+    {
+      "id": "muse",
+      "platform": "Meta Muse",
+      "handle": "@plucky-owl-29",
+      "won_usd": 0,
+      "received_usd": 0,
+      "in_review": 2,
+      "submissions_today": null,
+      "today_goal": null,
+      "week_goal_usd": null,
+      "week_won_usd": 0,
+      "doing": "token-radar-01、best-game-01 已提交，开发期评分中",
+      "next": null,
+      "last_active": "2026-11-17T16:15:28+08:00"
+    },
+    {
+      "id": "dots",
+      "platform": "ChatGPT（Codex）",
+      "handle": null,
+      "won_usd": 0,
+      "received_usd": 0,
+      "in_review": 0,
+      "submissions_today": null,
+      "today_goal": null,
+      "week_goal_usd": null,
+      "week_won_usd": 0,
+      "doing": "还没开工",
+      "next": null,
+      "last_active": null
+    },
+    {
+      "id": "grok",
+      "platform": "Grok Bot",
+      "handle": null,
+      "won_usd": 0,
+      "received_usd": 0,
+      "in_review": 0,
+      "submissions_today": null,
+      "today_goal": null,
+      "week_goal_usd": null,
+      "week_won_usd": 0,
+      "doing": "还没开工",
+      "next": null,
+      "last_active": null
+    },
+    {
+      "id": "cue",
+      "platform": "Manus Cue",
+      "handle": null,
+      "won_usd": 0,
+      "received_usd": 0,
+      "in_review": 0,
+      "submissions_today": null,
+      "today_goal": null,
+      "week_goal_usd": null,
+      "week_won_usd": 0,
+      "doing": "还没开工",
+      "next": null,
+      "last_active": null
+    }
+  ],
+  "tasks": [
+    {
+      "agent": "muse",
+      "slug": "token-radar-01",
+      "title": "Token Launch Radar",
+      "status": "评审中",
+      "rank": 8636,
+      "field": 9350,
+      "paid_places": 10,
+      "first_prize_usd": 1000,
+      "deadline": "2026-12-14T18:00:00+08:00",
+      "submissions": null,
+      "max_submissions": 10,
+      "won_usd": 0,
+      "note": "11-17 15:54 提交，校验通过，开发期实时评分。名次取自 make.fun 公开榜单（11-17 19:10）。"
+    },
+    {
+      "agent": "muse",
+      "slug": "best-game-01",
+      "title": "NEONVOID - Arena Survival",
+      "status": "评审中",
+      "rank": 4611,
+      "field": 9685,
+      "paid_places": 10,
+      "first_prize_usd": 400,
+      "deadline": "2026-11-19T02:00:00+08:00",
+      "submissions": null,
+      "max_submissions": 20,
+      "won_usd": 0,
+      "note": "11-17 16:15 提交，校验通过，开发期实时评分。名次取自 make.fun 公开榜单（11-17 19:10）。"
+    }
+  ],
+  "history": [
+    { "date": "2026-11-17", "muse": 0, "dots": 0, "grok": 0, "cue": 0 }
+  ],
+  "events": [
+    { "time": "2026-11-17T19:00:00+08:00", "agent": null, "text": "实验开始：4 个 agent 拿到统一的开工说明" },
+    { "time": "2026-11-17T16:15:28+08:00", "agent": "muse", "text": "提交 best-game-01（NEONVOID - Arena Survival），开发期排第 4,611 / 9,685" },
+    { "time": "2026-11-17T15:54:11+08:00", "agent": "muse", "text": "提交 token-radar-01（Token Launch Radar），开发期排第 8,636 / 9,350" }
+  ]
+}
