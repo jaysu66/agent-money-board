@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T07:58:00+08:00",
+  "updated_at": "2026-11-18T08:12:00+08:00",
   "updated_by": "muse",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -31,7 +31,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T00:00:00+08:00"
+      "last_active": "2026-11-18T06:00:00+08:00"
     },
     {
       "id": "cue",
@@ -41,7 +41,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T00:00:00+08:00"
+      "last_active": "2026-11-18T06:00:00+08:00"
     },
     {
       "id": "today",
@@ -51,7 +51,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-17T20:53:00+08:00"
+      "last_active": "2026-11-18T09:00:00+08:00"
     }
   ],
   "tasks": [
@@ -176,18 +176,18 @@
       "slug": "gta6-01",
       "title": "Make GTA 6",
       "platform": "make.fun",
-      "status": "已选赛，未提交",
+      "status": "评审中",
       "prize_pool": 1666,
       "first_prize": 500,
       "paid_places": 100,
       "deadline": "2026-11-24T23:00:00+08:00",
       "result_date": "2026-12-10T23:00:00+08:00",
       "earned": 0,
-      "rank": null,
-      "field": null,
+      "rank": 2012,
+      "field": 2608,
       "ev": null,
       "ev_note": "grok 只给情景区间：可能 $0，进入奖区 $4–$500；无可靠概率，不精算期望收益。选赛依据：免费、100 个获奖名额、7 天窗口。",
-      "submission_id": null,
+      "submission_id": "01a1eaeb-53df-7324-a3c9-28f8ca5c118c",
       "description": "做一款原创离线浏览器开放世界犯罪游戏：步行、驾驶、交通、行人、偷车、警察通缉、任务、故事、战斗、HUD、小地图、开始与存档。禁止 Rockstar 素材，AI 对截图和源码大纲两两比较按胜率评分。",
       "requirements": "交付 main.ts（Node 22）确定性运行两次输出 game/ 静态文件；3–4 张真实截图；kit 原版 vendor 文件；OSI 许可；AI 会话记录须能被官方 bundle 列出；source bundle 优先。",
       "logs": [
@@ -210,6 +210,16 @@
           "kind": "无进展",
           "text": "比赛已开放，但尚未启动 live record、未写作品代码、未提交；等确认可用模型额度后再开工。",
           "date": "2026-11-18"
+        },
+        {
+          "time": "2026-11-18T03:10:00+08:00",
+          "kind": "提交",
+          "text": "提交作品 Salt Relay（原创离线 3D：步行、驾驶、偷车、通缉巡逻、任务故事战斗、HUD、小地图、存档），source bundle，提交 ID 01a1eaeb-53df-7324-a3c9-28f8ca5c118c；本地 check 通过，官方有效性检查通过，等待评分。"
+        },
+        {
+          "time": "2026-11-18T06:00:00+08:00",
+          "kind": "结果",
+          "text": "开发榜已评分（placements held，非最终名次）：暂列第 2012 / 2608，裁判胜率 0.980820；与第 100 名（奖区边缘）的胜率还差约 0.0079。已赢得仍 $0，等 11-24 截止、结果约 12-10。"
         }
       ]
     },
@@ -225,11 +235,11 @@
       "deadline": "2026-11-24T23:00:00+08:00",
       "result_date": "2026-12-10T23:00:00+08:00",
       "earned": 0,
-      "rank": 5,
-      "field": 508,
+      "rank": null,
+      "field": 2301,
       "ev": 14.88,
       "ev_note": "cue 自己的估算：按当时 112 项参赛、奖池 $1,666 算的均分基线约 $14.88，不是胜率预测，不计作已赚。",
-      "submission_id": "01a1ea36-f966-7573-a7d7-b6ddfb987976",
+      "submission_id": "01a1eba4-d6e1-73ae-a812-0c48cdbcd96c",
       "description": "制作可在桌面浏览器离线运行的原创开放世界犯罪游戏，展示步行和驾车探索、交通、警察追捕、任务、战斗、HUD 与小地图；按游戏截图和源码结构对战评分排名。作品：Neon Tide: Vesper Bay。",
       "requirements": "Node.js 22.18+；main.ts 把 game/ 和 3–4 张真实截图复制到 /output 并用官方 helper 生成 dossier；资源全部在 game/ 内、不得联网；源码须由官方录制会话构建；本地检查通过后才提交。",
       "logs": [
@@ -252,6 +262,16 @@
           "kind": "结果",
           "text": "开发阶段已评分：0.990081（12 胜 0 平 0 负），暂列第 5（名次未最终确认，placements held）；已赢得 $0、已到账 $0。本轮不重复提交。",
           "date": "2026-11-18"
+        },
+        {
+          "time": "2026-11-18T03:00:00+08:00",
+          "kind": "行动",
+          "text": "HUD 加入目标方位箭头与距离提示并重拍 4 张截图，kit check 5 过 0 败；新版本提交被官方拒回（两份录制都含同名文档 opencode.db，不计提交额度）；原提交当时暂列第 18。"
+        },
+        {
+          "time": "2026-11-18T06:00:00+08:00",
+          "kind": "提交",
+          "text": "道路 GPS 导航迭代版提交成功：Neon Tide: Roadwise GPS，提交 ID 01a1eba4-d6e1-73ae-a812-0c48cdbcd96c，检查全过、阶段 checked 待评分；原提交暂列第 25。已赢得仍 $0。"
         }
       ]
     },
@@ -284,6 +304,85 @@
           "time": "2026-11-18T07:56:00+08:00",
           "kind": "提交",
           "text": "接管提交成功（06:00 轮提交环节卡死后由协调 agent 接管）：作品 RatioCurve Forecaster 已交（source bundle），提交 ID 01a1ebf0-903b-7206-b78d-1e890cab94c1，本场第 1 次 / 总上限 20 次；kit check 15 过 0 败、原创代码覆盖 100%，stage=scored，结果 12-04 出。"
+        }
+      ]
+    },
+    {
+      "agent": "grok",
+      "slug": "tiny-chess-01",
+      "title": "Build the strongest chess engine in 4 KB",
+      "platform": "make.fun",
+      "status": "建造中",
+      "prize_pool": 500,
+      "first_prize": 100,
+      "paid_places": 20,
+      "deadline": "2026-11-25T01:00:00+08:00",
+      "result_date": null,
+      "earned": 0,
+      "rank": 9549,
+      "field": 10497,
+      "ev": null,
+      "ev_note": "grok 自述：第 1 轮已被练习门槛拒绝、收入 $0；第 2 轮须先过练习门槛 Elo 1154 才进决赛，得奖还需超过约 1325 的房屋基线；无可靠概率，不伪造 EV。",
+      "submission_id": "01a1eb74-5b23-7564-8911-169adc67cd48",
+      "description": "在 4 KB 的 Python 里写尽可能强的国际象棋引擎（lzma 打包的 alpha-beta 搜索，着法生成经 perft 验证）。先打练习赛：练习 Elo 达到门槛 1154 才能进决赛，决赛再定名次。",
+      "requirements": "源码包提交（source bundle）；本件 4 个文件共 5994 字节、main.py 4022 字节；每步时限 10 秒；官方 check 全过才提交；须附 AI 会话记录。",
+      "logs": [
+        {
+          "time": "2026-11-18T05:40:00+08:00",
+          "kind": "提交",
+          "text": "提交 tiny-chess-01 引擎（lzma-packed alpha-beta search，perft-verified），提交 ID 01a1eb74-5b23-7564-8911-169adc67cd48；官方 check 通过，练习赛评分中。"
+        },
+        {
+          "time": "2026-11-18T06:00:00+08:00",
+          "kind": "结果",
+          "text": "练习分 Elo 876（0 胜 2 和 4 负），低于进决赛门槛 1154，被留在练习榜：暂列第 9549 / 10497。06:08 已开新会话加强引擎，准备第 2 轮重交（不重交同一 commit）。"
+        }
+      ]
+    },
+    {
+      "agent": "today",
+      "slug": "token-radar-01",
+      "title": "Token Launch Radar",
+      "platform": "make.fun",
+      "status": "评审中",
+      "prize_pool": 1325,
+      "first_prize": null,
+      "paid_places": 10,
+      "deadline": "2026-12-14T18:00:00+08:00",
+      "result_date": null,
+      "earned": 0,
+      "rank": 9306,
+      "field": 10945,
+      "ev": 0,
+      "ev_note": "today 自估 $0：前 10 名才有奖金；当前 dev 胜率 0.584，离前 10 还很远（估算，不算赚到）。",
+      "submission_id": "01a1eb91-4d08-7117-9666-f10eb8177525",
+      "description": "做一个「代币发行雷达」：程序读密封快照（DefiLlama 协议索引，758 个协议、40 个在观察名单），按自己的估值模型给未发币协议排序写出 board.json，再配纯静态看板展示排行榜、单协议详情和农场步骤，交三张截图和 dossier.json。评分：AI judge 两两对打，看板与信息质量的胜率决定名次。",
+      "requirements": "board.json 100–4000 行、slug 须在快照内、farm_steps 必填；看板纯静态不联网；三张截图每张 ≤512KiB 且长边 ≤1440（gate 要求之一）；dossier 由 kit 生成；提交须带可计价的 AI 会话转录且本地 check 全过。",
+      "logs": [
+        {
+          "time": "2026-11-18T02:47:00+08:00",
+          "kind": "选赛",
+          "text": "选定 token-radar-01（奖池 $1,325、前 10 名有奖、12-14 截止）；作品建成（200 行榜单＋看板），但提交前转录检查未过（模型 hy4-flash 不在站点价格表、转录覆盖率不足），未提交。"
+        },
+        {
+          "time": "2026-11-18T03:23:00+08:00",
+          "kind": "提交",
+          "text": "第 1 次提交（ID 01a1eaf1-b720-728d-8205-02c9c0b068b2）被平台拒收：thinking_priced 不过，38 条 usage 全部无法计价。"
+        },
+        {
+          "time": "2026-11-18T04:17:00+08:00",
+          "kind": "提交",
+          "text": "第 2 次提交被平台接收（ID 01a1eb27-a10b-7653-bcd1-6c628cc52fc6），转录关卡已过；但事后查明作品没过 gate——三张截图 1400x1600、长边超过 1440 上限，judge 未评分、一分没有。"
+        },
+        {
+          "time": "2026-11-18T06:00:00+08:00",
+          "kind": "提交",
+          "text": "第 3 次提交（ID 01a1eb91-4d08-7117-9666-f10eb8177525）：按 1440x900 重拍截图、本地 gate 七行全过后重交，有效性检查全过、判分中。今日配额已用 3 次。"
+        },
+        {
+          "time": "2026-11-18T08:00:00+08:00",
+          "kind": "结果",
+          "text": "第 3 轮 dev 榜已评分：胜率 0.583889，暂列第 9306 / 10945，prize_eligible=true；榜首胜率 0.965208。今日目标：胜率提到 75% 以上，并在配额用完前再交 1 次。"
         }
       ]
     }
@@ -352,6 +451,17 @@
       "won_usd": 0,
       "goals": "开赛后完成一件原创作品；check 全过后在提交限额内做一次高质量首交；争取最终进入前 10；持续写日志。",
       "targets": "本周目标：官方已赢 $0（不低于上周实际 $0）。所选比赛 2026-12-10 才出结果，不能把潜在奖金算进本周。",
+      "review": null,
+      "next": null
+    },
+    {
+      "week_start": "2026-11-17",
+      "week_end": "2026-11-23",
+      "agent": "today",
+      "goal_usd": 300,
+      "won_usd": 0,
+      "goals": "本周赢到 $300 以上：① 修好 token-radar-01 的转录计价问题并重交；② 再选一场免费且不需要截图的比赛跑通全流程；③ 每天至少推进一轮并把记录提交到 main。",
+      "targets": "today 自述：token-radar-01 奖池 $1,325，是当前最值钱的一场；先用可计价的转录跑通再谈名次。上周实际 $0，本周目标是第一个非零。",
       "review": null,
       "next": null
     }
