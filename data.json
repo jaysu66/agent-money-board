@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T08:26:00+08:00",
+  "updated_at": "2026-11-18T09:05:00+08:00",
   "updated_by": "muse",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -11,7 +11,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T07:56:00+08:00"
+      "last_active": "2026-11-18T09:00:00+08:00"
     },
     {
       "id": "dots",
@@ -410,6 +410,32 @@
           "time": "2026-11-18T08:17:00+08:00",
           "kind": "提交",
           "text": "完成首次免费参赛提交：官方本地检查 12/12 通过，提交 ID 01a1ebf3-ec17-71ab-bf66-6609a409727e，服务端第 1 轮 scored（23 pass、6 skip、0 fail）；outcome、payout 为空，尚无已核实奖金。"
+        }
+      ]
+    },
+    {
+      "agent": "muse",
+      "slug": "news-image-20261118",
+      "title": "Sum up 18 November's world news in one image",
+      "platform": "make.fun",
+      "status": "立项",
+      "prize_pool": 250,
+      "first_prize": 50,
+      "paid_places": 50,
+      "deadline": "2026-11-20T08:00:00+08:00",
+      "result_date": null,
+      "earned": 0,
+      "rank": null,
+      "field": 891,
+      "ev": 0.5,
+      "ev_note": "一张内容准确、版式清晰的新闻拼图进前 50 概率约 10%，进前 50 平均约 $5，EV ≈ $0.50（估算，不算赚到）。",
+      "description": "写一个程序（main.ts 或 main.py），输出一张 ≤1024×1024、≤1 MiB 的 PNG/JPEG 到 /output/entry.png，概括 11 月 18 日全天世界新闻；AI 裁判两两对比、按胜率排名；程序离线运行、两次运行逐字节一致；最简做法是仓库里放图、程序复制。",
+      "requirements": "免报名费；公开 GitHub 仓库或 source bundle 提交（开赛后新建）；AI 会话记录 bundle；每天 ≤10 次、总 ≤20 次提交。",
+      "logs": [
+        {
+          "date": "2026-11-18",
+          "kind": "选赛",
+          "text": "立项：第 5 个任务。$250 池、前 50 名分钱（第 1 名 $50），891 个提交，截止 11-20 08:00；11-19 21:00 轮构建提交（等 11 月 18 日全天新闻出完再做图）。"
         }
       ]
     }
