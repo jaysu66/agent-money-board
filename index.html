@@ -185,6 +185,17 @@
   .t-rank .sub { display: block; font-weight: 400; }
   .t-dl { font-size: 15px; font-weight: 500; color: var(--ink); }
   .t-won { font-size: 20px; font-weight: 700; text-align: right; color: var(--ink); }
+  .t-prize { margin: 4px 0 0; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .t-prize .cur { color: var(--ink); }
+  .taskbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .hope-how { margin: 0 0 4px; font-size: 14px; line-height: 1.7; color: var(--ink-2); }
+  .hope-pos { color: var(--ink-2); }
+  .tiers { width: 100%; border-collapse: collapse; }
+  .tiers th, .tiers td { padding: 8px 12px; text-align: left; font-size: 15px; border-top: 1px solid var(--grid); }
+  .tiers th { font-size: 13px; font-weight: 700; color: var(--ink-2); border-top: 0; }
+  .tiers tr.cur { background: var(--surface-2); }
+  .tiers tr.cur td { font-weight: 700; color: var(--ink); }
+  .tiers .cur-tag { font-size: 13px; font-weight: 700; color: var(--good-ink); white-space: nowrap; }
 
   /* 任务行可整行点击 */
   a.task { color: inherit; text-decoration: none; margin: 0 -12px; padding-left: 12px; padding-right: 12px; border-radius: 10px; transition: background-color 120ms var(--ease); }
@@ -359,6 +370,18 @@ let ORDER = [];
 const SHARK_KINDS = ["hammerhead", "classic", "thresher", "zebra", "tiger", "mako", "greathammer", "nurse"];
 const STATUS_ORDER = ["建造中", "选赛", "评审中", "已出结果", "已领奖", "已放弃"];
 const DONE = ["已出结果", "已领奖", "已放弃"];
+/* 奖金档位是比赛级常量（[起始名次, 结束名次, 美元]），不进 data.json，免得汇总时被冲掉；不在表里的比赛只显示奖池/第一名/有奖名次数 */
+const PRIZE_TIERS = {
+  "token-radar-01": [[1, 1, 1000], [2, 5, 50], [6, 10, 25]],
+  "best-game-01": [[1, 1, 400], [2, 2, 200], [3, 3, 120], [4, 10, 40]],
+  "gta6-01": [[1, 1, 500], [2, 2, 250], [3, 3, 150], [4, 10, 38], [11, 25, 10], [26, 50, 6], [51, 100, 4]],
+  "gta6-twitch-ccu-forecast-01": [[1, 1, 50], [2, 2, 35], [3, 3, 25], [4, 10, 10], [11, 20, 7]],
+  "tiny-chess-01": [[1, 1, 100], [2, 2, 70], [3, 3, 50], [4, 10, 20], [11, 20, 14]],
+};
+const PRIZE_GATE = {
+  "gta6-twitch-ccu-forecast-01": "还须赢过官方基线才发奖",
+  "tiny-chess-01": "练习 Elo 达 1154 才进决赛，决赛还须超过官方基线",
+};
 const TABS = [["#/", "总览"], ["#/tasks", "任务"], ["#/daily", "每日复盘"], ["#/weekly", "周计划"]];
 const root = document.documentElement;
 const $ = (id) => document.getElementById(id);
@@ -719,15 +742,90 @@ function rankLine(t) {
   if (paid !== null && t.rank <= paid) return h("div", { class: "t-rank" }, h("span", { class: "in" }, `第 ${int(t.rank)} 名 · 在奖金区`), h("span", { class: "sub" }, `前 ${paid} 名有奖`));
   return h("div", { class: "t-rank" }, `第 ${int(t.rank)} 名`, h("span", { class: "sub" }, paid !== null ? `还差 ${int(t.rank - paid)} 名进奖金区（前 ${paid} 名有奖）` : `共 ${int(t.field)} 个作品`));
 }
+/* 当前名次对应的奖金：{ inMoney: true/false/null（未知）, amount: 美元或 null（金额未知） } */
+function tierInfo(t) {
+  if (!isNum(t.rank)) return { inMoney: null, amount: null };
+  const tiers = PRIZE_TIERS[t.slug];
+  if (tiers) {
+    const row = tiers.find(([lo, hi]) => t.rank >= lo && t.rank <= hi);
+    return row ? { inMoney: true, amount: row[2] } : { inMoney: false, amount: null };
+  }
+  if (t.rank === 1 && isNum(t.first_prize)) return { inMoney: true, amount: t.first_prize };
+  if (isNum(t.paid_places) && t.paid_places > 0) return { inMoney: t.rank <= t.paid_places, amount: null };
+  return { inMoney: null, amount: null };
+}
+/* 任务卡上的一行奖金摘要：奖池 · 第一名 · 前 N 名有钱 · 当前名次若结算多少钱 */
+function prizeLine(t) {
+  const bits = [];
+  if (isNum(t.prize_pool)) bits.push(`奖池 ${usd(t.prize_pool)}`);
+  if (isNum(t.first_prize)) bits.push(`第 1 名 ${usd(t.first_prize)}`);
+  if (isNum(t.paid_places)) bits.push(`前 ${t.paid_places} 名有钱`);
+  if (!bits.length) return null;
+  let cur = null;
+  if (isNum(t.rank)) {
+    const { inMoney, amount } = tierInfo(t);
+    if (amount != null) cur = `当前第 ${int(t.rank)} 名 → 若按此名次结算（开发期暂列）：${usd(amount)}`;
+    else if (inMoney === true) cur = `当前第 ${int(t.rank)} 名 · 已在奖金区内`;
+    else if (inMoney === false) cur = `当前第 ${int(t.rank)} 名 · 当前名次暂无奖金`;
+  }
+  return h("p", { class: "t-prize" }, bits.join(" · "), cur ? h("span", { class: "cur" }, ` · ${cur}`) : null);
+}
+/* 希望榜的一句说明 */
+function hopeNote(t) {
+  let base;
+  if (isNum(t.rank) && isNum(t.paid_places) && t.paid_places > 0) {
+    if (t.rank <= t.paid_places) base = `已进奖金区：当前名次在前 ${t.paid_places} 名内`;
+    else {
+      const y = t.rank / t.paid_places;
+      base = `距奖金区还差约 ${y >= 10 ? Math.round(y) : Math.round(y * 10) / 10} 倍`;
+    }
+  } else base = "待评分，希望未知";
+  const gate = PRIZE_GATE[t.slug];
+  return gate ? `${base}（门槛：${gate}）` : base;
+}
+/* 希望榜排序：先进奖金区的在前，其次按 rank/paid_places 从小到大，没名次的最后按期望收益排 */
+const hopeSort = (a, b) => {
+  const key = (t) => {
+    if (isNum(t.rank)) {
+      if (isNum(t.paid_places) && t.paid_places > 0) return [t.rank <= t.paid_places ? 0 : 1, t.rank / t.paid_places];
+      return [1, t.rank];
+    }
+    return [2, -(t.ev ?? 0)];
+  };
+  const ka = key(a), kb = key(b);
+  return ka[0] - kb[0] || ka[1] - kb[1];
+};
 function taskRow(t) {
   const last = [...t.logs].sort(byNewest)[0];
   return h("li", null, h("a", { class: "task", href: taskHref(t) },
     h("div", null,
       h("p", { class: "t-title" }, t.title || t.slug, h("span", { class: "tag" }, t.status || "—")),
-      last ? h("p", { class: "t-note" }, `${logWhen(last)} ${last.kind || ""}：${last.text}`) : null),
+      last ? h("p", { class: "t-note" }, `${logWhen(last)} ${last.kind || ""}：${last.text}`) : null,
+      prizeLine(t)),
     rankLine(t),
     h("div", { class: "t-dl" }, deadline(t)),
     h("div", { class: "t-won num" }, money(t.earned))));
+}
+/* 详情页的完整奖金档位表：当前名次所在档高亮；没有档位表的比赛不显示这一节 */
+function tierSection(t) {
+  const tiers = PRIZE_TIERS[t.slug];
+  const gate = PRIZE_GATE[t.slug];
+  if (!tiers && !gate) return null;
+  const inTier = tiers && isNum(t.rank) && tiers.some(([lo, hi]) => t.rank >= lo && t.rank <= hi);
+  return h("section", { class: "card" }, cardHead("奖金档位", h("p", { class: "note" }, `奖池 ${usd(t.prize_pool)}${isNum(t.paid_places) ? ` · 前 ${t.paid_places} 名有钱` : ""}`)),
+    h("div", { class: "card-b" },
+      tiers ? h("table", { class: "tiers" },
+        h("thead", null, h("tr", null, h("th", null, "名次"), h("th", null, "奖金"), h("th", null, ""))),
+        h("tbody", null, tiers.map(([lo, hi, amt]) => {
+          const cur = isNum(t.rank) && t.rank >= lo && t.rank <= hi;
+          return h("tr", { class: cur ? "cur" : null },
+            h("td", { class: "num" }, lo === hi ? `第 ${lo} 名` : `第 ${lo} – ${hi} 名`),
+            h("td", { class: "num" }, usd(amt)),
+            h("td", null, cur ? h("span", { class: "cur-tag" }, "← 当前名次（开发期暂列）") : null));
+        }))) : null,
+      tiers && isNum(t.rank) && !inTier ? h("p", { class: "t-note" }, `当前第 ${int(t.rank)} 名不在奖金区内，按此名次结算暂无奖金（开发期暂列）。`) : null,
+      tiers && !isNum(t.rank) ? h("p", { class: "t-note" }, "还没有名次，出分后这里会标出当前名次落在哪一档。") : null,
+      gate ? h("p", { class: "t-note" }, `门槛：${gate}。`) : null));
 }
 function taskPage(t) {
   const field = (k, v) => h("div", { class: "field" }, h("dt", null, k), h("dd", null, v));
@@ -755,6 +853,7 @@ function taskPage(t) {
           h("div", { class: "estimate-head" }, h("span", { class: "estimate-label" }, "期望收益估算"), h("span", { class: "estimate-amt num" }, usd(t.ev)), h("span", { class: "estimate-tag" }, "估算，不计入已赢得")),
           t.ev_note ? h("p", null, t.ev_note) : h("p", { class: "reality" }, "agent 还没写估算依据。"),
           isNum(t.rank) && paid !== null && t.rank > paid ? h("p", { class: "reality" }, `对照：当前第 ${int(t.rank)} 名，离奖金线还差 ${int(t.rank - paid)} 名。`) : null))),
+    tierSection(t),
     h("section", { class: "card" }, cardHead("任务是做什么的"),
       h("div", { class: "card-b" }, t.description ? h("p", { class: "prose" }, t.description) : h("p", { class: "prose missing" }, "agent 还没同步这场比赛的中文说明。"))),
     h("section", { class: "card" }, cardHead("官方要求"),
@@ -770,8 +869,34 @@ function taskPage(t) {
   ];
 }
 const sortTasks = (list) => [...list].sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status) || String(a.deadline).localeCompare(String(b.deadline)));
+/* 任务页视图：group = 按 agent 分组（默认），hope = 赚钱希望榜（全部任务拉平排序） */
+let taskViewMode = "group";
+function hopeRow(t, i) {
+  return h("li", null, h("a", { class: "task", href: taskHref(t) },
+    h("div", null,
+      h("p", { class: "t-title" }, h("span", { class: "hope-pos num" }, `${i + 1}.`), " ", t.title || t.slug, h("span", { class: "tag" }, t.status || "—")),
+      h("p", { class: "t-note" }, `${t.agent} · ${hopeNote(t)}`),
+      prizeLine(t)),
+    h("div", { class: "t-rank" }, isNum(t.rank) ? `第 ${int(t.rank)} 名` : h("span", { class: "zero" }, "待评分"),
+      h("span", { class: "sub" }, isNum(t.field) ? `共 ${int(t.field)} 个作品` : "")),
+    h("div", { class: "t-dl" }, deadline(t)),
+    h("div", { class: "t-won num" }, money(t.earned))));
+}
+function hopeBoardCard() {
+  const allowed = new Set(filterAgents("tasks").map(({ a }) => a.id));
+  const list = D.tasks.filter((t) => allowed.has(t.agent)).sort(hopeSort);
+  return h("section", { class: "card" }, cardHead("赚钱希望榜", h("p", { class: "note" }, "全部任务拉平，按赚钱希望从高到低")),
+    h("div", { class: "card-b" },
+      h("p", { class: "hope-how" }, "怎么读：名次均为开发期暂列、会变动；只有平台公布最终结果才算赚到钱；期望收益是估算。排序先看是否进奖金区，再看距奖金区倍数。"),
+      list.length ? h("ol", { class: "tasks" }, list.map((t, i) => hopeRow(t, i))) : h("p", { class: "empty" }, "还没有比赛。")));
+}
 function tasksPage() {
-  return [filterBar("tasks"), ...filterAgents("tasks").map(({ a }) => {
+  const viewSeg = h("div", { class: "seg", role: "group", "aria-label": "任务视图" },
+    ...[["group", "按 agent 分组"], ["hope", "赚钱希望榜"]].map(([k, label]) =>
+      h("button", { type: "button", "aria-pressed": String(taskViewMode === k), onclick: () => { taskViewMode = k; route(); } }, label)));
+  const bar = h("div", { class: "taskbar" }, filterBar("tasks"), viewSeg);
+  if (taskViewMode === "hope") return [bar, hopeBoardCard()];
+  return [bar, ...filterAgents("tasks").map(({ a }) => {
     const mine = sortTasks(D.tasks.filter((t) => t.agent === a.id));
     return h("section", { class: "card" },
       cardHead(agentLink(a.id), h("p", { class: "note" }, h("b", null, `已赢得 ${usd(a.won_usd)}`), ` · ${mine.length} 场比赛 · 点一行看详情`)),
