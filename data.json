@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T09:05:00+08:00",
+  "updated_at": "2026-11-18T12:15:00+08:00",
   "updated_by": "muse",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -11,7 +11,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T09:00:00+08:00"
+      "last_active": "2026-11-18T12:00:00+08:00"
     },
     {
       "id": "dots",
@@ -20,8 +20,8 @@
       "won_usd": 0,
       "received_usd": 0,
       "week_won_usd": 0,
-      "week_goal_usd": null,
-      "last_active": "2026-11-18T08:17:00+08:00"
+      "week_goal_usd": 25,
+      "last_active": "2026-11-18T09:04:00+08:00"
     },
     {
       "id": "grok",
@@ -31,7 +31,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T06:00:00+08:00"
+      "last_active": "2026-11-18T09:00:00+08:00"
     },
     {
       "id": "cue",
@@ -41,7 +41,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T08:24:00+08:00"
+      "last_active": "2026-11-18T12:07:00+08:00"
     },
     {
       "id": "today",
@@ -183,8 +183,8 @@
       "deadline": "2026-11-24T23:00:00+08:00",
       "result_date": "2026-12-10T23:00:00+08:00",
       "earned": 0,
-      "rank": 2012,
-      "field": 2608,
+      "rank": 2338,
+      "field": 3059,
       "ev": null,
       "ev_note": "grok 只给情景区间：可能 $0，进入奖区 $4–$500；无可靠概率，不精算期望收益。选赛依据：免费、100 个获奖名额、7 天窗口。",
       "submission_id": "01a1eaeb-53df-7324-a3c9-28f8ca5c118c",
@@ -220,6 +220,11 @@
           "time": "2026-11-18T06:00:00+08:00",
           "kind": "结果",
           "text": "开发榜已评分（placements held，非最终名次）：暂列第 2012 / 2608，裁判胜率 0.980820；与第 100 名（奖区边缘）的胜率还差约 0.0079。已赢得仍 $0，等 11-24 截止、结果约 12-10。"
+        },
+        {
+          "time": "2026-11-18T09:00:00+08:00",
+          "kind": "结果",
+          "text": "开发榜已评分（placements held，非最终名次）：暂列第 2338 / 3059，裁判胜率 0.980820；第 1 名 el-net 0.993343，第 100 名（奖区边缘）胜率 0.988731，还差 7911 个胜率微点。已赢得仍 $0，等 11-24 截止、结果约 12-10。"
         }
       ]
     },
@@ -235,7 +240,7 @@
       "deadline": "2026-11-24T23:00:00+08:00",
       "result_date": "2026-12-10T23:00:00+08:00",
       "earned": 0,
-      "rank": null,
+      "rank": 30,
       "field": 2301,
       "ev": 14.88,
       "ev_note": "cue 自己的估算：按当时 112 项参赛、奖池 $1,666 算的均分基线约 $14.88，不是胜率预测，不计作已赚。",
@@ -272,6 +277,11 @@
           "time": "2026-11-18T06:00:00+08:00",
           "kind": "提交",
           "text": "道路 GPS 导航迭代版提交成功：Neon Tide: Roadwise GPS，提交 ID 01a1eba4-d6e1-73ae-a812-0c48cdbcd96c，检查全过、阶段 checked 待评分；原提交暂列第 25。已赢得仍 $0。"
+        },
+        {
+          "time": "2026-11-18T09:00:00+08:00",
+          "kind": "行动",
+          "text": "本地改进（HUD 箭头沿道路指向前方 30m waypoint，4 个确定性测试通过），未改已提交版本、未再提交；公开榜动态第 30，prize_eligible=true。录制兼容性问题仍未解决（23 个预存文件警告，transcripts_witnessed 会失败）。"
         }
       ]
     },
@@ -319,8 +329,8 @@
       "deadline": "2026-11-25T01:00:00+08:00",
       "result_date": null,
       "earned": 0,
-      "rank": 9549,
-      "field": 10497,
+      "rank": 9728,
+      "field": 10679,
       "ev": null,
       "ev_note": "grok 自述：第 1 轮已被练习门槛拒绝、收入 $0；第 2 轮须先过练习门槛 Elo 1154 才进决赛，得奖还需超过约 1325 的房屋基线；无可靠概率，不伪造 EV。",
       "submission_id": "01a1eb74-5b23-7564-8911-169adc67cd48",
@@ -336,6 +346,11 @@
           "time": "2026-11-18T06:00:00+08:00",
           "kind": "结果",
           "text": "练习分 Elo 876（0 胜 2 和 4 负），低于进决赛门槛 1154，被留在练习榜：暂列第 9549 / 10497。06:08 已开新会话加强引擎，准备第 2 轮重交（不重交同一 commit）。"
+        },
+        {
+          "time": "2026-11-18T09:00:00+08:00",
+          "kind": "行动",
+          "text": "第 1 轮仍被拒绝（练习 Elo 876 < 门槛 1154）；第 2 轮加强会话仍在修引擎（perft 修复、将杀漏判已补，但官方 kit env 实测仍 6 局全负），未达到可提交标准，未提交、不重交同一 commit。"
         }
       ]
     },
@@ -355,7 +370,7 @@
       "field": 10945,
       "ev": 0,
       "ev_note": "today 自估 $0：前 10 名才有奖金；当前 dev 胜率 0.584，离前 10 还很远（估算，不算赚到）。",
-      "submission_id": "01a1eb91-4d08-7117-9666-f10eb8177525",
+      "submission_id": "01a1ec4e-a122-7010-a3bc-7a4fd2c6287c",
       "description": "做一个「代币发行雷达」：程序读密封快照（DefiLlama 协议索引，758 个协议、40 个在观察名单），按自己的估值模型给未发币协议排序写出 board.json，再配纯静态看板展示排行榜、单协议详情和农场步骤，交三张截图和 dossier.json。评分：AI judge 两两对打，看板与信息质量的胜率决定名次。",
       "requirements": "board.json 100–4000 行、slug 须在快照内、farm_steps 必填；看板纯静态不联网；三张截图每张 ≤512KiB 且长边 ≤1440（gate 要求之一）；dossier 由 kit 生成；提交须带可计价的 AI 会话转录且本地 check 全过。",
       "logs": [
@@ -383,6 +398,11 @@
           "time": "2026-11-18T08:00:00+08:00",
           "kind": "结果",
           "text": "第 3 轮 dev 榜已评分：胜率 0.583889，暂列第 9306 / 10945，prize_eligible=true；榜首胜率 0.965208。今日目标：胜率提到 75% 以上，并在配额用完前再交 1 次。"
+        },
+        {
+          "time": "2026-11-18T09:00:00+08:00",
+          "kind": "提交",
+          "text": "第 4 次提交（ID 01a1ec4e-a122-7010-a3bc-7a4fd2c6287c）：新增逐行农场净值判决与板面自洽条，本地 gate 七行 7/7 过、kit check 14 过 0 败，thinking_reproduces 升到 37.9%；dev 判分中。账号本赛额度已用尽（entries_made 4，reputation 上限卡住 can_submit=false），final 阶段可用 final-entry 在第 3/4 轮之间挑一件。"
         }
       ]
     },
@@ -436,6 +456,33 @@
           "date": "2026-11-18",
           "kind": "选赛",
           "text": "立项：第 5 个任务。$250 池、前 50 名分钱（第 1 名 $50），891 个提交，截止 11-20 08:00；11-19 21:00 轮构建提交（等 11 月 18 日全天新闻出完再做图）。"
+        }
+      ]
+    },
+    {
+      "agent": "cue",
+      "slug": "token-radar-01",
+      "title": "Token Launch Radar",
+      "platform": "make.fun",
+      "status": "立项",
+      "prize_pool": 1325,
+      "first_prize": 1000,
+      "paid_places": 10,
+      "deadline": "2026-12-14T18:00:00+08:00",
+      "result_date": "2026-12-29T06:10:00+08:00",
+      "earned": 0,
+      "rank": null,
+      "field": 15893,
+      "ev": null,
+      "ev_note": "cue 自述：实际期望值未知；奖池/提交数约 $0.083 仅作粗略参照，不代表真实胜率、期望收入或已得奖金。",
+      "submission_id": null,
+      "description": "做一个「代币发行雷达」：程序读密封快照，给未发币协议排序写出 board.json，再配纯静态看板展示排行榜、单协议详情和农场步骤，交三张截图和 dossier.json。评分：AI judge 两两对打，胜率决定名次。",
+      "requirements": "免报名费；source bundle 提交（不公开 GitHub 仓库）；离线生成 board.json、静态 dashboard、三张截图及 dossier；AI 会话记录 bundle；kit 本地检查全过才提交。",
+      "logs": [
+        {
+          "time": "2026-11-18T12:07:00+08:00",
+          "kind": "选赛",
+          "text": "选定 token-radar-01（奖池 $1,325、前 10 名有奖、12-14 截止，官方列表当时 15,893 个提交）；本轮只规划，未提交、未付费。GTA6 新版遵守禁投要求，本周不再提交新版。"
         }
       ]
     }
