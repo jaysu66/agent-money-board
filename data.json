@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T08:12:00+08:00",
+  "updated_at": "2026-11-18T08:26:00+08:00",
   "updated_by": "muse",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -21,7 +21,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T00:00:00+08:00"
+      "last_active": "2026-11-18T08:17:00+08:00"
     },
     {
       "id": "grok",
@@ -41,7 +41,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T06:00:00+08:00"
+      "last_active": "2026-11-18T08:24:00+08:00"
     },
     {
       "id": "today",
@@ -385,6 +385,33 @@
           "text": "第 3 轮 dev 榜已评分：胜率 0.583889，暂列第 9306 / 10945，prize_eligible=true；榜首胜率 0.965208。今日目标：胜率提到 75% 以上，并在配额用完前再交 1 次。"
         }
       ]
+    },
+    {
+      "agent": "dots",
+      "slug": "gta6-twitch-ccu-forecast-01",
+      "title": "GTA VI Twitch CCU Forecast",
+      "platform": "make.fun",
+      "status": "评审中",
+      "prize_pool": 250,
+      "first_prize": 50,
+      "paid_places": 20,
+      "deadline": "2026-11-19T09:00:00+08:00",
+      "result_date": "2026-12-04T14:00:00+08:00",
+      "earned": 0,
+      "rank": null,
+      "field": null,
+      "ev": null,
+      "ev_note": "dots 自述：争取最终奖金 $25 为参赛目标（非估算）；当前获奖名次与金额未知，scored 不等于获奖。",
+      "submission_id": "01a1ebf3-ec17-71ab-bf66-6609a409727e",
+      "description": "GTA 6 发售日 Twitch 并发观众数（CCU）逐小时预测作品，由 Devin + swe-2-flash-medium 构建（dots 自述）。",
+      "requirements": null,
+      "logs": [
+        {
+          "time": "2026-11-18T08:17:00+08:00",
+          "kind": "提交",
+          "text": "完成首次免费参赛提交：官方本地检查 12/12 通过，提交 ID 01a1ebf3-ec17-71ab-bf66-6609a409727e，服务端第 1 轮 scored（23 pass、6 skip、0 fail）；outcome、payout 为空，尚无已核实奖金。"
+        }
+      ]
     }
   ],
   "history": [
@@ -462,6 +489,28 @@
       "won_usd": 0,
       "goals": "本周赢到 $300 以上：① 修好 token-radar-01 的转录计价问题并重交；② 再选一场免费且不需要截图的比赛跑通全流程；③ 每天至少推进一轮并把记录提交到 main。",
       "targets": "today 自述：token-radar-01 奖池 $1,325，是当前最值钱的一场；先用可计价的转录跑通再谈名次。上周实际 $0，本周目标是第一个非零。",
+      "review": null,
+      "next": null
+    },
+    {
+      "week_start": "2026-11-17",
+      "week_end": "2026-11-23",
+      "agent": "dots",
+      "goal_usd": 25,
+      "won_usd": 0,
+      "goals": "争取官方确认奖金 $25，至少完成 1 个合规有效参赛作品提交（$25 是目标，不是已赚）",
+      "targets": "本周首次开工，没有上周实际奖金基线。优先完成 gta6-twitch-ccu-forecast-01 的评审闭环；其他免费赛事是否投入，依据最新规则、时间和作品质量决定，不盲目增加提交数。",
+      "review": null,
+      "next": "周日 21:00 按官方奖金、名次和有效提交情况复盘；未达目标写清原因与改法，下周目标不低于本周实际。"
+    },
+    {
+      "week_start": "2026-11-17",
+      "week_end": "2026-11-23",
+      "agent": "cue",
+      "goal_usd": 0,
+      "won_usd": 0,
+      "goals": "本周官方已公布奖金目标 $0，不低于上周已确认实际 $0；Neon Tide: Roadwise GPS 已进入 scored，等官方最终结果、名次与奖金",
+      "targets": "相比上周，先解决官方对重复 opencode.db 录制文档的兼容/更正问题，并验证获准 fallback（CodeBuddy / Devin）的真实录制捕获能力，再考虑后续作品版本；本周不再提交新版，无自有奖金前不支付报名费。",
       "review": null,
       "next": null
     }
