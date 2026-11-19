@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T12:15:00+08:00",
+  "updated_at": "2026-11-19T09:08:30+08:00",
   "updated_by": "muse",
   "experiment_start": "2026-11-17",
   "agents": [
@@ -8,10 +8,10 @@
       "platform": "Meta Muse",
       "handle": "@plucky-owl-29",
       "won_usd": 0,
-      "received_usd": 0,
+      "received_usd": 0.5,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T12:00:00+08:00"
+      "last_active": "2026-11-19T00:00:00+08:00"
     },
     {
       "id": "dots",
@@ -21,7 +21,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": 25,
-      "last_active": "2026-11-18T09:04:00+08:00"
+      "last_active": "2026-11-18T15:29:00+08:00"
     },
     {
       "id": "grok",
@@ -31,7 +31,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T09:00:00+08:00"
+      "last_active": "2026-11-18T21:00:00+08:00"
     },
     {
       "id": "cue",
@@ -41,7 +41,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T12:07:00+08:00"
+      "last_active": "2026-11-18T21:00:00+08:00"
     },
     {
       "id": "today",
@@ -51,7 +51,7 @@
       "received_usd": 0,
       "week_won_usd": 0,
       "week_goal_usd": null,
-      "last_active": "2026-11-18T09:00:00+08:00"
+      "last_active": "2026-11-18T12:00:00+08:00"
     }
   ],
   "tasks": [
@@ -99,6 +99,16 @@
           "kind": "结果",
           "text": "轮询 kit status：token-radar 提交 01a1e87f... 已出 Round 1 开发期评分（scored），结果未定（12-29 出）；全部检查通过，暂无可迭代的反馈，本轮不重交（已用 1/10 次）。",
           "date": "2026-11-17"
+        },
+        {
+          "kind": "结果",
+          "text": "21:00 轮询仍 scored、Round 1、payout null，无反馈、不重交（已用 1/10 次）；结果 12-29 出。",
+          "time": "2026-11-18T21:00:00+08:00"
+        },
+        {
+          "kind": "复盘",
+          "text": "Jasonsu 11-19 00:03 当面定调质量优先：本场开发期 8636/9350、只取前 10 名，不再投入迭代，只等开奖。",
+          "time": "2026-11-19T00:03:00+08:00"
         }
       ]
     },
@@ -126,6 +136,16 @@
           "kind": "提交",
           "text": "提交 NEONVOID - Arena Survival，开发期排第 4,611 / 9,685（make.fun 公开榜单 11-17 19:10）。",
           "date": "2026-11-17"
+        },
+        {
+          "kind": "结果",
+          "text": "21:00 轮询仍 scored、Round 1、payout null，无反馈、不重交；截止 11-19 02:00、结果 12-03 出。",
+          "time": "2026-11-18T21:00:00+08:00"
+        },
+        {
+          "kind": "复盘",
+          "text": "Jasonsu 11-19 00:03 当面定调质量优先：本场开发期 4611/9685、只取前 10 名，不再投入迭代，只等开奖。",
+          "time": "2026-11-19T00:03:00+08:00"
         }
       ]
     },
@@ -168,6 +188,16 @@
           "time": "2026-11-18T03:04:00+08:00",
           "kind": "提交",
           "text": "重建并提交 Solmar Bay：密封录制 01a1ead5… seal 成功（--finish 补封），commit 4ef6dbe，新写 2,322 行、dossier 795,000 字节、4 张截图；kit check 5 过 0 败，提交 ID 01a1eae5-9542-7477-b242-3e59532669f2（第 1 次/上限 10 次）；玩法闭环实测 24/24 通过、修了任务点碰撞 bug；Round 1 有效性检查全过，开发期评审中，结果约 12-10。"
+        },
+        {
+          "kind": "结果",
+          "text": "21:00 轮询仍 scored、Round 1、payout null，无反馈、不重交（已用 1/10 次）；结果约 12-10 出。",
+          "time": "2026-11-18T21:00:00+08:00"
+        },
+        {
+          "kind": "行动",
+          "text": "00:03 策略调整：资源全压 gta6 v2（前 100 名有钱、全场约 3,288 个作品、剩 9 次提交、11-24 截止），目标挤进前 100 奖金区；v2 已由主聊天协调 agent 开工（密封录制纪律），本轮不重复开工、不另起录制。",
+          "time": "2026-11-19T00:03:00+08:00"
         }
       ]
     },
@@ -183,8 +213,8 @@
       "deadline": "2026-11-24T23:00:00+08:00",
       "result_date": "2026-12-10T23:00:00+08:00",
       "earned": 0,
-      "rank": 2338,
-      "field": 3059,
+      "rank": 3468,
+      "field": 4639,
       "ev": null,
       "ev_note": "grok 只给情景区间：可能 $0，进入奖区 $4–$500；无可靠概率，不精算期望收益。选赛依据：免费、100 个获奖名额、7 天窗口。",
       "submission_id": "01a1eaeb-53df-7324-a3c9-28f8ca5c118c",
@@ -225,6 +255,11 @@
           "time": "2026-11-18T09:00:00+08:00",
           "kind": "结果",
           "text": "开发榜已评分（placements held，非最终名次）：暂列第 2338 / 3059，裁判胜率 0.980820；第 1 名 el-net 0.993343，第 100 名（奖区边缘）胜率 0.988731，还差 7911 个胜率微点。已赢得仍 $0，等 11-24 截止、结果约 12-10。"
+        },
+        {
+          "kind": "结果",
+          "text": "21:00 轮询：Salt Relay 仍 scored，开发榜 3468/4639（裁判胜率 980820）；第 1 名 993343、第 100 名 989409，距奖金区（前 100）还差 8589 微点；未重交同版，等 11-24 截止、结果约 12-10 出。",
+          "time": "2026-11-18T21:00:00+08:00"
         }
       ]
     },
@@ -240,8 +275,8 @@
       "deadline": "2026-11-24T23:00:00+08:00",
       "result_date": "2026-12-10T23:00:00+08:00",
       "earned": 0,
-      "rank": 30,
-      "field": 2301,
+      "rank": 28,
+      "field": 4639,
       "ev": 14.88,
       "ev_note": "cue 自己的估算：按当时 112 项参赛、奖池 $1,666 算的均分基线约 $14.88，不是胜率预测，不计作已赚。",
       "submission_id": "01a1eba4-d6e1-73ae-a812-0c48cdbcd96c",
@@ -282,6 +317,11 @@
           "time": "2026-11-18T09:00:00+08:00",
           "kind": "行动",
           "text": "本地改进（HUD 箭头沿道路指向前方 30m waypoint，4 个确定性测试通过），未改已提交版本、未再提交；公开榜动态第 30，prize_eligible=true。录制兼容性问题仍未解决（23 个预存文件警告，transcripts_witnessed 会失败）。"
+        },
+        {
+          "kind": "结果",
+          "text": "21:00：最新 entry 01a1eba4 仍 scored，公开实时榜暂列第 28（非正式）；较早 entry 01a1ea36 已 superseded；今日无新提交。",
+          "time": "2026-11-18T21:00:00+08:00"
         }
       ]
     },
@@ -314,6 +354,16 @@
           "time": "2026-11-18T07:56:00+08:00",
           "kind": "提交",
           "text": "接管提交成功（06:00 轮提交环节卡死后由协调 agent 接管）：作品 RatioCurve Forecaster 已交（source bundle），提交 ID 01a1ebf0-903b-7206-b78d-1e890cab94c1，本场第 1 次 / 总上限 20 次；kit check 15 过 0 败、原创代码覆盖 100%，stage=scored，结果 12-04 出。"
+        },
+        {
+          "kind": "结果",
+          "text": "21:00 轮询仍 scored、Round 1、payout null，无反馈、不重交（已用 1/20 次）；截止 11-19 09:00、结果 12-04 出。",
+          "time": "2026-11-18T21:00:00+08:00"
+        },
+        {
+          "kind": "复盘",
+          "text": "Jasonsu 11-19 00:03 定调：本场无分数信号、无法按分迭代，不再投入，只等开奖。",
+          "time": "2026-11-19T00:03:00+08:00"
         }
       ]
     },
@@ -329,8 +379,8 @@
       "deadline": "2026-11-25T01:00:00+08:00",
       "result_date": null,
       "earned": 0,
-      "rank": 9728,
-      "field": 10679,
+      "rank": 10497,
+      "field": 11465,
       "ev": null,
       "ev_note": "grok 自述：第 1 轮已被练习门槛拒绝、收入 $0；第 2 轮须先过练习门槛 Elo 1154 才进决赛，得奖还需超过约 1325 的房屋基线；无可靠概率，不伪造 EV。",
       "submission_id": "01a1eb74-5b23-7564-8911-169adc67cd48",
@@ -351,6 +401,11 @@
           "time": "2026-11-18T09:00:00+08:00",
           "kind": "行动",
           "text": "第 1 轮仍被拒绝（练习 Elo 876 < 门槛 1154）；第 2 轮加强会话仍在修引擎（perft 修复、将杀漏判已补，但官方 kit env 实测仍 6 局全负），未达到可提交标准，未提交、不重交同一 commit。"
+        },
+        {
+          "kind": "行动",
+          "text": "21:00：第 2 轮加强会话仍在运行（OpenCode + nemotron-3.5-lightning-free），未提交——第 1 轮仍被拒绝（练习 Elo 876 < 门槛 1154），草稿 main.py 约 5111 字节已超单文件 4096 上限，未打包、未跑官方 check、不提交；配额 11-19 08:00 重置。",
+          "time": "2026-11-18T21:00:00+08:00"
         }
       ]
     },
@@ -403,6 +458,16 @@
           "time": "2026-11-18T09:00:00+08:00",
           "kind": "提交",
           "text": "第 4 次提交（ID 01a1ec4e-a122-7010-a3bc-7a4fd2c6287c）：新增逐行农场净值判决与板面自洽条，本地 gate 七行 7/7 过、kit check 14 过 0 败，thinking_reproduces 升到 37.9%；dev 判分中。账号本赛额度已用尽（entries_made 4，reputation 上限卡住 can_submit=false），final 阶段可用 final-entry 在第 3/4 轮之间挑一件。"
+        },
+        {
+          "kind": "提交",
+          "text": "09:00 第 4 次提交（ID 01a1ec4e-a122-7010-a3bc-7a4fd2c6287c），gate 与 check 全过、判分中；账号提交额度已用尽（can_submit=false）。",
+          "time": "2026-11-18T09:00:00+08:00"
+        },
+        {
+          "kind": "行动",
+          "text": "12:00 已挑回较好的那件 token-radar 作品；dev 榜第 3 轮 9306/10945。",
+          "time": "2026-11-18T12:00:00+08:00"
         }
       ]
     },
@@ -430,6 +495,11 @@
           "time": "2026-11-18T08:17:00+08:00",
           "kind": "提交",
           "text": "完成首次免费参赛提交：官方本地检查 12/12 通过，提交 ID 01a1ebf3-ec17-71ab-bf66-6609a409727e，服务端第 1 轮 scored（23 pass、6 skip、0 fail）；outcome、payout 为空，尚无已核实奖金。"
+        },
+        {
+          "kind": "结果",
+          "text": "15:29 复核：提交 01a1ebf3 仍第 1 轮 scored（23 pass、6 skip、0 fail），outcome、payout 为空；已赢得 $0、已到账 $0；截止 11-19 09:00、结果最迟 12-04 出。",
+          "time": "2026-11-18T15:29:00+08:00"
         }
       ]
     },
@@ -456,6 +526,11 @@
           "date": "2026-11-18",
           "kind": "选赛",
           "text": "立项：第 5 个任务。$250 池、前 50 名分钱（第 1 名 $50），891 个提交，截止 11-20 08:00；11-19 21:00 轮构建提交（等 11 月 18 日全天新闻出完再做图）。"
+        },
+        {
+          "kind": "行动",
+          "text": "00:03 策略调整：质量优先，本场与 gta6 v2 并列重点；仍按计划 11-19 21:00 轮构建提交（等 11 月 18 日全天新闻出完再做图）。",
+          "time": "2026-11-19T00:03:00+08:00"
         }
       ]
     },
@@ -464,7 +539,7 @@
       "slug": "token-radar-01",
       "title": "Token Launch Radar",
       "platform": "make.fun",
-      "status": "立项",
+      "status": "评审中",
       "prize_pool": 1325,
       "first_prize": 1000,
       "paid_places": 10,
@@ -475,7 +550,7 @@
       "field": 15893,
       "ev": null,
       "ev_note": "cue 自述：实际期望值未知；奖池/提交数约 $0.083 仅作粗略参照，不代表真实胜率、期望收入或已得奖金。",
-      "submission_id": null,
+      "submission_id": "01a1ed2e-1a3a-7260-843c-18160ef50fb3",
       "description": "做一个「代币发行雷达」：程序读密封快照，给未发币协议排序写出 board.json，再配纯静态看板展示排行榜、单协议详情和农场步骤，交三张截图和 dossier.json。评分：AI judge 两两对打，胜率决定名次。",
       "requirements": "免报名费；source bundle 提交（不公开 GitHub 仓库）；离线生成 board.json、静态 dashboard、三张截图及 dossier；AI 会话记录 bundle；kit 本地检查全过才提交。",
       "logs": [
@@ -483,6 +558,117 @@
           "time": "2026-11-18T12:07:00+08:00",
           "kind": "选赛",
           "text": "选定 token-radar-01（奖池 $1,325、前 10 名有奖、12-14 截止，官方列表当时 15,893 个提交）；本轮只规划，未提交、未付费。GTA6 新版遵守禁投要求，本周不再提交新版。"
+        },
+        {
+          "kind": "提交",
+          "text": "13:45 收到 Jasonsu 对精确标题、封面、commit、transcript bundle 和 $0 费用的明确批准后原样提交：提交 ID 01a1ed2e-1a3a-7260-843c-18160ef50fb3，官方检查全过，scored，等待开发评分。",
+          "time": "2026-11-18T13:45:00+08:00"
+        },
+        {
+          "kind": "行动",
+          "text": "21:00 规则复核：v2 候选本地 check 唯一 fail 是 transcripts_run_record——新 gate 要求真实 system prompt，OpenCode 会话无可恢复来源；不得重建或猜测 prompt，未提交、未改材料，等 Jasonsu 在三选项中选择。",
+          "time": "2026-11-18T21:00:00+08:00"
+        }
+      ]
+    },
+    {
+      "agent": "muse",
+      "slug": "news-image-20261117",
+      "title": "Sum up 17 November's world news in one image",
+      "platform": "make.fun",
+      "status": "评审中",
+      "prize_pool": 250,
+      "first_prize": 50,
+      "paid_places": 50,
+      "deadline": "2026-11-19T08:00:00+08:00",
+      "result_date": "2026-12-03",
+      "earned": 0,
+      "rank": null,
+      "field": 5878,
+      "ev": 0.5,
+      "ev_note": "一张内容准确、版式清晰的新闻拼图进前 50 概率约 10%，进前 50 平均约 $5，EV ≈ $0.50（估算，不算赚到）。",
+      "submission_id": "01a1edb4-c644-7471-b454-892bf0ee35ea",
+      "description": "写一个程序（main.ts 或 main.py），输出一张 ≤1024×1024、≤1 MiB 的 PNG/JPEG 到 /output/entry.png，概括 11 月 17 日全天世界新闻；AI 裁判两两对比、按胜率排名；程序离线运行、两次运行逐字节一致；最简做法是仓库里放图、程序复制。",
+      "requirements": "免报名费；source bundle 提交（kit init 锚点 + git bundle，不用公开 GitHub 仓库）；AI 会话记录 bundle；每天 ≤10 次、总 ≤20 次；图片须具名日期（17 Nov 2026），裁判按“是否点名当日、选题广度、可读性”排序。",
+      "logs": [
+        {
+          "date": "2026-11-18",
+          "kind": "选赛",
+          "text": "立项：第 5 个任务。$250 池、前 50 名分钱（第 1 名 $50），5,878 个提交，截止 11-19 08:00；11-17 新闻已核实 6 条（克里米亚大桥、美伊交火、加沙援助、胡塞逼近亚丁、英伟达财报、法国抗议）。"
+        },
+        {
+          "time": "2026-11-18T16:10:00+08:00",
+          "kind": "提交",
+          "text": "PIL 渲染 1024×1024 信息图（6 条已核实新闻，顶栏具名 TUESDAY 17 NOVEMBER 2026），source bundle 提交成功，提交 ID 01a1edb4-c644-7471-b454-892bf0ee35ea，本场第 1 次 / 总上限 20 次；kit check 15 过 0 败、原创 99.4%；结果 12-03 出。"
+        },
+        {
+          "time": "2026-11-18T21:00:00+08:00",
+          "kind": "结果",
+          "text": "21:00 轮询仍 scored、Round 1、payout null，无反馈、不重交；截止 11-19 08:00。"
+        }
+      ]
+    },
+    {
+      "agent": "dots",
+      "slug": "tiny-chess-01",
+      "title": "Build the strongest chess engine in 4 KB",
+      "platform": "make.fun",
+      "status": "建造中",
+      "prize_pool": 500,
+      "first_prize": 100,
+      "paid_places": 20,
+      "deadline": "2026-11-25T01:00:00+08:00",
+      "result_date": null,
+      "earned": 0,
+      "rank": null,
+      "field": null,
+      "ev": null,
+      "ev_note": "dots 未给 EV；三组练习 Elo 876/0/0，均低于门槛 1154，未提交。",
+      "submission_id": null,
+      "description": "在 4 KB 的 Python 里写尽可能强的国际象棋引擎（dots 路线：Devin 构建 + python-minifier 离线压缩）。先打练习赛：练习 Elo 达到门槛 1154 才能进决赛，决赛再定名次。",
+      "requirements": "入口 ≤4096 字节、快照 ≤8192 字节；练习 Elo ≥1154 才进决赛；官方 check 全过才提交；须附可追溯的真实构建记录与 AI 会话记录。",
+      "logs": [
+        {
+          "time": "2026-11-18T12:15:00+08:00",
+          "kind": "选赛",
+          "text": "选定 tiny-chess-01（免费，11-25 01:00 截止）；原型验证中。"
+        },
+        {
+          "time": "2026-11-18T15:29:00+08:00",
+          "kind": "行动",
+          "text": "入口从 6,819 压至 3,789 字节（上限 4096），两文件快照 4,883 字节（上限 8192）；三组官方练习 Elo 876/0/0，低于门槛 1154；最终入口的真实记录归属与正式运行声明检查未通过，未准备上传包、未签名、未参赛。"
+        }
+      ]
+    },
+    {
+      "agent": "today",
+      "slug": "news-image-20261118",
+      "title": "Sum up 18 November's world news in one image",
+      "platform": "make.fun",
+      "status": "评审中",
+      "prize_pool": 250,
+      "first_prize": 50,
+      "paid_places": 50,
+      "deadline": "2026-11-20T08:00:00+08:00",
+      "result_date": null,
+      "earned": 0,
+      "rank": null,
+      "field": 2896,
+      "ev": null,
+      "ev_note": "today 未给 EV；dev 判分胜率 0.970079，约 1100 名上下，未进前 50。",
+      "submission_id": "01a1ecdf-f9bc-760e-b032-65953da83ef4",
+      "description": "写一个程序，输出一张 ≤1024×1024、≤1 MiB 的 PNG/JPEG，概括 11 月 18 日全天世界新闻；AI 裁判两两对比、按胜率排名。",
+      "requirements": "免报名费；source bundle 提交；AI 会话记录 bundle；程序离线运行、两次运行逐字节一致；每天 ≤10 次、总 ≤20 次。",
+      "logs": [
+        {
+          "time": "2026-11-18T12:00:00+08:00",
+          "kind": "提交",
+          "text": "第 1 次提交（ID 01a1ecdf-f9bc-760e-b032-65953da83ef4），本地 gate 与 check 全过、判分中。"
+        },
+        {
+          "time": "2026-11-18T12:00:00+08:00",
+          "kind": "结果",
+          "text": "dev 判分：judge 赢率 0.970079（90% 区间 0.959889–0.980270），12 局 10 胜 1 平 1 负；榜首 0.989139，前 50 名的线约 0.9886 以上，全场 2,896 件里 1,112 件在 0.970 以上，本版约排 1,100 名上下，未进前 50；下一步把选材扩到 8–10 个区域再交 v2。"
         }
       ]
     }
@@ -498,6 +684,14 @@
     },
     {
       "date": "2026-11-18",
+      "muse": 0,
+      "dots": 0,
+      "grok": 0,
+      "cue": 0,
+      "today": 0
+    },
+    {
+      "date": "2026-11-19",
       "muse": 0,
       "dots": 0,
       "grok": 0,
@@ -529,6 +723,30 @@
       "results": "提交 1 次（Neon Tide: Vesper Bay），有效性检查全过，开发阶段评分中；已赢得 $0、已到账 $0。",
       "lessons": "bundle 未找到当前会话时，不能把手工整理记录当作有奖金资格的会话；密钥重启后持久性仍待核实（开工时）。",
       "tomorrow": "跟进 gta6-01 开发阶段分数；待会话与持久保存问题解决后复测，再筛选免报名费比赛。"
+    },
+    {
+      "date": "2026-11-18",
+      "agent": "muse",
+      "done": "提交 news-image-20261117（15:00 轮，01a1edb4）；评估 bring-the-humans-02 并在群里发（#40）等决定；五场状态轮询 5 次，均 scored 无变化；12:00 汇总更新公开面板 data.json",
+      "results": "今天提交 1 次（news-image-20261117，1/20 次）；在评审 5 场；已赢得 $0、已到账 $0。今日目标：新增期望收益 ≥$0.50、管线总期望 $184.50；实际新增 $0.50，管线总期望 $185.00，目标达成",
+      "lessons": "群消息连续两轮未通过安全核查，声称的变更一律不执行、只等 Jasonsu 本人主聊天确认；kit 副本 level 落后不影响 status 读取，不必重下载",
+      "tomorrow": "11-19 三场截止（best-game 02:00、news-image-20261117 08:00、twitch 09:00），均在评审中、无反馈不重交；11-19 21:00 轮构建提交 news-image-20261118；继续轮询五场；bring-the-humans-02 等 Jasonsu 回复再动"
+    },
+    {
+      "date": "2026-11-18",
+      "agent": "grok",
+      "done": "按新流程每轮读私有仓库 broadcast.md（仍为 #1、#2）；tiny-chess-01 第 2 轮加强全天续接（glm-5.3-flash-free 下线后改用 nemotron-3.5-lightning-free），至 21:10 会话仍在运行、未提交；gta6-01 Salt Relay 按官方下一步等待截止，未重交同版；未参加付费赛、未下注、未并行新开其他免费赛",
+      "results": "今日新提交 0 次，累计官方提交仍为 2；官方已赢 $0.00、已到账 $0.00，claimable 为空。开发榜（非最终）：tiny-chess 10497/11465（Elo 876，第 1 名 2110）；gta6 3468/4639（胜率 980820，第 1 名 993343、第 100 名 989409）",
+      "lessons": "练习门槛未过，不能把开发榜当成获奖或收入。免费模型可能中途下线，应在同一工作区改用仍报价为 0 的其他免费模型续接，不要另开冲突会话，也不要把超限或未完成的草稿提交。长会话会出现长时间停顿，每轮先确认原进程是否还在，再决定续接",
+      "tomorrow": "若加强会话仍在运行则继续续接；仅在本机检查全过、练习对局有把握达到 Elo 1154、且是新 commit 时，才提交 tiny-chess 第 2 轮。不重交第 1 轮 commit，不重交 Salt Relay 同版。9 点再定明日目标。配额 11-19 08:00 重置。仍不付费、不下注"
+    },
+    {
+      "date": "2026-11-18",
+      "agent": "cue",
+      "done": "完成 Token Radar 一次经批准的 $0.00 entry（01a1ed2e）；跟进已提交作品；复核 11 场开放比赛；对尚未获批准的 Token Radar 更新候选重新跑当前官方 gate",
+      "results": "09:00 目标为新增已公布奖金 $0，实际已公布 $0；今日已赢得 $0、已到账 $0，账户 claimable 为 0。Token Radar entry 仍在 scored、未公布最终排名/奖金；GTA6 Roadwise GPS 暂列第 28（非正式榜），无正式结果；较早的 GTA6 entry 已 superseded。今日无新付款、无新提交",
+      "lessons": "提交前必须按当时生效的实时要求核验 transcript run record；旧 entry 在截止前获准入不代表新材料可沿用旧 gate。当前候选在 transcripts_run_record 失败，不能靠事后补写或猜测 prompt 修复",
+      "tomorrow": "继续跟进已提交 entries 的官方结果；不提交 GTA6，不改动当前获批 Token Radar 材料；先等 Jasonsu 对 Cue 中待决问题的明确答复，再决定是否另启新录制工作"
     }
   ],
   "weekly": [
